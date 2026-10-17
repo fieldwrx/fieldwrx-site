@@ -260,6 +260,26 @@ h1,h2,h3,p{margin:0}
 .film-btn:hover{background:var(--blue);color:#fff}
 .film-teams{margin-top:28px}
 @media (max-width:899px){.film-frame{border-radius:12px;clip-path:inset(0 round 12px)}.film-btn{right:8px;bottom:8px;min-height:34px;padding:0 12px;font-size:.8125rem}}
+/* Chapter bar: the page read as a film, with the red dot as the playhead */
+.reel{position:fixed;left:50%;bottom:16px;z-index:45;display:flex;align-items:center;gap:16px;width:min(640px,calc(100% - 32px));height:48px;padding:0 20px 0 18px;border-radius:999px;color:var(--fg);background:color-mix(in srgb,var(--bg) 80%,transparent);-webkit-backdrop-filter:blur(16px) saturate(1.3);backdrop-filter:blur(16px) saturate(1.3);box-shadow:inset 0 0 0 1px var(--rule),0 12px 32px rgba(15,16,19,.10);transform:translate(-50%,calc(100% + 28px));opacity:0;visibility:hidden;transition:transform .7s var(--ease-out),opacity .45s,visibility 0s .7s,background-color .4s,color .4s}
+.reel.on{transform:translate(-50%,0);opacity:1;visibility:visible;transition:transform .7s var(--ease-out),opacity .45s,visibility 0s,background-color .4s,color .4s}
+.reel-now{flex:0 0 156px;display:flex;align-items:baseline;gap:10px;min-width:0;overflow:hidden;white-space:nowrap;font-size:13px;line-height:1;font-stretch:110%}
+.reel-n{font-weight:700;font-variant-numeric:tabular-nums;color:var(--fg2);letter-spacing:.04em}
+.reel-t{font-weight:600;overflow:hidden;text-overflow:ellipsis}
+.reel-now.swap .reel-t{animation:reelIn .5s var(--ease-out)}
+@keyframes reelIn{from{opacity:0;transform:translateY(6px);filter:blur(4px)}to{opacity:1;transform:none;filter:none}}
+.reel-track{position:relative;flex:1;display:flex;gap:4px;align-self:stretch;min-width:0}
+.reel-seg{appearance:none;position:relative;flex:1 1 0;min-width:6px;height:100%;padding:0;border:0;background:none;color:inherit;cursor:pointer}
+.reel-seg::before,.reel-seg i{content:"";position:absolute;left:0;right:0;top:50%;height:3px;margin-top:-1.5px;border-radius:3px}
+.reel-seg::before{background:var(--rule);transition:background-color .3s}
+.reel-seg i{background:var(--fg);transform:scaleX(var(--f,0));transform-origin:0 50%}
+.reel-seg:hover::before{background:var(--fg2)}
+.reel-seg:focus-visible{outline:2px solid var(--blue);outline-offset:-10px;border-radius:6px}
+.reel-seg span{position:absolute;left:50%;bottom:calc(100% + 8px);padding:7px 11px;border-radius:999px;background:var(--fg);color:var(--bg);font-size:12px;font-weight:600;font-stretch:108%;line-height:1;white-space:nowrap;pointer-events:none;opacity:0;transform:translate(-50%,4px);transition:opacity .2s,transform .3s var(--ease-out)}
+.reel-seg:hover span,.reel-seg:focus-visible span{opacity:1;transform:translate(-50%,0)}
+.reel-head{position:absolute;left:0;top:50%;width:11px;height:11px;margin:-5.5px 0 0 -5.5px;border-radius:50%;background:var(--red);box-shadow:0 0 0 3px color-mix(in srgb,var(--bg) 85%,transparent);transform:translateX(var(--x,0px));pointer-events:none;z-index:1}
+@media (max-width:599px){.reel{bottom:12px;gap:12px;height:44px;padding:0 16px 0 14px}.reel-now{flex-basis:118px;font-size:12px;gap:8px}.reel-track{gap:3px}.reel-seg span{display:none}}
+@media (prefers-reduced-motion:reduce){.reel,.reel.on{transition:opacity .2s,visibility 0s}.reel-now.swap .reel-t{animation:none}}
 .mr-index{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;width:min(100%,780px);margin:0 auto}
 .mr-pick{width:100%;text-align:center;font-size:.875rem;color:var(--fg2);margin:0 0 4px}
 .mr-ix{appearance:none;position:relative;overflow:hidden;isolation:isolate;min-height:44px;padding:0 16px;background:none;border:0;box-shadow:inset 0 0 0 1px var(--rule);color:var(--fg);font:500 .9375rem/1.2 "Archivo",system-ui,sans-serif;font-stretch:106%;cursor:pointer;transition:color .35s var(--ease-out),box-shadow .35s}
@@ -446,7 +466,7 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
 
 </head>
 <body>
-<a class="skip" href="#make-room">Skip to content</a>
+<a class="skip" href="#film">Skip to content</a>
 
 <div class="pre" aria-hidden="true">
   <svg viewBox="0 0 686 686"><rect class="p1" x="0" y="0" width="315.6" height="315.6"/><rect class="p2" x="370.4" y="0" width="315.6" height="315.6"/><rect class="p3" x="0" y="370.4" width="315.6" height="315.6"/><circle class="p4" cx="528.2" cy="528.2" r="157.8"/></svg>
@@ -495,7 +515,7 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
       <svg class="arw" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v13M5 11l5 5 5-5"/></svg>
     </a>
     <div class="hb-card" role="group" aria-roledescription="carousel" aria-label="Examples of making room">
-      <a href="#make-room">
+      <a href="#film">
         <div class="hb-thumb"><i></i><i></i><i></i><b></b><span class="k">Reporting</span></div>
         <p class="hb-out"><b>Planning and strategy</b><span>Weekly now, not quarterly</span></p>
       </a>
@@ -523,32 +543,6 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
         <button class="mr-ix" type="button" data-team="merch" aria-pressed="false">Retail buying</button>
       </div>
       <p class="sr-only">A short silent film. A working week fills up with tasks. Each task is kept, automated, simplified or stopped, and the time that frees up goes to planning, customers and the team: about nine hours a week. Every process has a customer. That's where we start. FIELDWRX: work, redesigned.</p>
-    </div>
-  </section>
-
-  <section class="mr" id="make-room" data-tone="paper" aria-labelledby="mr-h">
-    <div class="mr-intro">
-      <h2 class="h2 rv" id="mr-h"><span class="ln"><span>Make room</span></span><span class="ln lt"><span>for the work that matters.</span></span></h2>
-      <p class="body fu">We look at each piece of work and ask whether it still earns its effort. Then we keep it, automate it, simplify it or stop it, and put the time where it counts.</p>
-    </div>
-    <div class="mr-track">
-      <div class="mr-frame">
-        <div class="mr-stage" aria-hidden="true">
-          <svg viewBox="0 0 600 520"></svg>
-        </div>
-        <div class="mr-index" role="group" aria-labelledby="mr-pick"><p class="mr-pick" id="mr-pick">Try another example</p></div>
-        <ul class="mr-list"></ul>
-      </div>
-    </div>
-    <div class="sr-only">
-      <h3>Examples</h3>
-      <ul>
-        <li>Reporting: the weekly report is automated, re-capturing data is stopped, sign-offs are simplified. That makes room for planning and strategy, weekly now, not quarterly.</li>
-        <li>New enquiries: enquiry replies are automated, paper forms are stopped, follow-up steps are simplified. That makes room for personal conversations, with time for the people who need it.</li>
-        <li>Events and volunteers: reminder messages are automated, duplicate sign-up lists are stopped, rostering is simplified. That makes room for the next event, planned a month earlier.</li>
-        <li>Month-end: invoices are automated, re-keying payments is stopped, payment follow-ups are simplified. That makes room for a cash-flow view every week, not just month-end.</li>
-        <li>Stock and buying: sales and stock reports are automated, spreadsheet copies are stopped, reorders are simplified. That makes room for range decisions made on data, not memory.</li>
-      </ul>
     </div>
   </section>
 
@@ -642,6 +636,11 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
   </section>
 </main>
 
+<nav class="reel" aria-label="Page chapters">
+  <span class="reel-now" aria-hidden="true"><b class="reel-n">01</b><span class="reel-t">Opening</span></span>
+  <span class="reel-track"><span class="reel-head" aria-hidden="true"></span></span>
+</nav>
+
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
     <path id="wm-a" d="M74 686V-2H770V169H321V285H714V456H321V686Z M876 686V-2H1123V686Z M1266 686V-2H2001V169H1514V258H1934V420H1514V515H2009V686Z M2121 686V-2H2368V497H2814V686Z M2902 686V-2H3302Q3430 -2 3523.0 38.0Q3616 78 3666.0 155.0Q3716 232 3716 342Q3716 452 3666.0 529.0Q3616 606 3523.0 646.0Q3430 686 3302 686ZM3149 515H3287Q3328 515 3360.0 503.0Q3392 491 3415.0 469.5Q3438 448 3450.0 418.5Q3462 389 3462 353V329Q3462 293 3450.0 264.0Q3438 235 3415.0 213.5Q3392 192 3360.0 180.5Q3328 169 3287 169H3149Z"/>
@@ -717,174 +716,6 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
   } else {
     $$(".rv, .fu, .bigmark, .about-body").forEach(function(el){ el.classList.add("in"); });
   }
-
-  /* ---------- Make room ---------- */
-  var MR = (function(){
-    var sec = $("#make-room"), track = $(".mr-track", sec), svg = $(".mr-stage svg", sec), stage = $(".mr-stage", sec);
-    var idx = $(".mr-index", sec), list = $(".mr-list", sec);
-    var flows = [
-      { n: "Reporting", it: ["Weekly report", "Re-capturing data", "Sign-offs"], o: ["Planning and strategy", "Weekly now, not quarterly"] },
-      { n: "New enquiries", it: ["Enquiry replies", "Paper forms", "Follow-up steps"], o: ["Personal conversations", "Time for the people who need it"] },
-      { n: "Events and volunteers", it: ["Reminder messages", "Duplicate sign-up lists", "Rostering"], o: ["The next event", "Planned a month earlier"] },
-      { n: "Month-end", it: ["Invoices", "Re-keying payments", "Payment follow-ups"], o: ["Cash-flow view", "Every week, not just month-end"] },
-      { n: "Stock and buying", it: ["Sales and stock reports", "Spreadsheet copies", "Reorders"], o: ["Range decisions", "Made on data, not memory"] }
-    ];
-    var VERD = ["Automated", "Stopped", "Simplified"];
-    var N = flows.length, VH, CX, A, B, T, TS, G, YB, LX = 352, RX, RY, TH, narrow = null;
-    var mqN = matchMedia("(max-width: 599px)");
-    function geo(){
-      narrow = mqN.matches;
-      if (narrow) { VH = 640; CX = 160; A = 138.6; B = 80; T = 32; TS = 11; G = 118; YB = 612; RX = 56; RY = 32.3; TH = 14; }
-      else { VH = 520; CX = 172; A = 121.24; B = 70; T = 30; TS = 10; G = 60; YB = 492; RX = 49; RY = 28.3; TH = 13; }
-      svg.setAttribute("viewBox", "0 0 600 " + VH);
-    }
-    geo();
-    var NS = "http://www.w3.org/2000/svg";
-    function el(tag, attrs, parent){ var e = document.createElementNS(NS, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; }
-    function faces(t){
-      return {
-        top: "0,0 " + A + "," + B + " 0," + 2 * B + " " + (-A) + "," + B,
-        l: (-A) + "," + B + " 0," + 2 * B + " 0," + (2 * B + t) + " " + (-A) + "," + (B + t),
-        r: "0," + 2 * B + " " + A + "," + B + " " + A + "," + (B + t) + " 0," + (2 * B + t)
-      };
-    }
-    function slab(parent, cls){
-      var g = el("g", { "class": cls || "" }, parent), f = faces(T);
-      return { g: g, l: el("polygon", { "class": "l", points: f.l }, g), r: el("polygon", { "class": "r", points: f.r }, g), top: el("polygon", { "class": "top", points: f.top }, g) };
-    }
-    function setT(s, t){ var f = faces(t); s.l.setAttribute("points", f.l); s.r.setAttribute("points", f.r); }
-
-    var floor = el("polygon", { "class": "floor" }, svg);
-    var root = el("g", {}, svg);
-    var S2 = slab(root), S1 = slab(root), S0 = slab(root), S0b = slab(root, "bl");
-    var disc = el("g", {}, root);
-    var discSide = el("path", { "class": "disc-side" }, disc), discTop = el("ellipse", { "class": "disc-top", cx: 0 }, disc);
-    function shapes(){
-      floor.setAttribute("points", CX + "," + (YB - 2 * B) + " " + (CX + A) + "," + (YB - B) + " " + CX + "," + YB + " " + (CX - A) + "," + (YB - B));
-      discSide.setAttribute("d", "M" + (-RX) + "," + (-TH) + " L" + (-RX) + ",0 A" + RX + "," + RY + " 0 0 0 " + RX + ",0 L" + RX + "," + (-TH) + " Z");
-      discTop.setAttribute("cy", -TH); discTop.setAttribute("rx", RX); discTop.setAttribute("ry", RY);
-      [S0, S0b, S1, S2].forEach(function(sl){ sl.top.setAttribute("points", faces(T).top); setT(sl, T); });
-    }
-    shapes();
-    mqN.addEventListener("change", function(){ geo(); shapes(); cur = -2; onScroll(); if (isStatic) render(Math.max(0, lastK), 1); });
-    var leads = [0, 1, 2, 3].map(function(){ var g = el("g", {}, svg); return { g: g, ln: el("line", { "class": "lead-ln", x1: 0, y1: 0, x2: 0, y2: 0 }, g), tk: el("rect", { "class": "tick", width: 5, height: 5 }, g) }; });
-
-    var labs = [0, 1, 2].map(function(i){
-      var d1 = document.createElement("div"); d1.className = "mr-lab";
-      d1.innerHTML = '<span class="nm"></span><span class="chip c' + i + '">' + VERD[i] + "</span>";
-      stage.appendChild(d1);
-      return { el: d1, nm: d1.firstChild, chip: d1.lastChild };
-    });
-    var out = document.createElement("div"); out.className = "mr-out"; out.innerHTML = '<span class="k"></span><span class="v"></span>'; stage.appendChild(out);
-    var outK = out.firstChild, outV = out.lastChild;
-
-    var btns = flows.map(function(f, i){
-      var b = document.createElement("button"); b.type = "button"; b.className = "mr-ix"; b.textContent = f.n;
-      b.addEventListener("click", function(){ pick(i); });
-      idx.appendChild(b); return b;
-    });
-
-    var cur = -1, isStatic = RM;
-    var lastK = 0;
-    function setFlow(k){
-      lastK = k;
-      if (k === cur) return; cur = k;
-      var f = flows[k];
-      labs.forEach(function(l, i){ l.nm.textContent = f.it[i]; });
-      outK.textContent = f.o[0]; outV.textContent = f.o[1];
-      btns.forEach(function(b, i){ b.setAttribute("aria-pressed", i === k ? "true" : "false"); });
-      if (isStatic) {
-        list.innerHTML = f.it.map(function(it, i){ return "<li>" + it + ": " + VERD[i].toLowerCase() + "</li>"; }).join("");
-      }
-    }
-    function pct(v, of){ return (v / of * 100).toFixed(3) + "%"; }
-    function render(k, s, exit){
-      setFlow(k); shownS = s;
-      var en = isStatic ? 1 : eo(clamp(s / .07));
-      var ex = eo(clamp((s - .05) / .15));
-      var au = eo(clamp((s - .22) / .12)), st = eo(clamp((s - .36) / .12)), sp = eo(clamp((s - .5) / .12));
-      var co = eio(clamp((s - .66) / .14)), di = clamp((s - .76) / .13), ou = eo(clamp((s - .8) / .1));
-      var xo = exit || 0;
-      var gap = G * ex * (1 - co), k1 = 1 - co;
-      var t2 = lerp(T, TS, sp);
-      var y2 = YB - 2 * B - t2, y1 = y2 - gap - T, y0 = y2 - gap - (T + gap) * k1 - T;
-      var off = (1 - en) * -70 - xo * 46, op = en * (1 - xo);
-      root.setAttribute("transform", "translate(0," + off.toFixed(2) + ")");
-      root.setAttribute("opacity", op.toFixed(3));
-      S2.g.setAttribute("transform", "translate(" + CX + "," + y2.toFixed(2) + ")"); setT(S2, t2);
-      var sx = CX + st * 110;
-      S1.g.setAttribute("transform", "translate(" + sx.toFixed(2) + "," + y1.toFixed(2) + ")");
-      S1.g.setAttribute("opacity", (1 - st).toFixed(3));
-      S0.g.setAttribute("transform", "translate(" + CX + "," + y0.toFixed(2) + ")");
-      S0b.g.setAttribute("transform", "translate(" + CX + "," + y0.toFixed(2) + ")");
-      S0b.g.setAttribute("opacity", au.toFixed(3));
-      var de = di <= 0 ? 0 : eback(di), dyy = y0 + B - (1 - eo(di)) * 50;
-      disc.setAttribute("transform", "translate(" + CX + "," + dyy.toFixed(2) + ") scale(" + Math.max(0, de).toFixed(3) + ")");
-      disc.setAttribute("opacity", clamp(di * 3).toFixed(3));
-
-      var ys = [y0, y1, y2], xs = [CX, sx, CX];
-      for (var i = 0; i < 3; i++) {
-        var lo = eo(clamp((s - .08 - i * .045) / .1)) * (1 - co) * op;
-        if (isStatic) lo = 1;
-        if (i === 1) lo *= 1 - .5 * st;
-        var yy = ys[i] + B + off, x1 = CX + A + 8;
-        var L = leads[i];
-        L.ln.setAttribute("x1", x1.toFixed(2)); L.ln.setAttribute("x2", LX); L.ln.setAttribute("y1", yy.toFixed(2)); L.ln.setAttribute("y2", yy.toFixed(2));
-        L.tk.setAttribute("x", (x1 - 2.5).toFixed(2)); L.tk.setAttribute("y", (yy - 2.5).toFixed(2));
-        L.g.setAttribute("opacity", lo.toFixed(3));
-        var lab = labs[i];
-        lab.el.style.top = pct(yy, VH);
-        lab.el.style.opacity = lo.toFixed(3);
-        lab.el.style.transform = "translateY(-50%) translateX(" + ((1 - eo(clamp((s - .08 - i * .045) / .1))) * 14).toFixed(1) + "px)";
-        var c = [au, st, sp][i];
-        lab.chip.style.opacity = c.toFixed(3);
-        lab.chip.style.transform = "scale(" + (.7 + .3 * c).toFixed(3) + ")";
-        if (i === 1) lab.nm.style.setProperty("--st", st.toFixed(3));
-      }
-      var oy = dyy - TH + off, oo = ou * op * (isStatic ? 1 : 1);
-      var L3 = leads[3];
-      L3.ln.setAttribute("x1", (CX + RX + 2).toFixed(2)); L3.ln.setAttribute("x2", LX); L3.ln.setAttribute("y1", oy.toFixed(2)); L3.ln.setAttribute("y2", oy.toFixed(2));
-      L3.tk.setAttribute("x", (CX + RX - 0.5).toFixed(2)); L3.tk.setAttribute("y", (oy - 2.5).toFixed(2));
-      L3.g.setAttribute("opacity", oo.toFixed(3));
-      out.style.top = pct(oy, VH);
-      out.style.opacity = oo.toFixed(3);
-      out.style.transform = "translateY(-50%) translateY(" + ((1 - ou) * 16).toFixed(1) + "px)";
-      btns.forEach(function(b, i){ b.style.setProperty("--p", i === k && s < 1 ? clamp(s).toFixed(3) : 0); });
-    }
-    function measure(){
-      var r = track.getBoundingClientRect(), lead = innerHeight * .5, total = track.offsetHeight - innerHeight + lead;
-      return { top: r.top + scrollY, total: total, lead: lead, p: clamp((lead - r.top) / total) };
-    }
-    /* Scrolling plays the selected example once; the buttons play any other one on the spot. */
-    var sel = 0, shownS = 0, hold = 0, tw = null;
-    function scrollS(){ return clamp(measure().p / .9); }
-    function onScroll(){
-      if (isStatic || tw) return;
-      var s = scrollS();
-      if (s < .12) hold = 0;
-      render(sel, Math.max(s, hold));
-    }
-    function pick(i){
-      if (isStatic) { sel = i; render(i, 1); return; }
-      if (tw) cancelAnimationFrame(tw.raf);
-      var from = cur, fromS = shownS, t0 = performance.now(), OUT = from === i || fromS < .07 ? 0 : 340, IN = 2900;
-      tw = {};
-      (function step(now){
-        var e = now - t0;
-        if (e < OUT) render(from, fromS, eio(e / OUT));
-        else {
-          sel = i;
-          var s = clamp((e - OUT) / IN);
-          render(i, s);
-          if (s >= 1) { tw = null; hold = 1; return; }
-        }
-        tw.raf = requestAnimationFrame(step);
-      })(t0);
-    }
-    if (isStatic) { sec.classList.add("static"); render(0, 1); }
-    else onScroll();
-    return { scroll: onScroll, pick: pick };
-  })();
 
   /* ---------- Hero: Table Mountain by day and by night ---------- */
   var hero = (function(){
@@ -1031,11 +862,55 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
     link.addEventListener("click", function(e){
       e.preventDefault(); e.stopPropagation();
       var i = ci;
-      goTo($("#make-room .mr-track"));
-      setTimeout(function(){ MR.pick(i); }, RM ? 0 : 1400);
+      goTo($("#film"));
     });
 
     return { start: start, scroll: onScroll };
+  })();
+
+  /* ---------- Chapter bar: where you are in the page, like a playhead on a timeline ---------- */
+  var reel = (function(){
+    var bar = $(".reel"), track = $(".reel-track", bar), head = $(".reel-head", bar), now = $(".reel-now", bar), nEl = $(".reel-n", bar), tEl = $(".reel-t", bar);
+    var CH = [["top", "Opening", "Opening"], ["film", "The film", "The film"], ["scan", "Scan your week", "Scan"], ["work", "What we work on", "Our work"], ["start", "How it starts", "How it starts"], ["about", "About", "About"], ["contact", "Let’s talk", "Let’s talk"]];
+    var small = matchMedia("(max-width: 599px)");
+    var foot = $(".foot");
+    var ch = CH.map(function(c, i){
+      var sec = document.getElementById(c[0]); if (!sec) return null;
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "reel-seg";
+      b.setAttribute("aria-label", pad(i + 1) + " " + c[1]);
+      b.innerHTML = "<i></i><span>" + c[1] + "</span>";
+      b.addEventListener("click", function(){ goTo(i ? sec : 0); });
+      track.insertBefore(b, head);
+      return { sec: sec, seg: b, name: c[1], short: c[2] };
+    }).filter(Boolean);
+    var cur = -1, shown = false;
+    function pad(n){ return (n < 10 ? "0" : "") + n; }
+    function update(){
+      var y = scrollY + innerHeight * .5, max = d.scrollHeight - innerHeight, idx = 0, f = 0;
+      var box = ch.map(function(c){ var r = c.sec.getBoundingClientRect(); return { t: r.top + scrollY, h: r.height }; });
+      for (var i = 0; i < ch.length; i++) if (y >= box[i].t) idx = i;
+      f = Math.max(0, Math.min(1, (y - box[idx].t) / Math.max(1, box[idx].h)));
+      if (scrollY >= max - 2) { idx = ch.length - 1; f = 1; }
+      var w = track.clientWidth;
+      ch.forEach(function(c, i){
+        c.seg.style.flexGrow = Math.max(.6, box[i].h / innerHeight).toFixed(3);
+        c.seg.style.setProperty("--f", i < idx ? 1 : i > idx ? 0 : f.toFixed(4));
+        if (i === idx) c.seg.setAttribute("aria-current", "step"); else c.seg.removeAttribute("aria-current");
+      });
+      var s = ch[idx].seg;
+      head.style.setProperty("--x", (s.offsetLeft + f * s.offsetWidth).toFixed(1) + "px");
+      if (idx !== cur) {
+        cur = idx; nEl.textContent = pad(idx + 1); tEl.textContent = small.matches ? ch[idx].short : ch[idx].name;
+        now.classList.remove("swap"); void now.offsetWidth; now.classList.add("swap");
+      }
+      /* out of the way on the opening frame and over the closing credits */
+      var hero = ch[0].sec, show = scrollY > hero.offsetHeight * .55 && !(foot && foot.getBoundingClientRect().top < innerHeight - 20);
+      if (show !== shown) { shown = show; bar.classList.toggle("on", show); }
+    }
+    addEventListener("resize", function(){ cur = -1; update(); });
+    addEventListener("load", update);
+    return { scroll: update };
   })();
 
   /* Intro */
@@ -1283,7 +1158,7 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
   var ticking = false;
   function onScroll(){
     if (ticking) return; ticking = true;
-    requestAnimationFrame(function(){ ticking = false; navScroll(); hero.scroll(); MR.scroll(); stepsScroll(); });
+    requestAnimationFrame(function(){ ticking = false; navScroll(); hero.scroll(); reel.scroll(); stepsScroll(); });
   }
   addEventListener("scroll", onScroll, { passive: true });
   addEventListener("resize", onScroll);
