@@ -139,42 +139,12 @@ h1,h2,h3,p{margin:0}
 .hero .btn.ghost{color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.7);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
 .hero .btn.ghost::before{background:#fff}.hero .btn.ghost:hover{color:#0F1013}
 .cta-row .ghost-btn{display:none}
-.hb-badge{position:absolute;left:50%;bottom:clamp(28px,5.5vh,60px);width:128px;height:128px;margin-left:-64px;display:grid;place-items:center;color:#fff;text-decoration:none;border-radius:50%;background:rgba(10,12,18,.28);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.28);transition:transform .7s var(--ease-out),box-shadow .4s}
-.hb-badge:hover{transform:scale(1.06);box-shadow:inset 0 0 0 1px rgba(255,255,255,.8)}
-.hb-badge svg.ring{position:absolute;inset:0;width:100%;height:100%;animation:spin 26s linear infinite}
-.hb-badge:hover svg.ring{animation-duration:9s}
-.hb-badge text{fill:currentColor;font:600 10px "Archivo",system-ui,sans-serif;font-stretch:118%;letter-spacing:.16em;text-transform:uppercase}
-.hb-badge .mk{width:30px;height:30px;transition:opacity .25s}
-.hb-badge .arw{position:absolute;width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;opacity:0;transform:translateY(-6px);transition:opacity .3s,transform .5s var(--ease-out)}
-.hb-badge:hover .mk{opacity:0}.hb-badge:hover .arw{opacity:1;transform:none}
 @keyframes spin{to{transform:rotate(360deg)}}
-.hb-card{position:absolute;right:var(--g);bottom:clamp(28px,5.5vh,60px);z-index:2;width:min(100%,330px);padding:8px;border-radius:20px;background:rgba(12,14,20,.5);-webkit-backdrop-filter:blur(18px) saturate(1.2);backdrop-filter:blur(18px) saturate(1.2);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14),0 30px 60px -20px rgba(0,0,0,.6)}
-.hb-card a{display:block;color:inherit;text-decoration:none;border-radius:14px}
-.hb-thumb{position:relative;height:118px;border-radius:14px;background:var(--blue);overflow:hidden;display:flex;align-items:flex-end;padding:14px 16px}
-.hb-thumb .k{position:relative;font-stretch:120%;font-weight:800;font-size:1.4rem;line-height:1;letter-spacing:-.01em;color:#fff;transition:opacity .35s,transform .6s var(--ease-out)}
-.hb-thumb i{position:absolute;right:16px;top:16px;width:10px;height:10px;background:#fff;opacity:.9}
-.hb-thumb i:nth-of-type(2){right:30px;opacity:.55}.hb-thumb i:nth-of-type(3){right:44px;opacity:.25}
-.hb-thumb b{position:absolute;right:14px;bottom:14px;width:28px;height:28px;border-radius:50%;background:var(--red);transition:transform .7s var(--ease-back)}
-.hb-out{padding:12px 8px 0;min-height:62px;transition:opacity .35s,transform .6s var(--ease-out)}
-.hb-out b{display:block;font-weight:600;font-size:.98rem;line-height:1.25;color:#fff}
-.hb-out span{display:block;margin-top:2px;font-size:.875rem;color:rgba(243,242,239,.72)}
-.hb-card.swap .hb-thumb .k,.hb-card.swap .hb-out{opacity:0;transform:translateY(8px)}
-.hb-card.swap .hb-thumb b{transform:scale(0)}
-.hb-bar{display:flex;align-items:center;gap:12px;padding:6px 2px 0 8px}
-.hb-count{font-size:.8125rem;font-variant-numeric:tabular-nums;color:rgba(243,242,239,.72);min-width:3.2em}
-.hb-segs{flex:1;display:flex;gap:4px}
-.hb-segs span{flex:1;height:2px;border-radius:2px;background:rgba(243,242,239,.2);position:relative;overflow:hidden}
-.hb-segs span::after{content:"";position:absolute;inset:0;background:#fff;transform:scaleX(var(--p,0));transform-origin:0 50%}
-.hb-pause{appearance:none;width:40px;height:40px;display:grid;place-items:center;border-radius:50%;background:none;border:0;color:#fff;cursor:pointer}
-.hb-pause:hover{background:rgba(255,255,255,.1)}
-.hb-pause svg{width:13px;height:13px;fill:currentColor}
-@media (min-width:900px) and (max-width:1180px){.hb-badge{display:none}.hb-copy{max-width:58%}}
+@media (min-width:900px) and (max-width:1180px){.hb-copy{max-width:58%}}
 @media (max-width:899px){
   .hero{justify-content:flex-start;background:#0A0C12;padding-top:calc(min(80svh,660px) - 150px)}
   .scene{bottom:auto;height:min(80svh,660px)}
   .hb-copy{max-width:none}
-  .hb-card{position:relative;right:auto;bottom:auto;width:100%;margin-top:36px}
-  .hb-badge{display:none}
   .cta-row .ghost-btn{display:inline-flex}
   .sc-shade{background:linear-gradient(180deg,rgba(10,12,18,.4) 0%,rgba(10,12,18,0) 14%,rgba(10,12,18,0) 42%,rgba(10,12,18,.7) 66%,#0A0C12 92%)}
 }
@@ -443,6 +413,10 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
 .bigmark svg{fill:currentColor}
 .js .bigmark svg{transform:translateY(40%);transition:transform 1.6s var(--ease-out)}
 .js .bigmark.in svg{transform:none}
+/* The field: the mark's squares tiled across the close, rippling outward from the logo and the pointer */
+.field{position:relative;height:clamp(200px,30vh,320px);margin-top:clamp(64px,11vh,128px);touch-action:pan-y}
+.field canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.contact .bigmark{margin-top:clamp(20px,4vh,48px)}
 .foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;padding-block:28px 32px;font-size:.875rem;color:var(--fg2)}
 .foot-l{display:inline-flex;align-items:center;gap:12px}
 .foot-l svg{width:18px;height:18px;flex:none}
@@ -507,22 +481,6 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
       <div class="cta-row">
         <a class="btn magnet" href="#contact"><span class="roll"><span>Book a free 30-minute call</span><span aria-hidden="true">Book a free 30-minute call</span></span><svg class="arr" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13M11 5l5 5-5 5"/></svg></a>
         <a class="btn ghost ghost-btn" href="#film"><span class="roll"><span>See how it works</span><span aria-hidden="true">See how it works</span></span></a>
-      </div>
-    </div>
-    <a class="hb-badge" href="#film" aria-label="See how it works">
-      <svg class="ring" viewBox="0 0 128 128" aria-hidden="true"><defs><path id="ring-p" d="M64,64 m-49,0 a49,49 0 1,1 98,0 a49,49 0 1,1 -98,0"/></defs><text><textPath href="#ring-p" textLength="306" lengthAdjust="spacing">See how it works · See how it works ·</textPath></text></svg>
-      <svg class="mk" viewBox="0 0 686 686" aria-hidden="true"><rect width="315.6" height="315.6" fill="#2F5BFF"/><rect x="370.4" width="315.6" height="315.6" fill="#2F5BFF"/><rect y="370.4" width="315.6" height="315.6" fill="#2F5BFF"/><circle cx="528.2" cy="528.2" r="157.8" fill="#E8392F"/></svg>
-      <svg class="arw" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v13M5 11l5 5 5-5"/></svg>
-    </a>
-    <div class="hb-card" role="group" aria-roledescription="carousel" aria-label="Examples of making room">
-      <a href="#film">
-        <div class="hb-thumb"><i></i><i></i><i></i><b></b><span class="k">Reporting</span></div>
-        <p class="hb-out"><b>Planning and strategy</b><span>Weekly now, not quarterly</span></p>
-      </a>
-      <div class="hb-bar">
-        <span class="hb-count">01/05</span>
-        <span class="hb-segs" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></span>
-        <button class="hb-pause" type="button" aria-label="Pause examples"><svg viewBox="0 0 14 14" aria-hidden="true"><rect x="2" y="1" width="3.5" height="12"/><rect x="8.5" y="1" width="3.5" height="12"/></svg></button>
       </div>
     </div>
   </section>
@@ -626,6 +584,7 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
       <p class="where fu">Based in Cape Town, South Africa.</p>
       <p class="sr-only" aria-live="polite" id="copy-status"></p>
     </div>
+    <div class="field" aria-hidden="true"><canvas></canvas></div>
     <div class="bigmark" aria-hidden="true">
       <svg viewBox="0 0 6663 686"><use href="#wm-a"/><use href="#wm-b"/></svg>
     </div>
@@ -827,44 +786,6 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
     t0 = performance.now(); size(); apply(); img(cur === "day" ? "night" : "day");
     setInterval(function(){ if (mode === "live") apply(); }, 60000);
 
-    /* Example card: cycles through the flows; pause button; click opens Make room on that flow */
-    var card = $(".hb-card", sec), link = $("a", card), kEl = $(".k", card), outB = $(".hb-out b", card), outS = $(".hb-out span", card);
-    var count = $(".hb-count", card), segs = $$(".hb-segs span", card), pauseBtn = $(".hb-pause", card);
-    var FL = [["Reporting", "Planning and strategy", "Weekly now, not quarterly"], ["New enquiries", "Personal conversations", "Time for the people who need it"], ["Events and volunteers", "The next event", "Planned a month earlier"], ["Month-end", "Cash-flow view", "Every week, not just month-end"], ["Stock and buying", "Range decisions", "Made on data, not memory"]];
-    var ci = 0, paused = RM, hover = false, el0 = 0, last = 0, DUR = 4800;
-    function show(i){
-      card.classList.add("swap");
-      setTimeout(function(){ kEl.textContent = FL[i][0]; outB.textContent = FL[i][1]; outS.textContent = FL[i][2]; count.textContent = "0" + (i + 1) + "/05"; card.classList.remove("swap"); }, RM ? 0 : 320);
-      ci = i; el0 = 0;
-      segs.forEach(function(s, j){ s.style.setProperty("--p", j < i ? 1 : 0); });
-    }
-    function tick(now){
-      var dt = last ? now - last : 0; last = now;
-      if (!paused && !hover && visible && started) {
-        el0 += dt;
-        segs[ci].style.setProperty("--p", clamp(el0 / DUR).toFixed(3));
-        if (el0 >= DUR) show((ci + 1) % FL.length);
-      }
-      requestAnimationFrame(tick);
-    }
-    if (!RM) requestAnimationFrame(tick);
-    function setPaused(p){
-      paused = p;
-      pauseBtn.setAttribute("aria-label", p ? "Play examples" : "Pause examples");
-      pauseBtn.innerHTML = p ? '<svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5v11l9.5-5.5z"/></svg>' : '<svg viewBox="0 0 14 14" aria-hidden="true"><rect x="2" y="1" width="3.5" height="12"/><rect x="8.5" y="1" width="3.5" height="12"/></svg>';
-    }
-    if (RM) setPaused(true);
-    pauseBtn.addEventListener("click", function(){ setPaused(!paused); if (RM && !paused) { setPaused(true); show((ci + 1) % FL.length); } });
-    card.addEventListener("pointerenter", function(){ hover = true; });
-    card.addEventListener("pointerleave", function(){ hover = false; });
-    card.addEventListener("focusin", function(){ hover = true; });
-    card.addEventListener("focusout", function(){ hover = false; });
-    link.addEventListener("click", function(e){
-      e.preventDefault(); e.stopPropagation();
-      var i = ci;
-      goTo($("#film"));
-    });
-
     return { start: start, scroll: onScroll };
   })();
 
@@ -911,6 +832,85 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
     addEventListener("resize", function(){ cur = -1; update(); });
     addEventListener("load", update);
     return { scroll: update };
+  })();
+
+  /* ---------- The field: a ripple wave across the logo squares ---------- */
+  (function(){
+    var box = $(".field"); if (!box) return;
+    var cv = $("canvas", box), cx = cv.getContext("2d");
+    var W = 0, H = 0, dpr = 1, P = 24, S = 9, cols = 0, rows = 0, ox = 0, oy = 0, L = null;
+    var waves = [], ptr = null, lastSpawn = { x: -999, y: -999, t: 0 }, vis = false, raf = 0, first = true;
+    var V = 560, WIDTH = 44, LIFE = 2600;
+    function size(){
+      dpr = Math.min(2, window.devicePixelRatio || 1);
+      W = box.clientWidth; H = box.clientHeight;
+      P = W < 600 ? 18 : W < 1100 ? 22 : 26; S = Math.round(P * .36);
+      cols = Math.floor(W / P); rows = Math.floor(H / P);
+      ox = (W - cols * P) / 2; oy = (H - rows * P) / 2;
+      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+      var c = Math.round(cols * (W < 600 ? .62 : .74)), r = Math.floor(rows / 2) - 1;
+      L = { c: c, r: r, x: ox + (c + 1) * P, y: oy + (r + 1) * P };
+      draw(performance.now());
+    }
+    function spawn(x, y, amp, now){ waves.push({ x: x, y: y, a: amp, t: now }); if (waves.length > 7) waves.shift(); kick(); }
+    function level(x, y, now){
+      var a = 0;
+      for (var i = 0; i < waves.length; i++) {
+        var w = waves[i], age = now - w.t, R = age / 1000 * V, d = Math.hypot(x - w.x, y - w.y), k = (d - R) / WIDTH;
+        a += Math.exp(-k * k) * w.a * Math.max(0, 1 - age / LIFE) / (1 + d / 900);
+      }
+      if (ptr) { var dp = Math.hypot(x - ptr.x, y - ptr.y) / 70; a = Math.max(a, .55 * Math.exp(-dp * dp)); }
+      return Math.min(1, a);
+    }
+    function mix(a){ /* paper at rest, brand blue at the crest */
+      var r = Math.round(243 + (47 - 243) * a), g = Math.round(242 + (91 - 242) * a), b = Math.round(239 + (255 - 239) * a);
+      return "rgba(" + r + "," + g + "," + b + "," + (.12 + .88 * a).toFixed(3) + ")";
+    }
+    function draw(now){
+      if (!W) return;
+      cx.setTransform(dpr, 0, 0, dpr, 0, 0); cx.clearRect(0, 0, W, H);
+      for (var r = 0; r < rows; r++) for (var c = 0; c < cols; c++) {
+        var inLogo = c >= L.c && c <= L.c + 1 && r >= L.r && r <= L.r + 1; if (inLogo) continue;
+        var x = ox + c * P + P / 2, y = oy + r * P + P / 2, a = RM ? 0 : level(x, y, now), s = S * (1 + 1.1 * a);
+        cx.fillStyle = mix(a); cx.fillRect(x - s / 2, y - s / 2, s, s);
+      }
+      /* the mark itself, sitting in the field: three squares and the circle */
+      var q = P * .86, pulse = RM ? 0 : level(L.x, L.y, now) * .08;
+      cx.save(); cx.translate(L.x, L.y); cx.scale(1 + pulse, 1 + pulse);
+      cx.fillStyle = "#2F5BFF";
+      cx.fillRect(-P + (P - q) / 2, -P + (P - q) / 2, q, q);
+      cx.fillRect((P - q) / 2, -P + (P - q) / 2, q, q);
+      cx.fillRect(-P + (P - q) / 2, (P - q) / 2, q, q);
+      cx.fillStyle = "#E8392F"; cx.beginPath(); cx.arc(P / 2, P / 2, q / 2, 0, Math.PI * 2); cx.fill();
+      cx.restore();
+    }
+    function loop(now){
+      waves = waves.filter(function(w){ return now - w.t < LIFE; });
+      draw(now);
+      raf = (vis && (waves.length || ptr)) ? requestAnimationFrame(loop) : 0;
+    }
+    function kick(){ if (!raf && vis && !RM) raf = requestAnimationFrame(loop); }
+    function local(e){ var r = cv.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
+    if (!RM) {
+      box.addEventListener("pointermove", function(e){
+        if (e.pointerType === "touch") return;
+        var p = local(e), now = performance.now(); ptr = p;
+        if (Math.hypot(p.x - lastSpawn.x, p.y - lastSpawn.y) > 70 && now - lastSpawn.t > 160) { spawn(p.x, p.y, .7, now); lastSpawn = { x: p.x, y: p.y, t: now }; }
+        kick();
+      });
+      box.addEventListener("pointerleave", function(){ ptr = null; kick(); });
+      box.addEventListener("pointerdown", function(e){ var p = local(e); spawn(p.x, p.y, 1, performance.now()); });
+      /* the call to action sends a wave out from the mark */
+      $$(".contact .btn").forEach(function(b){ b.addEventListener("pointerenter", function(){ spawn(L.x, L.y, 1, performance.now()); }); });
+      setInterval(function(){ if (vis && !ptr && !document.hidden) spawn(L.x, L.y, .9, performance.now()); }, 6500);
+    }
+    new IntersectionObserver(function(ents){
+      vis = ents[0].isIntersecting;
+      if (vis && first && !RM) { first = false; setTimeout(function(){ spawn(L.x, L.y, 1, performance.now()); }, 350); }
+      kick();
+    }, { threshold: .35 }).observe(box);
+    addEventListener("resize", function(){ clearTimeout(size.t); size.t = setTimeout(size, 120); });
+    size();
   })();
 
   /* Intro */
