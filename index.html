@@ -440,13 +440,21 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
 .js .rv .ln>span{transform:translateY(108%);transition:transform 1.15s var(--ease-out)}
 .js .rv .ln:nth-child(2)>span{transition-delay:.09s}
 .js .rv.in .ln>span{transform:none}
+/* Words that blur into place, as in the film */
+.js .bw .ln{overflow:visible}
+.js .bw .ln>span{transform:none!important}
+.js .bw .w{display:inline-block;opacity:0;filter:blur(14px);transform:translateY(.16em);transition:opacity .9s var(--ease-out),filter 1s var(--ease-out),transform 1.1s var(--ease-out);transition-delay:calc(var(--i) * 65ms + var(--l) * 140ms)}
+.js .rv.bw.in .w{opacity:1;filter:blur(0);transform:none}
+.js .hero-h.bw .w{opacity:1;filter:none;transform:none;transition:none}
+.js.intro .hero-h.bw .w{opacity:0;filter:blur(16px);transform:translateY(.16em)}
+.js.intro.go .hero-h.bw .w{opacity:1;filter:blur(0);transform:none;transition:opacity 1s var(--ease-out),filter 1.1s var(--ease-out),transform 1.2s var(--ease-out);transition-delay:calc(.55s + var(--i) * 75ms + var(--l) * 160ms)}
 .js .fu{opacity:0;transform:translateY(24px);transition:opacity 1s var(--ease-out),transform 1.2s var(--ease-out)}
 .js .fu.in{opacity:1;transform:none}
 
 @media (prefers-reduced-motion:reduce){
   :root{transition:none}
   *,*::before,*::after{transition-duration:.01ms!important;animation:none!important}
-  .js .rv .ln>span,.js .fu,.js .bigmark svg{transform:none;opacity:1}
+  .js .rv .ln>span,.js .fu,.js .bigmark svg,.js .bw .w{transform:none;opacity:1;filter:none}
   mark{background-size:100% 2px}
 }
 </style>
@@ -679,6 +687,21 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
     else if (y < lastY - 4) nav.classList.remove("hide");
     lastY = y;
   }
+
+  /* Split headings into words so they can blur into place, line by line */
+  if (!RM) $$(".rv, .hero-h").forEach(function(h){
+    $$(".ln>span", h).forEach(function(sp, l){
+      var words = sp.textContent.trim().split(/\s+/);
+      sp.textContent = "";
+      words.forEach(function(w, i){
+        var e = document.createElement("span"); e.className = "w"; e.textContent = w;
+        e.style.setProperty("--i", i); e.style.setProperty("--l", l);
+        sp.appendChild(e);
+        if (i < words.length - 1) sp.appendChild(document.createTextNode(" "));
+      });
+    });
+    h.classList.add("bw");
+  });
 
   /* Reveals */
   if (!RM) {
