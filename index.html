@@ -252,6 +252,14 @@ h1,h2,h3,p{margin:0}
 .mr-out{position:absolute;left:60.4%;right:0;transform:translateY(-50%)}
 .mr-out .k{display:block;font-stretch:122%;font-weight:800;font-size:clamp(18px,2.15vw,32px);line-height:1.04;letter-spacing:-.015em;text-wrap:balance}
 .mr-out .v{display:block;margin-top:10px;font-size:clamp(14px,1.25vw,19px);line-height:1.35;color:var(--fg2)}
+.film{padding-block:clamp(48px,8vw,120px) clamp(40px,6vw,88px)}
+.film-frame{position:relative;width:100%;aspect-ratio:16/9;border-radius:20px;overflow:hidden;clip-path:inset(0 round 20px);isolation:isolate;background:#F3F2EF;box-shadow:inset 0 0 0 1px var(--rule)}
+.film-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;pointer-events:none;transition:opacity .35s var(--ease-out)}
+.film-frame.swap iframe{opacity:0}
+.film-btn{position:absolute;right:16px;bottom:16px;min-height:40px;padding:0 16px;border:0;border-radius:999px;background:var(--fg);color:var(--bg);font:500 .875rem/1 "Archivo",system-ui,sans-serif;font-stretch:106%;cursor:pointer}
+.film-btn:hover{background:var(--blue);color:#fff}
+.film-teams{margin-top:28px}
+@media (max-width:899px){.film-frame{border-radius:12px;clip-path:inset(0 round 12px)}.film-btn{right:8px;bottom:8px;min-height:34px;padding:0 12px;font-size:.8125rem}}
 .mr-index{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;width:min(100%,780px);margin:0 auto}
 .mr-pick{width:100%;text-align:center;font-size:.875rem;color:var(--fg2);margin:0 0 4px}
 .mr-ix{appearance:none;position:relative;overflow:hidden;isolation:isolate;min-height:44px;padding:0 16px;background:none;border:0;box-shadow:inset 0 0 0 1px var(--rule);color:var(--fg);font:500 .9375rem/1.2 "Archivo",system-ui,sans-serif;font-stretch:106%;cursor:pointer;transition:color .35s var(--ease-out),box-shadow .35s}
@@ -478,10 +486,10 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
       <p class="lead">Every way of working made sense when it started. FIELDWRX helps people and small teams reshape theirs around what they want to achieve next.</p>
       <div class="cta-row">
         <a class="btn magnet" href="#contact"><span class="roll"><span>Book a free 30-minute call</span><span aria-hidden="true">Book a free 30-minute call</span></span><svg class="arr" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13M11 5l5 5-5 5"/></svg></a>
-        <a class="btn ghost ghost-btn" href="#make-room"><span class="roll"><span>See how it works</span><span aria-hidden="true">See how it works</span></span></a>
+        <a class="btn ghost ghost-btn" href="#film"><span class="roll"><span>See how it works</span><span aria-hidden="true">See how it works</span></span></a>
       </div>
     </div>
-    <a class="hb-badge" href="#make-room" aria-label="See how it works">
+    <a class="hb-badge" href="#film" aria-label="See how it works">
       <svg class="ring" viewBox="0 0 128 128" aria-hidden="true"><defs><path id="ring-p" d="M64,64 m-49,0 a49,49 0 1,1 98,0 a49,49 0 1,1 -98,0"/></defs><text><textPath href="#ring-p" textLength="306" lengthAdjust="spacing">See how it works · See how it works ·</textPath></text></svg>
       <svg class="mk" viewBox="0 0 686 686" aria-hidden="true"><rect width="315.6" height="315.6" fill="#2F5BFF"/><rect x="370.4" width="315.6" height="315.6" fill="#2F5BFF"/><rect y="370.4" width="315.6" height="315.6" fill="#2F5BFF"/><circle cx="528.2" cy="528.2" r="157.8" fill="#E8392F"/></svg>
       <svg class="arw" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v13M5 11l5 5 5-5"/></svg>
@@ -496,6 +504,25 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
         <span class="hb-segs" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></span>
         <button class="hb-pause" type="button" aria-label="Pause examples"><svg viewBox="0 0 14 14" aria-hidden="true"><rect x="2" y="1" width="3.5" height="12"/><rect x="8.5" y="1" width="3.5" height="12"/></svg></button>
       </div>
+    </div>
+  </section>
+
+  <section class="film" id="film" data-tone="paper" aria-labelledby="film-h">
+    <div class="wrap">
+      <h2 class="sr-only" id="film-h">How it works, in 27 seconds</h2>
+      <div class="film-frame">
+        <iframe title="FIELDWRX film: a week that makes room" src="/film?embed=1&amp;team=general" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
+        <button class="film-btn" type="button" hidden>Play again</button>
+      </div>
+      <div class="mr-index film-teams" role="group" aria-labelledby="film-pick">
+        <p class="mr-pick" id="film-pick">See it for your team</p>
+        <button class="mr-ix" type="button" data-team="general" aria-pressed="true">Small team</button>
+        <button class="mr-ix" type="button" data-team="operations" aria-pressed="false">Operations</button>
+        <button class="mr-ix" type="button" data-team="marketing" aria-pressed="false">Marketing</button>
+        <button class="mr-ix" type="button" data-team="school" aria-pressed="false">School office</button>
+        <button class="mr-ix" type="button" data-team="merch" aria-pressed="false">Retail buying</button>
+      </div>
+      <p class="sr-only">A short silent film. A working week fills up with tasks. Each task is kept, automated, simplified or stopped, and the time that frees up goes to planning, customers and the team: about nine hours a week. Every process has a customer. That's where we start. FIELDWRX: work, redesigned.</p>
     </div>
   </section>
 
@@ -1112,7 +1139,7 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
         '<p class="scan-sumtext">' + (hi ? "Could come back to you, as a rough first read. " : "") + esc(res.summary) + "</p></div>" +
         '<ul class="scan-rows">' + res.tasks.map(function(r){
           var w = max ? Math.round(r.hours[1] / max * 100) : 0;
-          return '<li class="scan-row"><span class="vd ' + r.verdict + '">' + LABEL[r.verdict] + '</span><span class="t">' + esc(r.task) + '</span><span class="hrs' + (r.hours[1] ? "" : " zero") + '">' + (r.hours[1] ? fmt(r.hours[0]) + "–" + fmt(r.hours[1]) + " h" : "—") + '</span><span class="h">' + esc(r.how) + '</span><span class="scan-bar"><span style="--w:' + w + '%"></span></span></li>';
+          return '<li class="scan-row"><span class="vd ' + r.verdict + '">' + LABEL[r.verdict] + '</span><span class="t">' + esc(r.task) + '</span><span class="hrs' + (r.hours[1] ? "" : " zero") + '">' + (r.hours[1] ? (r.hours[0] === r.hours[1] ? fmt(r.hours[1]) : fmt(r.hours[0]) + "–" + fmt(r.hours[1])) + " h" : "—") + '</span><span class="h">' + esc(r.how) + '</span><span class="scan-bar"><span style="--w:' + w + '%"></span></span></li>';
         }).join("") + "</ul>" +
         '<div class="scan-cta"><a class="btn" href="' + mail + '"><span class="roll"><span>Book a free 30-minute call</span><span aria-hidden="true">Book a free 30-minute call</span></span><svg class="arr" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13M11 5l5 5-5 5"/></svg></a>' +
         '<p class="scan-src">' + (source === "claude" ? "A first read by AI. We’ll check it properly on the call." : "A quick read from common patterns. We’ll check it properly on the call.") + "</p></div>";
@@ -1144,6 +1171,50 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
         if (err && err.code === "limit") { out.hidden = false; out.innerHTML = '<p class="scan-err">That’s three scans this hour. Try again a little later, or book the free call and we’ll go through it together.</p>'; return; }
         render(clean(quick(list), list), "quick");
       }).then(function(){ busy = false; btn.disabled = false; });
+    });
+  })();
+
+  /* ---------- The film: live code in a frame, retold for each team ---------- */
+  (function(){
+    var sec = $("#film"); if (!sec) return;
+    var box = $(".film-frame", sec), fr = $("iframe", box), again = $(".film-btn", sec), chips = $$(".film-teams .mr-ix", sec);
+    var vis = false, started = false, from = null, raf = 0;
+    function api(){ try { return fr.contentWindow && fr.contentWindow.FWXFILM; } catch (e) { return null; } }
+    function active(){ return chips.filter(function(c){ return c.getAttribute("aria-pressed") === "true"; })[0]; }
+    function tick(){
+      var a = api(), c = active();
+      if (a && c) {
+        var p = a.tl.progress(); c.style.setProperty("--p", p.toFixed(4));
+        again.hidden = !(started && (p >= 1 || a.tl.paused()));
+        again.textContent = p >= 1 ? "Play again" : "Play";
+      }
+      raf = vis ? requestAnimationFrame(tick) : 0;
+    }
+    function play(at){ var a = api(); if (!a) { from = at; return; } started = true; a.tl.play(at); if (!raf) raf = requestAnimationFrame(tick); }
+    fr.addEventListener("load", function(){
+      var a = api(); if (!a) return;
+      box.classList.remove("swap");
+      if (RM && from == null) { a.tl.seek(26.5); again.hidden = false; again.textContent = "Play"; return; }
+      if (from != null) { var f = from; from = null; play(f); }
+      else if (vis) play(0);
+    });
+    new IntersectionObserver(function(ents){
+      vis = ents[0].isIntersecting;
+      var a = api();
+      if (vis) {
+        if (a && !started && !RM) play(0);
+        else if (a && started && a.tl.progress() < 1 && !a.tl.isActive()) a.tl.play();
+        if (!raf) raf = requestAnimationFrame(tick);
+      } else if (a) a.tl.pause();
+    }, { threshold: .45 }).observe(box);
+    again.addEventListener("click", function(){ var a = api(); if (!a) return; play(a.tl.progress() >= 1 ? 0 : a.tl.time()); });
+    chips.forEach(function(c){
+      c.addEventListener("click", function(){
+        if (c.getAttribute("aria-pressed") === "true") { var a = api(); if (a) play(a.tl.progress() >= 1 ? 2.8 : a.tl.time()); return; }
+        chips.forEach(function(o){ o.setAttribute("aria-pressed", o === c ? "true" : "false"); o.style.setProperty("--p", 0); });
+        box.classList.add("swap"); from = 2.8;   /* skip the opening line: go straight to their week */
+        setTimeout(function(){ fr.src = "/film?embed=1&team=" + c.getAttribute("data-team"); }, RM ? 0 : 300);
+      });
     });
   })();
 
