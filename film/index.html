@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en" data-composition-variables='[{"id":"team","type":"string","label":"Team","default":"general"}]'>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex" />
+<title>FIELDWRX: Make room</title>
+<script src="/film/gsap.min.js"></script>
+<style>
+  @font-face { font-family: "Archivo"; src: url("/film/Archivo-VF.ttf") format("truetype"); font-weight: 100 900; font-stretch: 62% 125%; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1920px; height: 1080px; overflow: hidden; background: #F3F2EF; }
+  #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: #F3F2EF; color: #0F1013;
+    font-family: "Archivo", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  .cam { position: absolute; inset: 0; transform-origin: 960px 540px; }
+  .layer { position: absolute; inset: 0; }
+
+  /* type */
+  .line { position: absolute; left: 160px; font-stretch: 125%; letter-spacing: -0.02em; line-height: 1; white-space: nowrap; }
+  .big { font-size: 88px; }
+  .w8 { font-weight: 800; }
+  .w3 { font-weight: 300; }
+  .w { display: inline-block; will-change: transform, filter, opacity; }
+  .cap { position: absolute; left: 160px; top: 96px; font-stretch: 125%; font-weight: 800; font-size: 46px; letter-spacing: -0.015em; white-space: nowrap; }
+  .cap .w3 { font-weight: 300; }
+  .sub { position: absolute; left: 160px; top: 156px; font-stretch: 125%; font-weight: 300; font-size: 30px; letter-spacing: -0.01em; color: rgba(15,16,19,.72); white-space: nowrap; }
+
+  /* week */
+  .over { position: absolute; left: 162px; top: 62px; font-stretch: 125%; font-weight: 600; font-size: 15px; letter-spacing: .18em; color: #2F5BFF; }
+  .day { position: absolute; top: 222px; font-stretch: 125%; font-weight: 600; font-size: 14px; letter-spacing: .16em; color: rgba(15,16,19,.55); }
+  .blk { position: absolute; border-radius: 12px; background: #FFFFFF; overflow: hidden; box-shadow: 0 1px 2px rgba(15,16,19,.05), 0 8px 24px rgba(15,16,19,.05); }
+  .blk .acc { position: absolute; left: 0; top: 0; bottom: 0; width: 5px; background: #0F1013; transform-origin: 50% 0; transform: scaleY(0); }
+  .blk span { position: absolute; left: 20px; top: 15px; right: 16px; font-stretch: 100%; font-weight: 600; font-size: 21px; letter-spacing: -0.005em; color: rgba(15,16,19,.82); white-space: nowrap; }
+  .blk .hr { left: auto; right: 16px; font-weight: 400; color: rgba(15,16,19,.45); }
+  .blk.room { background: #0B1A52; box-shadow: none; }
+  .blk.room span { color: #F3F2EF; }
+  .blk.room .hr { color: rgba(243,242,239,.55); }
+
+  /* mark pieces */
+  .sq { position: absolute; background: #2F5BFF; }
+  .dot { position: absolute; border-radius: 50%; background: #E8392F; }
+
+  .wm { position: absolute; }
+  .tag { position: absolute; left: 0; width: 1920px; text-align: center; font-stretch: 100%; font-weight: 400; font-size: 32px; letter-spacing: -0.005em; color: rgba(15,16,19,.72); }
+  .url { position: absolute; left: 0; width: 1920px; top: 958px; text-align: center; font-stretch: 125%; font-weight: 600; font-size: 16px; letter-spacing: .2em; color: rgba(15,16,19,.5); }
+  .grain { position: absolute; inset: 0; pointer-events: none; opacity: .05; mix-blend-mode: multiply; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="27" data-width="1920" data-height="1080">
+  <div class="cam" id="cam">
+    <div class="layer" id="premise"></div>
+    <div class="layer" id="week"></div>
+    <div class="layer" id="belief"></div>
+  </div>
+  <div class="layer" id="mark"></div>
+  <div class="layer" id="end"></div>
+  <svg class="grain" width="1920" height="1080" aria-hidden="true">
+    <filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="7" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .9 0"/></filter>
+    <rect width="1920" height="1080" filter="url(#n)"/>
+  </svg>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var $ = function (s) { return document.querySelector(s); };
+  function el(tag, cls, parent, html) { var e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; parent.appendChild(e); return e; }
+  function px(e, x, y, w, h) { e.style.left = x + "px"; e.style.top = y + "px"; if (w != null) e.style.width = w + "px"; if (h != null) e.style.height = h + "px"; }
+  /* split a phrase into word spans, keeping weight runs: [["Every way of working", "w8"], ...] */
+  function words(parent, runs) {
+    var out = [];
+    runs.forEach(function (r, ri) {
+      r[0].split(" ").forEach(function (t, i, a) {
+        var s = el("span", "w " + r[1], parent, t);
+        out.push(s);
+        if (i < a.length - 1 || ri < runs.length - 1) parent.appendChild(document.createTextNode(" "));
+      });
+    });
+    return out;
+  }
+
+  var tl = gsap.timeline({ paused: true });
+  var BLUR_IN = { opacity: 0, y: 18, filter: "blur(14px)" };
+  var CLEAR = { opacity: 1, y: 0, filter: "blur(0px)" };
+  function blurIn(ws, at, stag) { tl.fromTo(ws, BLUR_IN, Object.assign({ duration: .9, ease: "power3.out", stagger: stag || .07 }, CLEAR), at); }
+  function blurOut(t, at, d) { tl.to(t, { opacity: 0, y: -14, filter: "blur(12px)", duration: d || .5, ease: "power2.in" }, at); }
+
+  /* ---------------- camera: one slow, steady push for the whole film ---------------- */
+  var CAM = function (t) { return 1 + .03 * Math.min(1, t / 27); };
+  tl.fromTo("#cam", { scale: 1 }, { scale: CAM(27), duration: 27, ease: "none" }, 0);
+  function toScreen(x, y, t) { var s = CAM(t); return [960 + (x - 960) * s, 540 + (y - 540) * s, s]; }
+
+  /* ---------------- 1. premise ---------------- */
+  var pre = $("#premise");
+  var l1 = el("div", "line big", pre); l1.style.top = "404px";
+  var l2 = el("div", "line big", pre); l2.style.top = "528px";
+  var p1 = words(l1, [["Every way of working", "w8"]]);
+  var p2 = words(l2, [["made sense when it started.", "w3"]]);
+  blurIn(p1, .25); blurIn(p2, .85);
+  blurOut([l1, l2], 2.55, .45);
+
+  /* ---------------- 2. the week ---------------- */
+  var wk = $("#week");
+  var X0 = 160, COLW = 304, CG = 20, TOP = 260, H = 670, GAP = 8, UNIT = (H + GAP) / 8;
+  var DAYS = ["MON", "TUE", "WED", "THU", "FRI"];
+  /* [label, hours, verdict]  k keep · a automate · s simplify · x stop */
+  /* One shape of week, told in different teams' words. Hours and verdicts stay put, so the film moves the same way. */
+  var HRS = [[1.5, 2, 2.5, 2], [2.5, 1.5, 2.5, 1.5], [1, 1.5, 3.5, 2], [1, 3, 2, 2], [2, 1.5, 2.5, 2]];
+  var VRD = [["s", "a", "k", "k"], ["k", "x", "k", "k"], ["k", "a", "k", "s"], ["x", "k", "k", "k"], ["k", "a", "k", "k"]];
+  var TEAMS = {
+    general: { who: "A week in a small team", room: ["Planning", "Customers", "New ideas", "The team", "Next quarter"], days: [
+      ["Status meeting", "Weekly report", "Emails", "Client calls"],
+      ["Client work", "Re-typing data", "Proposals", "Quotes"],
+      ["Team check-in", "Reminder emails", "Focused work", "Approvals"],
+      ["Duplicate lists", "Project work", "Follow-ups", "Admin"],
+      ["Invoices", "Filing receipts", "Inbox", "Week wrap-up"]] },
+    operations: { who: "A week in an operations team", room: ["Improvements", "Customers", "Root causes", "The team", "Next quarter"], days: [
+      ["Ops stand-up", "Weekly KPI pack", "Supplier emails", "Site visits"],
+      ["Scheduling", "Re-keying orders", "Issue resolution", "Purchase orders"],
+      ["Shift handover", "Stock reminders", "Process checks", "Sign-offs"],
+      ["Paper checklists", "Vendor calls", "Escalations", "Safety checks"],
+      ["Rosters", "Timesheet capture", "Inbox", "Admin"]] },
+    marketing: { who: "A week in a marketing team", room: ["Strategy", "Customers", "Big ideas", "The team", "Next launch"], days: [
+      ["Status meeting", "Campaign report", "Content writing", "Briefings"],
+      ["Design reviews", "Manual exports", "Social content", "Partner calls"],
+      ["Team check-in", "Post scheduling", "Campaign build", "Approval rounds"],
+      ["Duplicate decks", "Content shoot", "Community replies", "Newsletter"],
+      ["Budget tracking", "Lead list clean-up", "Inbox", "Admin"]] },
+    school: { who: "A week in a school office", room: ["Learners", "Parents", "Planning", "The staff", "Next term"], days: [
+      ["Staff briefing", "Attendance report", "Parent emails", "Admissions"],
+      ["Fee queries", "Re-capturing forms", "Timetabling", "Learner records"],
+      ["Team check-in", "Payment reminders", "Parent meetings", "Permission slips"],
+      ["Paper registers", "Events planning", "Supplier calls", "Reports"],
+      ["Newsletter", "SMS notices", "Inbox", "Filing"]] },
+    merch: { who: "A week in buying and planning", room: ["Planning", "Customers", "Range review", "The team", "Next quarter"], days: [
+      ["Status meeting", "Weekly report", "Emails", "Sign-offs"],
+      ["Supplier calls", "Re-capturing data", "Customer queries", "Price list"],
+      ["Team check-in", "Chasing stock counts", "Customer queries", "Approvals"],
+      ["Duplicate lists", "Supplier orders", "Follow-ups", "Reports"],
+      ["Month-end prep", "Re-keying payments", "Inbox", "Admin"]] }
+  };
+  var vars = (window.__hyperframes && window.__hyperframes.getVariables && window.__hyperframes.getVariables()) || {};
+  var q = (location.search.match(/[?&]team=([a-z]+)/) || [])[1];
+  var TEAM = TEAMS[q] || TEAMS[vars.team] || TEAMS.general;
+  /* [label, hours, verdict]  k keep · a automate · s simplify · x stop */
+  var WEEK = TEAM.days.map(function (col, c) { return col.map(function (l, r) { return [l, HRS[c][r], VRD[c][r]]; }); });
+  var ROOM = TEAM.room;
+  function fmt(h) { var w = Math.floor(h), f = { 0.25: "¼", 0.5: "½", 0.75: "¾" }[Math.round((h - w) * 4) / 4] || ""; return (w || (f ? "" : "0")) + f + " h"; }
+
+  var cap = el("div", "cap", wk); var capW = words(cap, [["Then the week", "w8"], ["filled up.", "w3"]]);
+  blurIn(capW, 3.0, .06);
+  var over = el("div", "over", wk, TEAM.who.toUpperCase());
+  tl.fromTo(over, { opacity: 0 }, { opacity: 1, duration: .6, ease: "power2.out" }, 3.0);
+
+  var dayEls = DAYS.map(function (d, i) { var e = el("div", "day", wk, d); e.style.left = (X0 + i * (COLW + CG) + 2) + "px"; return e; });
+  tl.fromTo(dayEls, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: .5, stagger: .05, ease: "power2.out" }, 3.15);
+
+  var blocks = [], order = [];
+  WEEK.forEach(function (col, c) {
+    var cum = 0;
+    col.forEach(function (t, r) {
+      var x = X0 + c * (COLW + CG), y = TOP + cum * UNIT, h = t[1] * UNIT - GAP;
+      var b = el("div", "blk", wk, "<i class='acc'></i><span>" + t[0] + "</span><span class='hr'>" + fmt(t[1]) + "</span>" + (t[2] === "s" ? "<span class='hr hr2' style='opacity:0'>" + fmt(t[1] / 2) + "</span>" : ""));
+      px(b, x, y, COLW, h);
+      var o = { el: b, c: c, r: r, x: x, y: y, h: h, hours: t[1], v: t[2], label: t[0] };
+      blocks.push(o); order.push(o); cum += t[1];
+    });
+  });
+  /* fill row by row across the week, getting quicker as it fills */
+  order.sort(function (a, b) { return a.r - b.r || a.c - b.c; });
+  var t = 3.45;
+  order.forEach(function (o, i) {
+    tl.fromTo(o.el, { opacity: 0, y: -46 }, { opacity: 1, y: 0, duration: .55, ease: "power3.out" }, t);
+    t += Math.max(.07, .2 - i * .009);
+  });
+  /* the week is full: one small settle */
+  tl.to("#week", { y: 4, duration: .12, ease: "power2.out" }, t + .3).to("#week", { y: 0, duration: .5, ease: "power2.out" }, t + .42);
+  blurOut(cap, 6.9, .35);
+
+  /* ---------------- 3. the sort ---------------- */
+  var cap2 = el("div", "cap", wk);
+  var VERBS = words(cap2, [["Keep.", "w8"], ["Automate.", "w8"], ["Simplify.", "w8"], ["Stop.", "w8"]]);
+  tl.fromTo(VERBS, BLUR_IN, Object.assign({ duration: .7, ease: "power3.out", stagger: .06 }, CLEAR, { opacity: .2 }), 7.15);
+  function light(i, at) { tl.to(VERBS[i], { opacity: 1, duration: .3, ease: "power2.out" }, at); }
+
+  var K = blocks.filter(function (o) { return o.v === "k"; });
+  var A = blocks.filter(function (o) { return o.v === "a"; });
+  var S = blocks.filter(function (o) { return o.v === "s"; });
+  var X = blocks.filter(function (o) { return o.v === "x"; });
+
+  /* keep: the work that earns its effort lifts a little */
+  light(0, 7.5);
+  tl.to(K.map(function (o) { return o.el.querySelector(".acc"); }), { scaleY: 1, duration: .55, stagger: .025, ease: "power3.out" }, 7.55);
+
+  /* the mark, parked top right: three squares and a circle, built from what gets automated and stopped */
+  var MK = $("#mark"), MX = 1696, MY = 92, MS = 64 / 100;
+  var SLOTS = [[0, 0], [54, 0], [0, 54]].map(function (p) { return [MX + p[0] * MS, MY + p[1] * MS, 46 * MS]; });
+  var CIRC = [MX + 54 * MS, MY + 54 * MS, 46 * MS];
+
+  /* automate: turns blue, becomes a square, and goes to run itself */
+  light(1, 8.6);
+  A.forEach(function (o, i) {
+    var at = 8.65 + i * .12;
+    tl.to(o.el, { backgroundColor: "#2F5BFF", duration: .35, ease: "power2.out" }, at);
+    tl.to(o.el.querySelectorAll("span"), { color: "#FFFFFF", duration: .35 }, at);
+    /* stand-in square in screen space takes over from the block */
+    var sq = el("div", "sq", MK); px(sq, 0, 0, 10, 10); sq.style.opacity = 0;
+    var go = at + .45, p = toScreen(o.x, o.y, go), s = p[2];
+    tl.set(sq, { left: p[0], top: p[1], width: COLW * s, height: o.h * s, borderRadius: 12 * s, opacity: 1 }, go);
+    tl.set(o.el, { opacity: 0 }, go);
+    tl.to(sq, { width: 46 * s, height: 46 * s, borderRadius: 0, duration: .45, ease: "power3.inOut" }, go);
+    tl.to(sq, { left: SLOTS[i][0], top: SLOTS[i][1], width: SLOTS[i][2], height: SLOTS[i][2], duration: .8, ease: "power3.inOut" }, go + .35);
+    o.mark = sq;
+  });
+
+  /* simplify: half the steps, half the time */
+  light(2, 10.0);
+  S.forEach(function (o, i) {
+    var at = 10.05 + i * .12, nh = o.hours / 2 * UNIT - GAP;
+    tl.to(o.el, { height: nh, duration: .7, ease: "power3.inOut" }, at);
+    tl.to(o.el.querySelector(".hr"), { opacity: 0, duration: .25 }, at + .2);
+    tl.to(o.el.querySelector(".hr2"), { opacity: 1, duration: .3 }, at + .45);
+    tl.to(o.el.querySelector(".acc"), { scaleY: 1, duration: .5, ease: "power3.out" }, at + .55);
+    o.h2 = nh; o.hours2 = o.hours / 2;
+  });
+
+  /* stop: a red dot marks it, it goes, the dots become one */
+  light(3, 11.1);
+  var dots = X.map(function (o, i) {
+    var at = 11.15 + i * .14, cx = o.x + COLW / 2, cy = o.y + o.h / 2;
+    var p = toScreen(cx, cy, at), s = p[2], r = 23 * s;
+    var d = el("div", "dot", MK); px(d, p[0] - r, p[1] - r, 2 * r, 2 * r);
+    tl.fromTo(d, { scale: 0 }, { scale: 1, duration: .35, ease: "back.out(2)" }, at);
+    tl.to(o.el, { opacity: 0, filter: "blur(10px)", scale: .96, duration: .45, ease: "power2.in" }, at + .1);
+    tl.to(d, { left: CIRC[0], top: CIRC[1], width: CIRC[2], height: CIRC[2], duration: .8, ease: "power3.inOut" }, at + .5);
+    return d;
+  });
+  tl.set(dots[1], { opacity: 0 }, 12.6);
+
+  /* everything left closes up; the room shows at the end of each day */
+  var freed = [];
+  WEEK.forEach(function (col, c) {
+    var cum = 0;
+    blocks.filter(function (o) { return o.c === c; }).forEach(function (o) {
+      if (o.v === "a" || o.v === "x") return;
+      var hrs = o.v === "s" ? o.hours2 : o.hours;
+      var ny = TOP + cum * UNIT;
+      if (Math.abs(ny - o.y) > .5) tl.to(o.el, { y: ny - o.y, duration: .75, ease: "power3.inOut" }, 12.35 + c * .05);
+      cum += hrs;
+    });
+    freed.push(8 - cum);
+  });
+  var back = freed.reduce(function (a, b) { return a + b; }, 0);
+  blurOut(cap2, 13.0, .35);
+
+  /* ---------------- 4. room ---------------- */
+  var cap3 = el("div", "cap", wk);
+  var rw = words(cap3, [["Make room", "w8"], ["for the work that matters.", "w3"]]);
+  blurIn(rw, 13.4, .06);
+  var sub = el("div", "sub", wk); sub.style.top = "160px";
+  var subW = words(sub, [[Math.round(back) + " hours back, every week.", "w3"]]);
+  blurIn(subW, 13.9, .05);
+  freed.forEach(function (f, c) {
+    var x = X0 + c * (COLW + CG), y = TOP + (8 - f) * UNIT, h = f * UNIT - GAP;
+    var b = el("div", "blk room", wk, "<span>" + ROOM[c] + "</span><span class='hr'>" + fmt(f) + "</span>");
+    px(b, x, y, COLW, h);
+    tl.fromTo(b, { opacity: 0, y: 40, clipPath: "inset(100% 0% 0% 0% round 12px)" }, { opacity: 1, y: 0, clipPath: "inset(0% 0% 0% 0% round 12px)", duration: .8, ease: "power3.out" }, 14.4 + c * .12);
+  });
+  blurOut("#week", 17.6, .6);
+
+  /* ---------------- 5. belief ---------------- */
+  var bl = $("#belief");
+  var b1 = el("div", "line big", bl); b1.style.top = "404px";
+  var b2 = el("div", "line big", bl); b2.style.top = "528px";
+  blurIn(words(b1, [["Every process has a customer.", "w8"]]), 18.35);
+  blurIn(words(b2, [["That’s where we start.", "w3"]]), 19.25);
+  blurOut([b1, b2], 21.75, .5);
+
+  /* ---------------- 6. the mark ---------------- */
+  var LW = 1320, LS = LW / 7692, LH = 686 * LS, LX = (1920 - LW) / 2, LY = 540 - LH / 2 - 36;
+  var FIN = [[0, 0], [370.4, 0], [0, 370.4]].map(function (p) { return [LX + p[0] * LS, LY + p[1] * LS, 315.6 * LS]; });
+  var CF = [LX + 370.4 * LS, LY + 370.4 * LS, 315.6 * LS];
+  A.forEach(function (o, i) { tl.to(o.mark, { left: FIN[i][0], top: FIN[i][1], width: FIN[i][2], height: FIN[i][2], duration: 1.1, ease: "power4.inOut" }, 22.25); });
+  tl.to(dots[0], { left: CF[0], top: CF[1], width: CF[2], height: CF[2], duration: 1.1, ease: "power4.inOut" }, 22.25);
+
+  var END = $("#end");
+  var wm = el("div", "wm", END, '<svg viewBox="0 0 7692 686" width="' + LW + '" height="' + LH + '"><path d="M1103 686V-2H1799V169H1350V285H1743V456H1350V686Z M1905 686V-2H2152V686Z M2295 686V-2H3030V169H2543V258H2963V420H2543V515H3038V686Z M3150 686V-2H3397V497H3843V686Z M3931 686V-2H4331Q4459 -2 4552.0 38.0Q4645 78 4695.0 155.0Q4745 232 4745 342Q4745 452 4695.0 529.0Q4645 606 4552.0 646.0Q4459 686 4331 686ZM4178 515H4316Q4357 515 4389.0 503.0Q4421 491 4444.0 469.5Q4467 448 4479.0 418.5Q4491 389 4491 353V329Q4491 293 4479.0 264.0Q4467 235 4444.0 213.5Q4421 192 4389.0 180.5Q4357 169 4316 169H4178Z" fill="#0F1013"/></svg>'); px(wm, LX, LY);
+  var wm2 = el("div", "wm", END, '<svg viewBox="0 0 7692 686" width="' + LW + '" height="' + LH + '"><path d="M5045.540692326787 686.0 4802.405458200622 -0.32431772492225264H4897.810183867617L5065.540203971036 483.5679833298963Q5070.215886246114 496.2707124302072 5076.742933071348 517.1491238055958Q5083.2699798965805 538.0275351809844 5090.634867859352 559.3924231437564Q5097.999755822124 580.7573111065285 5103.026802647358 597.7843579317616H5111.729531747668Q5114.405214022746 585.7843579317616 5118.918737435362 571.1086756566839Q5123.43226084798 556.4329933816061 5128.121466535674 540.7437876939118Q5132.810672223368 525.0545820062176 5137.499877911062 510.176170630829Q5142.189083598756 495.2977592554404 5145.540448148912 483.5679833298963L5296.5136455015545 -0.32431772492225264H5420.377678841762L5570.999511644249 483.5679833298963Q5575.350876194404 496.2707124302072 5581.20224074456 516.811282668057Q5587.053605294715 537.3518529059068 5593.580652119948 559.0545820062176Q5600.107698945181 580.7573111065285 5604.134745770414 597.7843579317616H5612.837474870726Q5617.188839420881 585.4329933816061 5622.040203971036 569.905946556373Q5626.891568521191 554.3788997311399 5632.5807742088855 538.5140117683678Q5638.2699798965805 522.6491238055958 5642.959185584275 508.28423584282376Q5647.648391271969 493.91934788005176 5651.324073547046 483.5679833298963L5819.378411375388 -0.32431772492225264H5905.539959793161L5662.080407942072 686.0H5544.324317724922L5391.107943123057 199.51315714580318Q5387.783625398135 188.21588624611405 5381.770101985518 169.04020397103628Q5375.756578572901 149.8645216959585 5369.891690610129 128.3239514581088Q5364.026802647358 106.78338122025912 5358.648391271969 89.4049698448705H5350.2699798965805Q5346.242933071348 105.75633439502587 5339.891568521192 126.94554008272019Q5333.540203971036 148.1347457704145 5327.688839420881 167.48611032056994Q5321.837474870726 186.83747487072537 5317.837474870726 199.51315714580318L5165.567006618394 686.0Z M6030.540692326787 686.0V-0.32431772492225264H6533.324073547046Q6599.56725079627 -0.32431772492225264 6645.053727383653 26.13511203722794Q6690.540203971036 52.594541799378135 6714.215886246114 98.39181269906726Q6737.891568521191 144.18908359875638 6737.891568521191 201.83771904860106Q6737.891568521191 267.5674949741451 6704.02668055842 319.040448148912Q6670.161792595648 370.5134013236788 6605.513157145803 392.4052140227461L6755.56725079627 686.0H6656.189571954508L6515.3245619027975 407.215886246114H6119.026558469482V686.0ZM6119.026558469482 331.892056876943H6515.648635449845Q6578.189327776632 331.892056876943 6613.148879627721 295.6081873009326Q6648.108431478809 259.32431772492225 6648.108431478809 202.81067222336787Q6648.108431478809 164.35112037227987 6632.378655553264 135.74293307134718Q6616.64887962772 107.1347457704145 6587.216374601865 91.22928756979275Q6557.78386957601 75.323829369171 6515.648635449845 75.323829369171H6119.026558469482Z M6833.027046825233 686.0 7183.405702378497 328.64863544984456 6864.054093650467 -0.32431772492225264H6984.0263142916065L7239.8918126990675 264.51388967943006H7248.513401323678L7505.324806080674 -0.32431772492225264H7618.378167197513L7300.702240744559 323.67568227507775L7652.756578572901 686.0H7532.784357931761L7244.567494974145 388.1617925956477H7234.594541799378L6946.080407942072 686.0Z" fill="#0F1013"/></svg>'); px(wm2, LX, LY);
+  tl.fromTo(wm, { clipPath: "inset(0% 85.7% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: .9, ease: "power3.inOut" }, 23.2);
+  tl.fromTo(wm2, { clipPath: "inset(0% 37.6% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: .9, ease: "power3.inOut" }, 23.75);
+  var tag = el("div", "tag", END); tag.style.top = (LY + LH + 54) + "px";
+  blurIn(words(tag, [["Work, redesigned.", "w3"]]), 24.5);
+  var url = el("div", "url", END, "FIELDWRX.CO.ZA");
+  tl.fromTo(url, { opacity: 0 }, { opacity: 1, duration: .8, ease: "power2.out" }, 25.0);
+  tl.to({}, { duration: .01 }, 26.99);
+
+  /* On the website the film runs as live code inside a frame: fit it to the frame and hand the page its controls. */
+  if (/[?&]embed=1/.test(location.search)) {
+    var root = $("#root"), de = document.documentElement;
+    de.style.cssText = "width:100%;height:100%;overflow:hidden;background:#F3F2EF";
+    document.body.style.cssText = "width:100%;height:100%;overflow:hidden;background:#F3F2EF";
+    root.style.transformOrigin = "0 0";
+    var fit = function () { root.style.transform = "scale(" + (innerWidth / 1920) + ")"; };
+    fit(); addEventListener("resize", fit);
+    window.FWXFILM = { tl: tl, duration: 27 };
+  }
+  window.__timelines = window.__timelines || {};
+  window.__timelines["main"] = tl;
+  window.__FWX_BACK = back;
+  tl.seek(0);
+})();
+</script>
+</body>
+</html>
