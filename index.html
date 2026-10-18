@@ -333,7 +333,7 @@ h1,h2,h3,p{margin:0}
 /* How we work: shu, ha, ri, scrubbed by scroll */
 .how{padding-top:clamp(110px,18vh,220px)}
 .how-intro .body{margin-top:28px}
-.how-track{position:relative;height:440svh;margin-top:clamp(24px,6vh,72px)}
+.how-track{position:relative;height:620svh;margin-top:clamp(24px,6vh,72px)}
 .how-stage{position:sticky;top:0;height:100svh;overflow:hidden}
 .how-cv{position:absolute;inset:0;width:100%;height:100%;display:block}
 .how-kanji{position:absolute;right:2vw;top:50%;width:min(52vw,92svh);aspect-ratio:1;transform:translateY(-50%);pointer-events:none}
@@ -357,12 +357,22 @@ h1,h2,h3,p{margin:0}
 .how-prog{position:absolute;right:var(--g);top:50%;display:grid;gap:8px;transform:translateY(-50%)}
 .how-prog i{display:block;width:3px;height:44px;border-radius:3px;background:var(--rule);overflow:hidden;position:relative}
 .how-prog i::after{content:"";position:absolute;inset:0;background:var(--fg);transform:scaleY(var(--f,0));transform-origin:50% 0}
+.how-titles{position:absolute;inset:0;z-index:2;pointer-events:none}
+.how-t{position:absolute;left:50%;top:50%;margin:0;text-align:center;text-transform:uppercase;font-stretch:125%;font-size:clamp(44px,13vw,280px);line-height:.86;letter-spacing:-.035em;color:#F3F2EF;white-space:nowrap;opacity:0;transform:translate(-50%,-50%);will-change:transform,filter,opacity}
+.how-t span{display:block}.how-t .t1{font-weight:900}.how-t .t2{font-weight:300}
+.how-t i{display:inline-block;font-style:normal;will-change:transform,filter,opacity}
+.how-flash{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:0;background:var(--blue)}
+.how-cv{will-change:opacity}
+.how-stage::after{content:"";position:absolute;inset:0 auto 0 0;width:min(780px,58vw);z-index:1;pointer-events:none;background:linear-gradient(90deg,var(--bg) 0%,color-mix(in srgb,var(--bg) 88%,transparent) 55%,transparent 100%)}
+.how-steps{z-index:2}
+@media (max-width:899px){.how-stage::after{inset:auto 0 0 0;width:auto;height:62%;background:linear-gradient(0deg,var(--bg) 0%,color-mix(in srgb,var(--bg) 90%,transparent) 62%,transparent 100%)}}
+.how.static .how-titles,.how.static .how-flash{display:none}
 .how-where{padding-block:clamp(56px,11vh,130px) clamp(110px,18vh,220px)}
 .how-where .how-ip{margin:0}
 .how-list{margin-top:18px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 18px;font-stretch:118%;font-weight:700;font-size:clamp(1.35rem,2.6vw,2.5rem);line-height:1.15;letter-spacing:-.015em}
 .how-list i{display:inline-block;width:.32em;height:.32em;background:var(--blue)}
 @media (max-width:899px){
-  .how-track{height:400svh}
+  .how-track{height:560svh}
   .how-kanji{right:auto;left:50%;top:calc(var(--nav-h) + 4svh);width:min(80vw,40svh);transform:translateX(-50%)}
   .how-kanji span{font-size:min(70vw,36svh)}
   .how-steps{left:var(--g);right:var(--g);top:auto;bottom:max(84px,9svh);width:auto;transform:none}
@@ -523,9 +533,9 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
       <a href="#scan">Scan your week</a>
       <a href="#work">How we work</a>
       <a href="#start">How it starts</a>
-      <a href="#about">About</a>
+      <a href="/about">About</a>
     </nav>
-    <a class="btn btn-sm" href="#contact"><span class="roll"><span>Free 30-minute call</span><span aria-hidden="true">Free 30-minute call</span></span></a>
+    <a class="btn btn-sm" href="mailto:hello@fieldwrx.co.za?subject=Free%2030-minute%20call"><span class="roll"><span>Free 30-minute call</span><span aria-hidden="true">Free 30-minute call</span></span></a>
   </div>
 </header>
 
@@ -544,7 +554,7 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
       <h1 class="display hero-h"><span class="ln"><span>Work, redesigned.</span></span><span class="ln lt"><span>Where it happens.</span></span></h1>
       <p class="lead">Every way of working made sense when it started. FIELDWRX helps people and small teams reshape theirs around what they want to achieve next.</p>
       <div class="cta-row">
-        <a class="btn magnet" href="#contact"><span class="roll"><span>Book a free 30-minute call</span><span aria-hidden="true">Book a free 30-minute call</span></span><svg class="arr" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13M11 5l5 5-5 5"/></svg></a>
+        <a class="btn magnet" href="mailto:hello@fieldwrx.co.za?subject=Free%2030-minute%20call"><span class="roll"><span>Book a free 30-minute call</span><span aria-hidden="true">Book a free 30-minute call</span></span><svg class="arr" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13M11 5l5 5-5 5"/></svg></a>
         <a class="btn ghost ghost-btn" href="#film"><span class="roll"><span>See how it works</span><span aria-hidden="true">See how it works</span></span></a>
       </div>
     </div>
@@ -599,6 +609,12 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
       <div class="how-stage">
         <canvas class="how-cv" aria-hidden="true"></canvas>
         <div class="how-kanji" aria-hidden="true"><span class="on">守</span><span>破</span><span>離</span></div>
+        <div class="how-titles" aria-hidden="true">
+          <p class="how-t"><span class="t1">Learn it</span><span class="t2">as it is.</span></p>
+          <p class="how-t"><span class="t1">Change what</span><span class="t2">holds it back.</span></p>
+          <p class="how-t"><span class="t1">Rethink it</span><span class="t2">entirely.</span></p>
+        </div>
+        <div class="how-flash" aria-hidden="true"></div>
         <ol class="how-steps">
           <li class="how-step on">
             <p class="how-k"><span>01</span><b lang="ja">守</b> Shu</p>
@@ -651,32 +667,8 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
     </div>
   </section>
 
-  <section class="about" id="about" data-tone="paper" aria-labelledby="about-h">
-    <div class="wrap">
-      <h2 class="h2 rv" id="about-h"><span class="ln"><span>Every process has a customer.</span></span><span class="ln lt"><span>That’s where we start.</span></span></h2>
-      <div class="about-body fu">
-        <p>Our experience runs across apparel and footwear, at one of South Africa’s biggest retailers and at a global fashion brand. It continues through homeware and textiles, and into consumer electronics across private label and global brands.</p>
-        <p>Much of it has been spent between head office and the shop floor: designing systems and processes that move the business forward without taking time from the people who serve customers.</p>
-        <p>We’re wary of either/or thinking. The cheaper option often does a job for the better one: it keeps a range within reach, or it shows the customer what the better option is worth. Sometimes the right call is to give up margin to grow volume and profit, and part of the work is making that case with the evidence.</p>
-        <p><mark>Who receives this, and how does the change make their day better?</mark></p>
-        <p>Our aim is to pay it forward: to create value for our clients, for the people they serve, and for the society we share.</p>
-      </div>
-    </div>
-  </section>
 
-  <section class="contact" id="contact" data-tone="navy" aria-labelledby="contact-h">
-    <div class="wrap">
-      <h2 class="display contact-h rv" id="contact-h"><span class="ln"><span>What are you working towards?</span></span><span class="ln lt"><span>Let’s find the way there.</span></span></h2>
-      <div class="contact-row fu">
-        <a class="btn btn-lg magnet" href="mailto:hello@fieldwrx.co.za?subject=Free%2030-minute%20call"><span class="roll"><span>Book a free 30-minute call</span><span aria-hidden="true">Book a free 30-minute call</span></span><svg class="arr" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13M11 5l5 5-5 5"/></svg></a>
-        <div class="mail">
-          <a href="mailto:hello@fieldwrx.co.za">hello@fieldwrx.co.za</a>
-          <button class="copy-btn" type="button" data-copy="hello@fieldwrx.co.za" aria-label="Copy email address"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="6.5" y="6.5" width="10" height="10"/><path d="M13.5 6.5V3.5h-10v10h3"/></svg><span class="copy-t">Copy</span></button>
-        </div>
-      </div>
-      <p class="where fu">Based in Cape Town, South Africa.</p>
-      <p class="sr-only" aria-live="polite" id="copy-status"></p>
-    </div>
+  <section class="contact" id="contact" data-tone="navy" aria-label="FIELDWRX">
     <div class="endmark" aria-hidden="true">
       <svg class="em-mark" viewBox="0 0 7692 686"><rect class="em-s em-s1" x="0" y="0" width="315.6" height="315.6"/><rect class="em-s em-s2" x="370.4" y="0" width="315.6" height="315.6"/><rect class="em-s em-s3" x="0" y="370.4" width="315.6" height="315.6"/><circle class="em-c" cx="528.2" cy="528.2" r="157.8"/></svg>
       <svg class="em-w em-f" viewBox="0 0 7692 686"><use href="#wm-a" transform="translate(1029 0)"/></svg>
@@ -684,6 +676,7 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
     </div>
     <footer class="wrap foot">
       <span class="foot-l">© 2026 FIELDWRX (Pty) Ltd · Reg. no. 2026/791939/07</span>
+      <a href="mailto:hello@fieldwrx.co.za">hello@fieldwrx.co.za</a>
       <a href="#top">Back to top</a>
     </footer>
   </section>
@@ -901,7 +894,7 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
   /* ---------- Chapter bar: where you are in the page, like a playhead on a timeline ---------- */
   var reel = (function(){
     var bar = $(".reel"), track = $(".reel-track", bar), head = $(".reel-head", bar), now = $(".reel-now", bar), nEl = $(".reel-n", bar), tEl = $(".reel-t", bar);
-    var CH = [["top", "Opening", "Opening"], ["film", "The film", "The film"], ["scan", "Scan your week", "Scan"], ["work", "How we work", "How we work"], ["start", "How it starts", "How it starts"], ["about", "About", "About"], ["contact", "Let’s talk", "Let’s talk"]];
+    var CH = [["top", "Opening", "Opening"], ["film", "The film", "The film"], ["scan", "Scan your week", "Scan"], ["work", "How we work", "How we work"], ["start", "How it starts", "How it starts"], ["contact", "FIELDWRX", "FIELDWRX"]];
     var small = matchMedia("(max-width: 599px)");
     var foot = $(".foot");
     var ch = CH.map(function(c, i){
@@ -1158,115 +1151,171 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
     });
   })();
 
-  /* ---------- How we work: shu, ha, ri, scrubbed by scroll ---------- */
+  /* ---------- How we work: shu, ha, ri, flown through in 3D as you scroll ---------- */
   (function(){
     var sec = $("#work"); if (!sec) return;
     var track = $(".how-track", sec), stage = $(".how-stage", sec), cv = $(".how-cv", sec), cx = cv.getContext("2d");
     var steps = $$(".how-step", sec), kanji = $$(".how-kanji span", sec), ticks = $$(".how-prog i", sec);
+    var titles = $$(".how-t", sec), flash = $(".how-flash", sec);
     if (RM) { sec.classList.add("static"); return; }
+
+    /* titles: split into letters so each can fly in on its own */
+    var letters = titles.map(function(t){
+      var out = [];
+      $$("span", t).forEach(function(line){
+        var txt = line.textContent; line.textContent = "";
+        for (var k = 0; k < txt.length; k++) { var e = document.createElement("i"); e.textContent = txt[k] === " " ? " " : txt[k]; line.appendChild(e); out.push(e); }
+      });
+      return out;
+    });
+
+    /* the scene: 48 squares, each with a fixed fate */
     var COLS = 8, ROWS = 6, N = COLS * ROWS, COLH = [2, 3, 3, 4, 5, 6, 8, 9];
-    /* each square's fate, fixed so the scene is the same for everyone */
     var seed = 11; function rnd(){ seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
-    var idx = []; for (var i = 0; i < N; i++) idx.push(i);
-    for (var i = N - 1; i > 0; i--) { var j = Math.floor(rnd() * (i + 1)), t = idx[i]; idx[i] = idx[j]; idx[j] = t; }
-    var fate = new Array(N);
-    idx.forEach(function(q, k){ fate[q] = k < 10 ? "a" : k < 17 ? "s" : k < 25 ? "x" : "k"; });
-    var W = 0, H = 0, dpr = 1, G = null, cur = 0, target = 0, raf = 0, vis = false, stageIdx = -1;
-    function clamp(v){ return v < 0 ? 0 : v > 1 ? 1 : v; }
-    function span(p, a, b){ return clamp((p - a) / (b - a)); }
+    var order = []; for (var i = 0; i < N; i++) order.push(i);
+    for (var i = N - 1; i > 0; i--) { var j = Math.floor(rnd() * (i + 1)), t = order[i]; order[i] = order[j]; order[j] = t; }
+    var fate = new Array(N); order.forEach(function(q, k){ fate[q] = k < 10 ? "a" : k < 17 ? "s" : k < 25 ? "x" : "k"; });
+    var spin = []; for (var i = 0; i < N; i++) spin.push((rnd() - .5) * 2);
+    /* ri: the squares that remain climb into towers, automated work riding on top */
+    var dest = new Array(N), keep = [], blue = [];
+    for (var i = 0; i < N; i++) { if (fate[i] === "a") blue.push(i); else if (fate[i] !== "x") keep.push(i); }
+    (function(){
+      var ki = 0, bi = 0;
+      COLH.forEach(function(h, c){
+        var nb = c >= 6 ? 2 : 1;
+        for (var r = 0; r < h; r++) { var q = r >= h - nb ? blue[bi++] : keep[ki++]; dest[q] = [-3.5 + c, 1.6 - c * .5, .12 + r * .46, c]; }
+      });
+    })();
+    var TOP = [-3.5 + 7 + .05, 1.6 - 7 * .5, .12 + 9 * .46 + .55];
+
+    /* camera path over the whole section: [p, yaw°, pitch°, distance, target z] */
+    var KEYS = [[0, -8, 0, 16, 0], [.07, -14, 18, 13, 0], [.15, -26, 54, 9.6, 0], [.3, 16, 57, 8.6, 0], [.365, 128, 42, 9.6, 0], [.62, 168, 50, 8.2, 0], [.69, 300, 64, 10.6, .4], [.86, 328, 52, 10.8, 1.9], [1, 340, 46, 10.6, 2.2]];
     function eio(t){ return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
     function eo(t){ return 1 - Math.pow(1 - t, 3); }
+    function clamp(v){ return v < 0 ? 0 : v > 1 ? 1 : v; }
+    function span(p, a, b){ return clamp((p - a) / (b - a)); }
+    function bump(p, c, w){ var x = (p - c) / w; return Math.max(0, 1 - x * x); }
+    function cam(p){
+      for (var k = 0; k < KEYS.length - 1; k++) if (p <= KEYS[k + 1][0]) break;
+      var A = KEYS[k], B = KEYS[Math.min(k + 1, KEYS.length - 1)], u = B[0] > A[0] ? eio(clamp((p - A[0]) / (B[0] - A[0]))) : 1;
+      return { yaw: (A[1] + (B[1] - A[1]) * u) * Math.PI / 180, pitch: (A[2] + (B[2] - A[2]) * u) * Math.PI / 180, dist: A[3] + (B[3] - A[3]) * u, tz: A[4] + (B[4] - A[4]) * u };
+    }
+    var W = 0, H = 0, dpr = 1, F = 1, CX = 0, CY = 0, BG = "#0F1013", cur = 0, target = 0, raf = 0, vis = false, stageIdx = -1, lastCam = null;
     function layout(){
       dpr = Math.min(2, window.devicePixelRatio || 1);
       W = stage.clientWidth; H = stage.clientHeight;
       cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
-      var wide = W >= 900, navH = parseFloat(getComputedStyle(d).getPropertyValue("--nav-h")) || 72;
-      var rx = wide ? W * .47 : W * .08, rw = wide ? W * .45 : W * .84;
-      var ry = wide ? navH + H * .1 : navH + H * .04, rh = wide ? H * .74 - navH * .5 : H * .36;
-      var cell = Math.min(rw / COLS, rh / ROWS), sz = cell * .7;
-      var gx = rx + (rw - cell * COLS) / 2, gy = ry + (rh - cell * ROWS) / 2;
-      var home = [], i;
-      for (i = 0; i < N; i++) home.push([gx + (i % COLS) * cell + cell / 2, gy + Math.floor(i / COLS) * cell + cell / 2]);
-      /* ri: the squares that remain leave the grid and climb, automated work riding on top */
-      var keep = [], blue = [];
-      for (i = 0; i < N; i++) { if (fate[i] === "a") blue.push(i); else if (fate[i] !== "x") keep.push(i); }
-      var rc = Math.min(cell, (cell * ROWS + (wide ? cell * .6 : 0)) / (COLH[COLH.length - 1] + 1.4));   /* ri fits the same frame */
-      var dest = new Array(N), bx = gx + (cell * COLS - rc * (COLH.length + 1)) / 2, base = gy + cell * ROWS, ki = 0, bi = 0;
-      COLH.forEach(function(h, c){
-        var nb = c >= 6 ? 2 : 1;
-        for (var r = 0; r < h; r++) {
-          var q = r >= h - nb ? blue[bi++] : keep[ki++];
-          dest[q] = [bx + c * rc + rc / 2, base - r * rc - rc / 2, c];
+      var wide = W >= 900;
+      CX = wide ? W * .7 : W * .5; CY = wide ? H * .54 : H * .3;
+      F = (wide ? Math.min(W * .5, H) : Math.min(W, H * .5)) * 1.02;
+      BG = getComputedStyle(sec).backgroundColor; if (!BG || BG === "rgba(0, 0, 0, 0)") BG = getComputedStyle(d).getPropertyValue("--bg").trim() || "#0F1013";
+      /* fit each title to the stage */
+      titles.forEach(function(t){ t.style.setProperty("--fit", 1); t.dataset.fit = Math.min(1, W * .92 / Math.max(1, t.scrollWidth)); });
+      lastCam = null; draw(cur, true);
+    }
+    function project(x, y, z, C){
+      var cy = Math.cos(C.yaw), sy = Math.sin(C.yaw), cp = Math.cos(C.pitch), sp = Math.sin(C.pitch);
+      var x1 = x * cy + y * sy, y1 = -x * sy + y * cy, z1 = z - C.tz;
+      var yr = y1 * cp - z1 * sp, zr = y1 * sp + z1 * cp, depth = C.dist - zr;
+      if (depth < .4) depth = .4;
+      var k = F / depth;
+      return [CX + x1 * k, CY + yr * k, depth];
+    }
+    function draw(p, hard){
+      var C = cam(p);
+      /* motion trails when the camera moves fast: the whip pans smear */
+      var speed = lastCam ? Math.abs(C.yaw - lastCam.yaw) * 3 + Math.abs(C.pitch - lastCam.pitch) * 3 + Math.abs(C.dist - lastCam.dist) * .4 : 0;
+      lastCam = C;
+      var keepTrail = hard ? 0 : Math.min(.72, speed * 6);
+      cx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      cx.globalAlpha = 1 - keepTrail; cx.fillStyle = BG; cx.fillRect(0, 0, W, H); cx.globalAlpha = 1;
+      var scan = span(p, .15, .3), scanX = -5 + scan * 10;
+      var ri = span(p, .7, .87), quads = [];
+      for (var i = 0; i < N; i++) {
+        var col = i % COLS, row = Math.floor(i / COLS), f = fate[i];
+        var x = col - 3.5, y = row - 2.5, z = 0, s = .74, rot = 0, a = .22, blueT = 0, red = 0;
+        /* rise into formation */
+        var ap = eo(span(p, .004 * (Math.abs(col - 3.5) + Math.abs(row - 2.5)), .06 + .004 * (Math.abs(col - 3.5) + Math.abs(row - 2.5))));
+        z = -5 * (1 - ap); a *= ap; rot = (1 - ap) * spin[i] * 1.6;
+        /* shu: a wave of light reads every square */
+        if (scan > 0) { var dx = scanX - x; if (dx > 0) a = .22 + .73 * clamp(dx / 1.4); z += .65 * Math.exp(-dx * dx * 2.2); }
+        /* ha */
+        if (f === "a") { var ta = eio(span(p, .38 + col * .005, .47 + col * .005)); blueT = ta; z += 1.3 * ta; rot += ta * Math.PI / 2 * (spin[i] > 0 ? 1 : -1); }
+        if (f === "s") s *= 1 - .48 * eio(span(p, .45 + col * .004, .53 + col * .004));
+        if (f === "x") {
+          red = span(p, .5 + col * .004, .535 + col * .004) * (1 - span(p, .565, .6));
+          var dr = eio(span(p, .55 + col * .004, .63 + col * .004));
+          z -= dr * 4.5; a *= 1 - dr; rot += dr * spin[i] * 2.4;
+          if (dr >= 1) continue;
+        }
+        /* ri: lift off, spin, and land in the towers */
+        if (f !== "x" && ri > 0) {
+          var dd = dest[i], tr = eio(span(p, .7 + dd[3] * .014, .83 + dd[3] * .014));
+          x += (dd[0] - x) * tr; y += (dd[1] - y) * tr;
+          z += (dd[2] - z) * tr + Math.sin(tr * Math.PI) * 1.8;
+          s += (.62 - s) * tr; rot = rot * (1 - tr) + Math.sin(tr * Math.PI) * spin[i] * 1.8;
+          a += (.95 - a) * tr;
+        }
+        var h = s / 2, cr = Math.cos(rot), sr = Math.sin(rot), pts = [], dsum = 0;
+        var cs = [[-h, -h], [h, -h], [h, h], [-h, h]];
+        for (var k = 0; k < 4; k++) { var qx = x + cs[k][0] * cr - cs[k][1] * sr, qy = y + cs[k][0] * sr + cs[k][1] * cr; var pp = project(qx, qy, z, C); pts.push(pp); dsum += pp[2]; }
+        var fog = clamp(1.25 - (dsum / 4 - C.dist) * .06);
+        quads.push({ d: dsum / 4, pts: pts, a: Math.max(a, blueT) * fog, b: blueT, red: red, c: project(x, y, z + .01, C), s: s });
+      }
+      quads.sort(function(m, n){ return n.d - m.d; });
+      for (var q = 0; q < quads.length; q++) {
+        var Q = quads[q], R = Math.round(243 + (47 - 243) * Q.b), G = Math.round(242 + (91 - 242) * Q.b), B = Math.round(239 + (255 - 239) * Q.b);
+        cx.fillStyle = "rgba(" + R + "," + G + "," + B + "," + Q.a.toFixed(3) + ")";
+        cx.beginPath(); cx.moveTo(Q.pts[0][0], Q.pts[0][1]); for (var k = 1; k < 4; k++) cx.lineTo(Q.pts[k][0], Q.pts[k][1]); cx.closePath(); cx.fill();
+        if (Q.red > 0) { var rr = F / Q.c[2] * Q.s * .24 * Q.red; cx.fillStyle = "rgba(232,57,47," + Q.red.toFixed(3) + ")"; cx.beginPath(); cx.arc(Q.c[0], Q.c[1], rr, 0, 6.2832); cx.fill(); }
+      }
+      /* where you're going: the circle drops onto the tallest tower */
+      var ci = eo(span(p, .86, .94));
+      if (ci > 0) { var tp = project(TOP[0], TOP[1], TOP[2] + (1 - ci) * 2.5, C), rad = F / tp[2] * .34 * ci; cx.fillStyle = "#E8392F"; cx.beginPath(); cx.arc(tp[0], tp[1], rad, 0, 6.2832); cx.fill(); }
+
+      /* stage, titles, flashes */
+      var si = p < 1 / 3 ? 0 : p < 2 / 3 ? 1 : 2, lt = (p - si / 3) * 3;
+      var panelOn = lt > .24 && lt < .985 || (si === 2 && lt > .24);
+      steps.forEach(function(el, k){ el.classList.toggle("on", k === si && panelOn); });
+      if (si !== stageIdx) { stageIdx = si; kanji.forEach(function(el, k){ el.classList.toggle("on", k === si); }); }
+      titles.forEach(function(t, k){
+        var L = k === si ? lt : -1, fit = +t.dataset.fit || 1;
+        if (L < 0 || L > .26) { t.style.opacity = 0; return; }
+        var hold = span(L, .08, .17), out = span(L, .16, .25);
+        var sc = fit * (1 + .05 * hold + 1.7 * out * out), bl = 26 * out;
+        t.style.opacity = (1 - out).toFixed(3);
+        t.style.transform = "translate(-50%,-50%) scale(" + sc.toFixed(4) + ")";
+        t.style.filter = bl > .2 ? "blur(" + bl.toFixed(1) + "px)" : "none";
+        var ls = letters[k], n = ls.length;
+        for (var m = 0; m < n; m++) {
+          var e = eo(span(L, m * .0045, .075 + m * .0045));
+          ls[m].style.opacity = e.toFixed(3);
+          ls[m].style.transform = e < 1 ? "translate3d(0," + ((1 - e) * 40).toFixed(1) + "px,0) scale(" + (1 + (1 - e) * 1.4).toFixed(3) + ")" : "none";
+          ls[m].style.filter = e < 1 ? "blur(" + ((1 - e) * 22).toFixed(1) + "px)" : "none";
         }
       });
-      var top = COLH.length - 1;
-      G = { home: home, dest: dest, cell: cell, sz: sz, rsz: rc * .7, circ: [bx + top * rc + rc * 1.5, base - COLH[top] * rc + rc * .5], gx: gx, gw: cell * COLS, gy: gy, gh: cell * ROWS };
-      draw(cur);
-    }
-    function draw(p){
-      if (!G) return;
-      cx.setTransform(dpr, 0, 0, dpr, 0, 0); cx.clearRect(0, 0, W, H);
-      var c = G.cell, sz = G.sz;
-      var scan = span(p, .07, .28), scanX = G.gx + scan * (G.gw + c * 2) - c;
-      var ri = span(p, .68, .9);
-      for (var i = 0; i < N; i++) {
-        var h = G.home[i], col = i % COLS, row = Math.floor(i / COLS), f = fate[i];
-        var appear = eo(span(p, (col + row) * .0035, .05 + (col + row) * .0035));
-        var x = h[0], y = h[1], s = sz * (.6 + .4 * appear), a = .16 * appear;
-        /* shu: a light reads each square in turn */
-        var cx0 = h[0];
-        if (scanX > cx0) { var since = (scanX - cx0) / c; a = .16 + .7 * clamp(since / 1.5); }
-        var blueT = 0, red = 0;
-        if (f === "a") blueT = eio(span(p, .36 + col * .006, .45 + col * .006));
-        if (f === "s") s *= 1 - .45 * eio(span(p, .43 + col * .005, .52 + col * .005));
-        if (f === "x") {
-          red = span(p, .5 + col * .004, .54 + col * .004) * (1 - span(p, .57, .61));
-          var drop = eio(span(p, .55 + col * .004, .63 + col * .004));
-          y += drop * c * 1.4; a *= 1 - drop;
-          if (drop >= 1) continue;
-        }
-        if (f !== "x" && ri > 0) {
-          var dd = G.dest[i], t = eio(span(p, .68 + dd[2] * .012, .82 + dd[2] * .012));
-          x += (dd[0] - x) * t; y += (dd[1] - y) * t;
-          s += (G.rsz - s) * t;
-        }
-        var R = Math.round(243 + (47 - 243) * blueT), Gc = Math.round(242 + (91 - 242) * blueT), B = Math.round(239 + (255 - 239) * blueT);
-        cx.fillStyle = "rgba(" + R + "," + Gc + "," + B + "," + Math.max(a, blueT).toFixed(3) + ")";
-        cx.fillRect(x - s / 2, y - s / 2, s, s);
-        if (red > 0) { cx.fillStyle = "rgba(232,57,47," + red.toFixed(3) + ")"; cx.beginPath(); cx.arc(x, y, sz * .22 * red, 0, 6.2832); cx.fill(); }
-      }
-      /* the scan line itself */
-      if (scan > 0 && scan < 1) {
-        var g = cx.createLinearGradient(scanX - c, 0, scanX + 2, 0);
-        g.addColorStop(0, "rgba(243,242,239,0)"); g.addColorStop(1, "rgba(243,242,239,.22)");
-        cx.fillStyle = g; cx.fillRect(scanX - c, G.gy - c * .3, c + 2, G.gh + c * .6);
-        cx.fillStyle = "rgba(243,242,239,.85)"; cx.fillRect(scanX, G.gy - c * .3, 1.5, G.gh + c * .6);
-      }
-      /* where you're going: the circle arrives last */
-      var ci = eo(span(p, .88, .96));
-      if (ci > 0) { cx.fillStyle = "#E8392F"; cx.beginPath(); cx.arc(G.circ[0], G.circ[1] - (1 - ci) * c * .6, G.rsz / 2 * ci, 0, 6.2832); cx.fill(); }
-      /* text, kanji and progress follow the stage */
-      var si = p < .34 ? 0 : p < .66 ? 1 : 2;
-      if (si !== stageIdx) {
-        stageIdx = si;
-        steps.forEach(function(el, k){ el.classList.toggle("on", k === si); });
-        kanji.forEach(function(el, k){ el.classList.toggle("on", k === si); });
-      }
+      /* the scene steps back while a title owns the frame */
+      var tl = (si === 0 && lt < .26) || lt < .26 ? 1 - span(lt, .14, .26) : 0;
+      cv.style.opacity = (1 - .62 * tl).toFixed(3);
+      var f1 = bump(p, 1 / 3, .022), f2 = bump(p, 2 / 3, .022);
+      flash.style.opacity = Math.max(f1 * .9, f2 * .85).toFixed(3);
+      flash.style.background = f2 > f1 ? "#F3F2EF" : "#2F5BFF";
       ticks.forEach(function(tk, k){ tk.style.setProperty("--f", clamp((p - k / 3) * 3).toFixed(3)); });
     }
     function measure(){ var r = track.getBoundingClientRect(); target = clamp(-r.top / Math.max(1, r.height - innerHeight)); }
     function loop(){
       measure();
-      cur += (target - cur) * .16;
-      if (Math.abs(target - cur) < .0004) cur = target;
+      cur += (target - cur) * .14;
+      if (Math.abs(target - cur) < .0003) cur = target;
       draw(cur);
       raf = vis ? requestAnimationFrame(loop) : 0;
     }
     new IntersectionObserver(function(ents){
       vis = ents[0].isIntersecting;
-      if (vis && !raf) { measure(); cur = target; raf = requestAnimationFrame(loop); }
+      if (vis && !raf) { measure(); cur = target; lastCam = null; raf = requestAnimationFrame(loop); }
     }).observe(track);
     addEventListener("resize", function(){ clearTimeout(layout.t); layout.t = setTimeout(layout, 120); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
     layout();
   })();
 
@@ -1288,7 +1337,7 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
   /* About underline */
   if (!RM) {
     var ab = $(".about-body");
-    new IntersectionObserver(function(ents, o){ if (ents[0].isIntersecting) { ab.classList.add("in"); o.disconnect(); } }, { rootMargin: "0px 0px -30% 0px" }).observe(ab);
+    if (ab) new IntersectionObserver(function(ents, o){ if (ents[0].isIntersecting) { ab.classList.add("in"); o.disconnect(); } }, { rootMargin: "0px 0px -30% 0px" }).observe(ab);
   }
 
   /* Scroll loop */
