@@ -333,7 +333,7 @@ h1,h2,h3,p{margin:0}
 /* How we work: shu, ha, ri, scrubbed by scroll */
 .how{padding-top:clamp(110px,18vh,220px)}
 .how-intro .body{margin-top:28px}
-.how-track{position:relative;height:620svh;margin-top:clamp(24px,6vh,72px)}
+.how-track{position:relative;height:620svh;margin-bottom:clamp(40px,8vh,96px);margin-top:clamp(24px,6vh,72px)}
 .how-stage{position:sticky;top:0;height:100svh;overflow:hidden}
 .how-cv{position:absolute;inset:0;width:100%;height:100%;display:block}
 .how-kanji{position:absolute;right:2vw;top:50%;width:min(52vw,92svh);aspect-ratio:1;transform:translateY(-50%);pointer-events:none}
@@ -487,6 +487,18 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
 .js .endmark.play .em-f,.js .endmark.play .em-x{clip-path:inset(0 0 0 0)}
 .reel.gone{opacity:0;visibility:hidden;transform:translate(-50%,calc(100% + 28px))}
 @media (prefers-reduced-motion:reduce){.endmark *{transition:none!important}}
+/* Ticker: where we've done this, running into the close */
+.ticker{position:relative;margin-top:0;overflow:hidden;background:var(--blue);color:#F3F2EF;padding-block:clamp(14px,2.2vh,22px)}
+.tk-track{display:flex;width:max-content;animation:tk 38s linear infinite}
+.ticker:hover .tk-track{animation-play-state:paused}
+.tk-row{display:flex;align-items:center;flex:none}
+.tk-row span{font-stretch:125%;font-weight:800;font-size:clamp(1.1rem,2.1vw,1.9rem);line-height:1;letter-spacing:-.01em;text-transform:uppercase;white-space:nowrap}
+.tk-row i{display:block;flex:none;width:.5em;height:.5em;margin:0 clamp(18px,2.4vw,36px);background:#F3F2EF;font-size:clamp(1.1rem,2.1vw,1.9rem)}
+.tk-row i:nth-of-type(7n){background:var(--red);border-radius:50%}
+@keyframes tk{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.tk-track{animation:none;flex-wrap:wrap;width:auto}.tk-row+.tk-row{display:none}.tk-row{flex-wrap:wrap;gap:10px 0;padding-inline:var(--g)}}
+.contact .ticker+.endmark{margin-top:clamp(90px,15vh,180px)}
+.contact:has(.ticker){padding-top:clamp(90px,15vh,180px)}
 .foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;padding-block:28px 32px;font-size:.875rem;color:var(--fg2)}
 .foot-l{display:inline-flex;align-items:center;gap:12px}
 .foot-l svg{width:18px;height:18px;flex:none}
@@ -650,10 +662,6 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
         <div class="how-prog" aria-hidden="true"><i></i><i></i><i></i></div>
       </div>
     </div>
-    <div class="wrap how-where fu">
-      <p class="how-ip">Where we’ve done this</p>
-      <p class="how-list">Retail <i></i> Planning <i></i> Operations <i></i> Buying <i></i> Data science <i></i> Web development <i></i> AI implementation</p>
-    </div>
   </section>
 
   <section class="start" id="start" data-tone="blue" aria-labelledby="start-h">
@@ -669,6 +677,9 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
 
 
   <section class="contact" id="contact" data-tone="navy" aria-label="FIELDWRX">
+    <div class="ticker" role="marquee" aria-label="Where we’ve done this: Retail, Planning, Operations, Buying, Data science, Web development, AI implementation">
+      <div class="tk-track" aria-hidden="true"><div class="tk-row"><span>Retail</span><i></i><span>Planning</span><i></i><span>Operations</span><i></i><span>Buying</span><i></i><span>Data science</span><i></i><span>Web development</span><i></i><span>AI implementation</span><i></i></div><div class="tk-row"><span>Retail</span><i></i><span>Planning</span><i></i><span>Operations</span><i></i><span>Buying</span><i></i><span>Data science</span><i></i><span>Web development</span><i></i><span>AI implementation</span><i></i></div></div>
+    </div>
     <div class="endmark" aria-hidden="true">
       <svg class="em-mark" viewBox="0 0 7692 686"><rect class="em-s em-s1" x="0" y="0" width="315.6" height="315.6"/><rect class="em-s em-s2" x="370.4" y="0" width="315.6" height="315.6"/><rect class="em-s em-s3" x="0" y="370.4" width="315.6" height="315.6"/><circle class="em-c" cx="528.2" cy="528.2" r="157.8"/></svg>
       <svg class="em-w em-f" viewBox="0 0 7692 686"><use href="#wm-a" transform="translate(1029 0)"/></svg>
@@ -1200,14 +1211,15 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
       var A = KEYS[k], B = KEYS[Math.min(k + 1, KEYS.length - 1)], u = B[0] > A[0] ? eio(clamp((p - A[0]) / (B[0] - A[0]))) : 1;
       return { yaw: (A[1] + (B[1] - A[1]) * u) * Math.PI / 180, pitch: (A[2] + (B[2] - A[2]) * u) * Math.PI / 180, dist: A[3] + (B[3] - A[3]) * u, tz: A[4] + (B[4] - A[4]) * u };
     }
-    var W = 0, H = 0, dpr = 1, F = 1, CX = 0, CY = 0, BG = "#0F1013", cur = 0, target = 0, raf = 0, vis = false, stageIdx = -1, lastCam = null;
+    var W = 0, H = 0, dpr = 1, F = 1, CX = 0, CY = 0, CLIP = 0, BG = "#0F1013", cur = 0, target = 0, raf = 0, vis = false, stageIdx = -1, lastCam = null;
     function layout(){
       dpr = Math.min(2, window.devicePixelRatio || 1);
       W = stage.clientWidth; H = stage.clientHeight;
       cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
       var wide = W >= 900;
-      CX = wide ? W * .7 : W * .5; CY = wide ? H * .54 : H * .3;
-      F = (wide ? Math.min(W * .5, H) : Math.min(W, H * .5)) * 1.02;
+      CX = wide ? W * .7 : W * .47; CY = wide ? H * .54 : H * .25;
+      F = (wide ? Math.min(W * .5, H) : Math.min(W * .78, H * .34)) * 1.02;
+      CLIP = wide ? 0 : Math.max(H * .4, Math.min(H * .5, H - 470));
       BG = getComputedStyle(sec).backgroundColor; if (!BG || BG === "rgba(0, 0, 0, 0)") BG = getComputedStyle(d).getPropertyValue("--bg").trim() || "#0F1013";
       /* fit each title to the stage */
       titles.forEach(function(t){ t.style.setProperty("--fit", 1); t.dataset.fit = Math.min(1, W * .92 / Math.max(1, t.scrollWidth)); });
@@ -1229,6 +1241,8 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
       var keepTrail = hard ? 0 : Math.min(.72, speed * 6);
       cx.setTransform(dpr, 0, 0, dpr, 0, 0);
       cx.globalAlpha = 1 - keepTrail; cx.fillStyle = BG; cx.fillRect(0, 0, W, H); cx.globalAlpha = 1;
+      cx.save();
+      if (CLIP) { cx.beginPath(); cx.rect(0, 0, W, CLIP); cx.clip(); }
       var scan = span(p, .15, .3), scanX = -5 + scan * 10;
       var ri = span(p, .7, .87), quads = [];
       for (var i = 0; i < N; i++) {
@@ -1273,6 +1287,12 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
       var ci = eo(span(p, .86, .94));
       if (ci > 0) { var tp = project(TOP[0], TOP[1], TOP[2] + (1 - ci) * 2.5, C), rad = F / tp[2] * .34 * ci; cx.fillStyle = "#E8392F"; cx.beginPath(); cx.arc(tp[0], tp[1], rad, 0, 6.2832); cx.fill(); }
 
+      if (CLIP) {   /* soften the edge of the scene band on phones */
+        var fg = cx.createLinearGradient(0, CLIP - 70, 0, CLIP);
+        fg.addColorStop(0, "rgba(0,0,0,0)"); fg.addColorStop(1, BG);
+        cx.fillStyle = fg; cx.fillRect(0, CLIP - 70, W, 70);
+      }
+      cx.restore();
       /* stage, titles, flashes */
       var si = p < 1 / 3 ? 0 : p < 2 / 3 ? 1 : 2, lt = (p - si / 3) * 3;
       var panelOn = lt > .24 && lt < .985 || (si === 2 && lt > .24);
