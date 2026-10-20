@@ -105,15 +105,23 @@ function boot() {
   let W = 0, H = 0;
   function resize() {
     W = stage.clientWidth; H = stage.clientHeight;
+    if (!wide()) {   /* phones: the scene gets its own band above the copy, so the two never overlap */
+      const top0 = stage.getBoundingClientRect().top;
+      let b = H;
+      stage.querySelectorAll(".how-step").forEach((s) => { b = Math.min(b, s.getBoundingClientRect().top - top0); });
+      H = Math.round(Math.max(H * .34, Math.min(H * .62, b - 10)));
+    }
+    cv.style.height = wide() ? "" : H + "px";
     renderer.setSize(W, H, false); composer.setSize(W, H);
     camera.aspect = W / H;
-    if (wide()) camera.clearViewOffset(); else camera.setViewOffset(W, H, 0, H * .23, W, H);   /* phones: the field sits in the top band */
-    camera.fov = wide() ? 32 : 46;
+    camera.clearViewOffset();
+    camera.fov = wide() ? 32 : 44;
     camera.updateProjectionMatrix();
     bokeh.enabled = wide();
     last = -1;
   }
-  new ResizeObserver(resize).observe(stage);
+  const ro = new ResizeObserver(resize); ro.observe(stage); stage.querySelectorAll(".how-step").forEach((s) => ro.observe(s));
+  if (document.fonts) document.fonts.ready.then(resize);
 
   /* heights and colours for scroll position p */
   const H_TOP = { v: 0 };
@@ -163,7 +171,7 @@ function boot() {
   function frame(p) {
     const C = camAt(p);
     tgt.set(0, C.ty, 0);
-    const d = wide() ? C.d : C.d * 1.35;
+    const d = wide() ? C.d : C.d * 1.02;
     camera.position.set(tgt.x + d * Math.cos(C.el) * Math.sin(C.az), tgt.y + d * Math.sin(C.el), tgt.z + d * Math.cos(C.el) * Math.cos(C.az));
     camera.lookAt(tgt);
     const speed = lastCam ? Math.abs(C.az - lastCam.az) + Math.abs(C.el - lastCam.el) + Math.abs(C.d - lastCam.d) * .05 : 0;

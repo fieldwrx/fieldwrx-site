@@ -368,7 +368,9 @@ html.how-3d .how-cv{display:none}
 .how.static .how-gl{display:none}
 .how-stage::after{content:"";position:absolute;inset:0 auto 0 0;width:min(780px,58vw);z-index:1;pointer-events:none;background:linear-gradient(90deg,var(--bg) 0%,color-mix(in srgb,var(--bg) 88%,transparent) 55%,transparent 100%)}
 .how-steps{z-index:2}
-@media (max-width:899px){.how-stage::after{inset:auto 0 0 0;width:auto;height:62%;background:linear-gradient(0deg,var(--bg) 0%,color-mix(in srgb,var(--bg) 90%,transparent) 62%,transparent 100%)}}
+@media (max-width:899px){.how-stage::after{inset:auto 0 0 0;width:auto;height:62%;background:linear-gradient(0deg,var(--bg) 0%,color-mix(in srgb,var(--bg) 90%,transparent) 62%,transparent 100%)}
+  html.how-3d .how-stage::after{display:none}
+  html.how-3d .how-gl{bottom:auto;-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 9%,#000 80%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0,#000 9%,#000 80%,transparent 100%)}}
 .how.static .how-titles,.how.static .how-flash{display:none}
 .how-where{padding-block:clamp(56px,11vh,130px) clamp(110px,18vh,220px)}
 .how-where .how-ip{margin:0}
