@@ -23,7 +23,8 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap">
+<link rel="preload" href="/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<style>@font-face{font-family:"Archivo";src:url("/fonts/archivo.woff2") format("woff2");font-weight:100 900;font-stretch:62% 125%;font-display:swap}</style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@600&text=%E5%AE%88%E7%A0%B4%E9%9B%A2&display=swap">
 <script>(function(){var d=document.documentElement;d.classList.add('js');d.setAttribute('data-tone','ink');var seen=false;try{seen=sessionStorage.getItem('fw-intro')==='1'}catch(e){}if(!matchMedia('(prefers-reduced-motion: reduce)').matches){d.classList.add('intro');if(!seen)d.classList.add('preload')}})();</script>
 <style>
@@ -153,13 +154,13 @@ h1,h2,h3,p{margin:0}
 @keyframes spin{to{transform:rotate(360deg)}}
 @media (min-width:900px) and (max-width:1180px){.hb-copy{max-width:58%}}
 @media (max-width:899px){
-  .hero{justify-content:flex-start;background:#0A0C12;padding-top:calc(min(80svh,660px) - 150px)}
+  .hero{justify-content:flex-end;background:#0A0C12;min-height:max(100svh,560px);padding-top:calc(var(--nav-h) + 24px);padding-bottom:max(22px,env(safe-area-inset-bottom))}   /* phones: the copy sits on the bottom of the screen, so the button is always in view */
   .scene{bottom:auto;height:min(80svh,660px)}
   .hb-copy{max-width:none}
   .cta-row .ghost-btn{display:inline-flex}
-  .sc-shade{background:linear-gradient(180deg,rgba(10,12,18,.4) 0%,rgba(10,12,18,0) 14%,rgba(10,12,18,0) 42%,rgba(10,12,18,.7) 66%,#0A0C12 92%)}
+  .sc-shade{background:linear-gradient(180deg,rgba(10,12,18,.4) 0%,rgba(10,12,18,0) 14%,rgba(10,12,18,0) 34%,rgba(10,12,18,.72) 58%,#0A0C12 86%)}
 }
-@media (max-width:639px){.hero-h{font-size:10.2vw}.cta-row .btn{width:100%;justify-content:space-between}}
+@media (max-width:639px){.hero-h{font-size:min(10.2vw,5.6svh)}.cta-row .btn{width:100%;justify-content:space-between}.cta-row .ghost-btn{display:none}.hero .lead{font-size:1rem}}
 .intro .sc-move{transform:scale(1.1)}
 .intro .hero-h .ln>span{transform:translateY(108%)}
 .intro .lead,.intro .cta-row,.intro .hb-card,.intro .hb-badge,.intro .tod{opacity:0;transform:translateY(18px)}
@@ -237,10 +238,10 @@ h1,h2,h3,p{margin:0}
 .film-frame{position:relative;width:100%;aspect-ratio:16/9;border-radius:20px;overflow:hidden;clip-path:inset(0 round 20px);isolation:isolate;background:#F3F2EF;box-shadow:inset 0 0 0 1px var(--rule)}
 .film-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;pointer-events:none;transition:opacity .35s var(--ease-out)}
 .film-frame.swap iframe{opacity:0}
-.film-btn{position:absolute;right:16px;bottom:16px;min-height:40px;padding:0 16px;border:0;border-radius:999px;background:var(--fg);color:var(--bg);font:500 .875rem/1 "Archivo",system-ui,sans-serif;font-stretch:106%;cursor:pointer}
+.film-btn{position:absolute;right:16px;bottom:16px;min-height:44px;padding:0 16px;border:0;border-radius:999px;background:var(--fg);color:var(--bg);font:500 .875rem/1 "Archivo",system-ui,sans-serif;font-stretch:106%;cursor:pointer}
 .film-btn:hover{background:var(--blue);color:#fff}
 .film-teams{margin-top:28px}
-@media (max-width:899px){.film-frame{border-radius:12px;clip-path:inset(0 round 12px)}.film-btn{right:8px;bottom:8px;min-height:34px;padding:0 12px;font-size:.8125rem}}
+@media (max-width:899px){.film-frame{border-radius:12px;clip-path:inset(0 round 12px)}.film-btn{right:8px;bottom:8px;min-height:44px;padding:0 14px;font-size:.8125rem}}
 /* Chapter bar: the page read as a film, with the red dot as the playhead */
 .reel{position:fixed;left:50%;bottom:16px;z-index:45;display:flex;align-items:center;gap:16px;width:min(640px,calc(100% - 32px));height:48px;padding:0 20px 0 18px;border-radius:999px;color:var(--fg);background:color-mix(in srgb,var(--bg) 80%,transparent);-webkit-backdrop-filter:blur(16px) saturate(1.3);backdrop-filter:blur(16px) saturate(1.3);box-shadow:inset 0 0 0 1px var(--rule),0 12px 32px rgba(15,16,19,.10);transform:translate(-50%,calc(100% + 28px));opacity:0;visibility:hidden;transition:transform .7s var(--ease-out),opacity .45s,visibility 0s .7s,background-color .4s,color .4s}
 .reel.on{transform:translate(-50%,0);opacity:1;visibility:visible;transition:transform .7s var(--ease-out),opacity .45s,visibility 0s,background-color .4s,color .4s}
@@ -279,7 +280,7 @@ h1,h2,h3,p{margin:0}
   .mr-frame{padding-top:calc(var(--nav-h) + 8px)}
   .mr-stage{width:min(100%,calc((100svh - 260px) * 600 / 520))}
   .mr-index{justify-content:flex-start;gap:6px}.mr-pick{text-align:left}
-  .mr-ix{min-height:40px;padding:0 12px;font-size:.875rem}
+  .mr-ix{min-height:44px;padding:0 12px;font-size:.875rem}
 }
 @media (max-width:599px){.mr-stage{aspect-ratio:600/640;width:min(100%,calc((100svh - 280px) * 600 / 640))}.mr-lab{font-size:14px}}
 .mr.static .mr-track{height:auto}
@@ -361,7 +362,7 @@ h1,h2,h3,p{margin:0}
 .how-step.on>*{opacity:1;filter:blur(0);transform:none;transition:opacity .9s var(--ease-out),filter 1s var(--ease-out),transform 1.1s var(--ease-out)}
 .how-step.on>:nth-child(2){transition-delay:.08s}.how-step.on>:nth-child(3){transition-delay:.16s}.how-step.on>:nth-child(4){transition-delay:.26s}.how-step.on>:nth-child(5){transition-delay:.32s}
 .how-k{display:flex;align-items:baseline;gap:12px;font-size:.875rem;font-weight:600;font-stretch:115%;letter-spacing:.14em;text-transform:uppercase;color:var(--fg2)}
-.how-k span{font-variant-numeric:tabular-nums;color:var(--blue-l,#8EA2FF)}
+.how-k span{font-variant-numeric:tabular-nums;color:#8EA2FF}   /* How we work is always on the dark ground */
 .how-k b{font:600 1.35rem/1 "Noto Serif JP","Hiragino Mincho ProN","Yu Mincho",serif;letter-spacing:0;color:var(--fg)}
 .how-step h3{margin:18px 0 0;font-stretch:125%;font-weight:800;font-size:clamp(2rem,3.7vw,3.6rem);line-height:.98;letter-spacing:-.03em;text-wrap:balance}
 .how-d{margin-top:20px;font-size:clamp(1.0625rem,1.25vw,1.25rem);line-height:1.5;text-wrap:pretty}
@@ -621,6 +622,10 @@ textarea.book-in{min-height:150px;resize:vertical}
 /* Reduced motion: the static How we work sits above the shading meant for the animated scene */
 .how.static .how-stage::after{display:none}
 .how.static .how-steps{position:relative}
+
+/* Tap targets: at least 44px on phones */
+.foot a{display:inline-flex;align-items:center;min-height:44px}
+@media (max-width:899px){.nav-logo{padding:15px 0}.nav-in>.btn-sm{--h:44px}}
 </style>
 
 </head>
@@ -1015,8 +1020,13 @@ textarea.book-in{min-height:150px;resize:vertical}
     new IntersectionObserver(function(ents){ visible = ents[0].isIntersecting; setRunning(visible && started); }).observe(sec);
     addEventListener("resize", function(){ clearTimeout(size.t); size.t = setTimeout(size, 120); });
     mqS.addEventListener("change", size);
-    t0 = performance.now(); size(); apply(); img(cur === "day" ? "night" : "day");
-    setInterval(function(){ if (mode === "live") apply(); }, 60000);
+    /* fetch the other photo only when sunrise or sunset is under 40 minutes away */
+    function preloadNext(){
+      var d0 = new Date(), m = ((d0.getUTCHours() + 2) % 24) * 60 + d0.getUTCMinutes(), s = sunTimes(d0);
+      if (Math.min(Math.abs(m - (s.rise - 20)), Math.abs(m - (s.set + 20))) < 40) img(cur === "day" ? "night" : "day");
+    }
+    t0 = performance.now(); size(); apply(); preloadNext();
+    setInterval(function(){ if (mode === "live") apply(); preloadNext(); }, 60000);
 
     return { start: start, scroll: onScroll };
   })();
@@ -1635,6 +1645,11 @@ textarea.book-in{min-height:150px;resize:vertical}
 </script>
 
 <script type="importmap">{"imports":{"three":"/vendor/three/three.module.min.js","three/addons/":"/vendor/three/addons/"}}</script>
-<script type="module" src="/how3d.js"></script>
+<script type="module">
+/* the 3D scene and its library load only when How we work is within about a screen and a half */
+const work = document.getElementById("work"), go = () => import("/how3d.js");
+if (!work || !("IntersectionObserver" in window)) go();
+else { const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { io.disconnect(); go(); } }, { rootMargin: "150% 0px" }); io.observe(work); }
+</script>
 </body>
 </html>

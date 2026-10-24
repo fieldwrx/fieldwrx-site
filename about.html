@@ -23,7 +23,8 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap">
+<link rel="preload" href="/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<style>@font-face{font-family:"Archivo";src:url("/fonts/archivo.woff2") format("woff2");font-weight:100 900;font-stretch:62% 125%;font-display:swap}</style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@600&text=%E5%AE%88%E7%A0%B4%E9%9B%A2&display=swap">
 <script>document.documentElement.classList.add('js');document.documentElement.setAttribute('data-tone','paper');</script>
 <style>
@@ -551,6 +552,10 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
 }
 @media (min-width:900px){.nav-sheet{display:none!important}}
 @media (prefers-reduced-motion:reduce){.nav-sheet:not([hidden]),.nav-sheet:not([hidden]) li{animation:none}.nav-menu path{transition:none}}
+
+/* Tap targets: at least 44px on phones */
+.foot a{display:inline-flex;align-items:center;min-height:44px}
+@media (max-width:899px){.nav-logo{padding:15px 0}.nav-in>.btn-sm{--h:44px}}
 </style>
 
 </head>
