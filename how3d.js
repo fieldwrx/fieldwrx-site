@@ -45,7 +45,7 @@ function boot() {
   /* renderer */
   const wide = () => stage.clientWidth >= 900;
   const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
-  renderer.setPixelRatio(Math.min(wide() ? 1.5 : 2, window.devicePixelRatio || 1));
+  renderer.setPixelRatio(Math.min(wide() ? 1.5 : 1.75, window.devicePixelRatio || 1));
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -110,6 +110,7 @@ function boot() {
   };
   const nb = new THREE.InstancedBufferAttribute(new Float32Array(N), 1); nb.setUsage(THREE.DynamicDrawUsage); geo.setAttribute("aNb", nb);
   const boxes = new THREE.InstancedMesh(geo, mat, N);
+  boxes.frustumCulled = false;   /* the columns move every frame, so a cached bounding sphere would go stale */
   boxes.customDepthMaterial = depthMat;
   boxes.castShadow = true; boxes.receiveShadow = true;
   boxes.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
@@ -129,21 +130,37 @@ function boot() {
   const glow = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(gc), blending: THREE.AdditiveBlending, depthWrite: false, transparent: true, opacity: .55, fog: false }));
   glow.scale.setScalar(R * 5.2); glow.renderOrder = 2; scene.add(glow);
 
-  /* camera path: [p, azimuth°, elevation°, distance, target y] */
-  const KEYS = [[0, -40, 62, 40, 0], [.1, -34, 38, 30, .4], [.3, 4, 32, 27, .5], [.365, 96, 42, 30, .6], [.62, 128, 36, 27, .7], [.69, 214, 54, 33, .9], [.86, 226, 38, 29, 1.5], [1, 234, 33, 28, 1.9]];
+  /* camera: a shot list, not one long orbit. Each stage has its own shot; the cuts between stages land under the full-screen titles.
+     A shot is azimuth°, elevation°, distance, target xyz, lens aperture, and f: 0 focuses the target, 1 focuses the sphere. */
   const camera = new THREE.PerspectiveCamera(32, 1, .1, 200);
   const tgt = new THREE.Vector3();
+  const S = (az, el, d, tx, ty, tz, ap, f = 0) => ({ az, el, d, tx, ty, tz, ap, f });
+  const lerpS = (A, B, u) => S(mix(A.az, B.az, u), mix(A.el, B.el, u), mix(A.d, B.d, u), mix(A.tx, B.tx, u), mix(A.ty, B.ty, u), mix(A.tz, B.tz, u), mix(A.ap, B.ap, u), mix(A.f, B.f, u));
+  const SPAN0 = (COLS - 1) * GAP / 2 + 2.4, scanXAt = (p) => mix(-SPAN0, SPAN0, span(p, .12, .31));
+  const TOP = home[N - 1];
+  const A0 = S(-40, 62, 40, 0, .3, 0, .00004), A1 = S(-30, 42, 30, 0, .3, 0, .00004);
+  const B = (p, u) => S(mix(-12, -24, u), 12, mix(10.5, 9.4, u), Math.max(-9.6, Math.min(9.6, scanXAt(p) + .9)), .38, 0, .0011, 1);   /* low, at column height, tracking the sphere */
+  const C0 = S(128, 7, 17, 1, 1.5, 0, .0006), C1 = S(118, 11, 14.5, 1, 1.6, 0, .0006);   /* from the floor, looking up at the towers */
+  const D0 = S(196, 50, 25, 0, .3, 0, .00015), D1 = S(208, 44, 23, 0, .3, 0, .00015);    /* whip up to see what is being stopped */
+  const E0 = S(222, 12, 25, .5, .4, .3, .0003), E1 = S(232, 32, 27, .5, 1.6, .3, .0003); /* crane up the rebuild */
+  const F = (u) => S(mix(236, 241, u), mix(17, 14, u), mix(15, 12.6, u), TOP.x - 1.2, 5.4, TOP.z - .6, .0009, 1);   /* the summit, waiting for the sphere */
   function camAt(p) {
-    let k = 0; while (k < KEYS.length - 2 && p > KEYS[k + 1][0]) k++;
-    const A = KEYS[k], B = KEYS[k + 1], u = eio(clamp((p - A[0]) / (B[0] - A[0])));
-    return { az: mix(A[1], B[1], u) * Math.PI / 180, el: mix(A[2], B[2], u) * Math.PI / 180, d: mix(A[3], B[3], u), ty: mix(A[4], B[4], u) };
+    if (p < .1) return [lerpS(A0, A1, eio(p / .1)), 0];
+    if (p < .14) return [lerpS(A1, B(p, 0), eio(span(p, .1, .14))), 0];
+    if (p < 1 / 3) return [B(p, span(p, .14, 1 / 3)), 0];
+    if (p < .49) return [lerpS(C0, C1, eo(span(p, 1 / 3, .49))), 1];
+    if (p < .53) return [lerpS(C1, D0, eio(span(p, .49, .53))), 1];
+    if (p < 2 / 3) return [lerpS(D0, D1, span(p, .53, 2 / 3)), 1];
+    if (p < .86) return [lerpS(E0, E1, eio(span(p, 2 / 3, .86))), 2];
+    if (p < .9) return [lerpS(E1, F(0), eio(span(p, .86, .9))), 2];
+    return [F(span(p, .9, 1)), 2];
   }
 
   /* post: lens blur on larger screens (the glow is kept out of its depth pass), and a trail that only shows when the camera whips */
   const composer = new EffectComposer(renderer);
   composer.addPass(new RenderPass(scene, camera));
   composer.addPass(new Show(glow, false));
-  const bokeh = new BokehPass(scene, camera, { focus: 16, aperture: .00003, maxblur: .0035 });
+  const bokeh = new BokehPass(scene, camera, { focus: 16, aperture: .00003, maxblur: .007 });
   composer.addPass(bokeh);
   composer.addPass(new Show(glow, true));
   const trail = new AfterimagePass(0); composer.addPass(trail);
@@ -161,10 +178,10 @@ function boot() {
     cv.style.height = wide() ? "" : H + "px";
     renderer.setSize(W, H, false); composer.setSize(W, H);
     camera.aspect = W / H;
-    camera.clearViewOffset();
+    if (wide()) camera.setViewOffset(W, H, -W * .13, 0, W, H); else camera.clearViewOffset();   /* larger screens: the subject sits right of the copy */
     camera.fov = wide() ? 32 : 44;
     camera.updateProjectionMatrix();
-    bokeh.enabled = wide();
+    bokeh.uniforms.maxblur.value = wide() ? .007 : .005;
     lastP = -1;
   }
   const ro = new ResizeObserver(resize); ro.observe(stage); stage.querySelectorAll(".how-step").forEach((s) => ro.observe(s));
@@ -234,10 +251,23 @@ function boot() {
     }
   }
 
+  /* the cursor (or a tap) and time: columns lift under the pointer, a tap pushes them down, and the field breathes slightly when left alone */
+  let simT = 0, hs = 0, hx = 0, hz = 0, hxs = 0, hzs = 0, ptrAt = -1e9;
+  const off = new Float32Array(N);
   function step(dt) {
+    simT += dt;
+    const live = performance.now() - ptrAt < 900 ? 1 : 0;
+    hs += (live - hs) * Math.min(1, dt * 5); hxs += (hx - hxs) * Math.min(1, dt * 9); hzs += (hz - hzs) * Math.min(1, dt * 9);
+    for (let i = 0; i < N; i++) off[i] = hC[i] - hT[i];
     for (let i = 0; i < N; i++) {
-      const k = K[i], c = 2 * Z * Math.sqrt(k);
-      hV[i] += (k * (hT[i] - hC[i]) - c * hV[i]) * dt; hC[i] += hV[i] * dt;
+      const k = K[i], c = 2 * Z * Math.sqrt(k), h0 = home[i];
+      let tgtH = hT[i] + .022 * Math.sin(simT * 1.5 - h0.x * .45 - h0.z * .3);
+      if (hs > .002) { const dx = h0.x - hxs, dz = h0.z - hzs; tgtH += .7 * hs * Math.exp(-(dx * dx + dz * dz) / 2.2); }
+      /* each column is tied loosely to its neighbours, so a push travels outward as a ripple */
+      let o = 0, m = 0;
+      if (h0.c > 0) { o += off[i - 1]; m++; } if (h0.c < COLS - 1) { o += off[i + 1]; m++; }
+      if (h0.r > 0) { o += off[i - COLS]; m++; } if (h0.r < ROWS - 1) { o += off[i + COLS]; m++; }
+      hV[i] += (k * (tgtH - hC[i]) + 70 * (o / m - off[i]) - c * hV[i]) * dt; hC[i] += hV[i] * dt;
       yV[i] += (k * (yT[i] - yC[i]) - c * yV[i]) * dt; yC[i] += yV[i] * dt;
     }
     if (hold > 0) {   /* on the ground while it squashes, then it springs back up */
@@ -254,6 +284,28 @@ function boot() {
       }
     }
     sqv += (-320 * sq - 2 * .3 * Math.sqrt(320) * sqv) * dt; sq += sqv * dt;
+  }
+
+  function poke(x, z) {
+    for (let i = 0; i < N; i++) { const dx = home[i].x - x, dz = home[i].z - z, f = Math.exp(-(dx * dx + dz * dz) / 1.1); if (f > .02) hV[i] -= 5 * f; }
+  }
+  const ray = new THREE.Raycaster(), ndc = new THREE.Vector2(), plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -.4), hitP = new THREE.Vector3();
+  let pend = null;
+  function aim(e) {
+    const r = cv.getBoundingClientRect();
+    if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom || !cv.offsetParent) return null;
+    ndc.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
+    ray.setFromCamera(ndc, camera);
+    boxes.boundingSphere = null;
+    const hits = ray.intersectObject(boxes, false);
+    return hits.length ? hits[0].point : ray.ray.intersectPlane(plane, hitP);
+  }
+  addEventListener("pointermove", (e) => { if (e.pointerType === "mouse") pend = { clientX: e.clientX, clientY: e.clientY }; }, { passive: true });
+  addEventListener("pointerdown", (e) => { const pt = aim(e); if (pt) poke(pt.x, pt.z); }, { passive: true });
+  function readPointer() {
+    if (!pend) return;
+    const pt = aim(pend); pend = null;
+    if (pt) { hx = pt.x; hz = pt.z; ptrAt = performance.now(); if (hs < .05) { hxs = hx; hzs = hz; } }
   }
 
   function snap() {
@@ -301,15 +353,20 @@ function boot() {
     else { const n = Math.ceil(dt / (1 / 120)); for (let s = 0; s < n; s++) step(dt / n); }
     write();
 
-    const C = camAt(p);
-    tgt.set(0, C.ty, 0);
-    const d = wide() ? C.d : C.d * 1.02;
-    camera.position.set(tgt.x + d * Math.cos(C.el) * Math.sin(C.az), tgt.y + d * Math.sin(C.el), tgt.z + d * Math.cos(C.el) * Math.cos(C.az));
+    const [C, seg] = camAt(p);
+    const az = C.az * Math.PI / 180, el = C.el * Math.PI / 180, d = wide() ? C.d : C.d * 1.08, k = d / 15;
+    tgt.set(C.tx, C.ty, C.tz);
+    camera.position.set(tgt.x + d * Math.cos(el) * Math.sin(az), tgt.y + d * Math.sin(el), tgt.z + d * Math.cos(el) * Math.cos(az));
+    camera.position.x += Math.sin(simT * .31) * .1 * k; camera.position.y += Math.sin(simT * .23 + 1) * .07 * k; camera.position.z += Math.sin(simT * .27 + 2) * .1 * k;   /* a held camera, not a locked one */
     camera.lookAt(tgt);
-    const speed = lastCam ? Math.abs(C.az - lastCam.az) + Math.abs(C.el - lastCam.el) + Math.abs(C.d - lastCam.d) * .05 : 0;
-    lastCam = C;
-    trail.uniforms.damp.value = Math.min(.86, speed * 9);
-    bokeh.uniforms.focus.value = camera.position.distanceTo(tgt);
+    readPointer();
+    const cut = lastCam && lastCam.seg !== seg;
+    const speed = lastCam && !cut ? Math.abs(C.az - lastCam.C.az) / 60 + Math.abs(C.el - lastCam.C.el) / 60 + Math.abs(C.d - lastCam.C.d) * .05 : 0;
+    lastCam = { C, seg };
+    trail.uniforms.damp.value = cut ? 0 : Math.min(.82, speed * 9);
+    const fd = camera.position.distanceTo(tgt), fb = ball.visible ? camera.position.distanceTo(ball.position) : fd;
+    bokeh.uniforms.focus.value = mix(fd, fb, C.f);
+    bokeh.uniforms.aperture.value = C.ap;
     composer.render();
   }
 
