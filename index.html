@@ -380,6 +380,7 @@ h1,h2,h3,p{margin:0}
 }
 
 /* the deck: pinned stage, cards placed by script */
+.how.deck{padding-bottom:0}
 .how.deck .how-track{height:380svh;margin-top:clamp(24px,5vh,64px);margin-bottom:0}
 .how.deck .how-stage{position:sticky;top:0;height:100svh;overflow:hidden;padding:0;perspective:1600px;perspective-origin:50% 55%}
 .how.deck .how-kanji{display:block;position:absolute;left:50%;top:calc(50% + var(--nav-h) / 2);width:min(92vw,86svh);aspect-ratio:1;transform:translate(-50%,-50%);pointer-events:none}
@@ -1439,7 +1440,7 @@ textarea.book-in{min-height:150px;resize:vertical}
     var FLY_N = [[-.16, .1], [.3, .52], [.62, .84]];
     var TILT = [-7, 6, -5];
     var W = 0, H = 0, wide = true, cw = 400, ch = 600, fit = 1, fitRow = 1, peek = 18, cyDeck = 0, cyRow = 0, gap = 24, slot = 0;
-    var cur = -.4, target = -.4, vis = false, raf = 0, lastNow = 0, kOn = -2, ready = false;
+    var cur = -.4, target = -.4, vis = false, raf = 0, lastNow = 0, kOn = -2, ready = false, rowT0 = -1;
     function layout(){
       W = stage.clientWidth; H = stage.clientHeight; wide = W >= 900;
       var NAV = parseFloat(getComputedStyle(d).getPropertyValue("--nav-h")) || 72, G = Math.max(16, Math.min(64, W * .04));
@@ -1484,13 +1485,17 @@ textarea.book-in{min-height:150px;resize:vertical}
         shades[i].style.opacity = shade.toFixed(3);
         el.classList.toggle("tab", !wide && L > .6);
         /* the vignette starts its story when the card lands, and pauses while it is covered */
-        var a = arts[i], live = ui > .35 && (L < .85 || dl > .5);
+        var a = arts[i], live = ui > .35 && L < .85 && dl <= .5;
         if (live && !a.live) a.t0 = now - (a.t || 0);
         if (ui < .05) { a.t = 0; a.t0 = now; }
         if (!live && !a.t && !a.still) { a.draw(a.P - 1); a.still = true; }   /* never seen playing: show it resolved */
         if (live) a.still = false;
         a.live = live;
       }
+      /* in the row the three play as a relay, left to right, the others resting on their last frame */
+      var row = wide && dl > .5;
+      if (row && rowT0 < 0) { rowT0 = now; arts.forEach(function(a){ a.still = false; }); }
+      if (!row) rowT0 = -1;
       var k = wide && dl > .35 ? -1 : top;
       if (k !== kOn) { kOn = k; kanji.forEach(function(el, j){ el.classList.toggle("on", j === k); }); }
     }
@@ -1505,6 +1510,14 @@ textarea.book-in{min-height:150px;resize:vertical}
       cur += Math.max(-cap, Math.min(cap, step)); if (Math.abs(target - cur) < 1e-4) cur = target;
       if (ready) place(cur, now);
       arts.forEach(function(a){ if (a.live) { a.t = now - a.t0; a.draw(a.t); } });
+      if (rowT0 >= 0) {
+        var len = arts.map(function(a){ return a.P - .8; }), tot = len[0] + len[1] + len[2] + 1.6, rt = (now - rowT0 + tot - 1.6) % tot, acc = 0;   /* a short rest, then Shu */
+        arts.forEach(function(a, i){
+          if (rt >= acc && rt < acc + len[i]) { a.draw(rt - acc); a.still = false; }
+          else if (!a.still) { a.draw(a.P - 1); a.still = true; }
+          acc += len[i];
+        });
+      }
       raf = vis ? requestAnimationFrame(loop) : 0;
     }
     /* a peeking card on a phone brings itself back to the top */
