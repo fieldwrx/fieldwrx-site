@@ -353,14 +353,19 @@ h1,h2,h3,p{margin:0}
 .how-intro .body{margin-top:28px}
 .how-track{position:relative;margin-top:clamp(40px,8vh,96px)}
 .how-stage{position:relative;padding-inline:var(--g)}
-.how-kanji{display:none}
 .how-cards{list-style:none;margin:0 auto;padding:0;max-width:1340px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
 .how-card{position:relative;background:#F3F2EF;color:#0F1013;box-shadow:0 40px 80px -36px rgba(0,0,0,.7),0 2px 0 rgba(255,255,255,.04) inset}
 .hc-in{padding:22px 24px 28px}
 .how-k{display:flex;align-items:baseline;gap:10px;font-size:.8125rem;font-weight:600;font-stretch:115%;letter-spacing:.14em;text-transform:uppercase;color:#5C5F66}
 .how-k span{font-variant-numeric:tabular-nums;color:#2F5BFF}
 .how-k b{font:600 1.25rem/1 "Noto Serif JP","Hiragino Mincho ProN","Yu Mincho",serif;letter-spacing:0;color:#0F1013}
-.hc-art{display:block;width:100%;height:148px;margin-top:16px;background:#0F1013}
+.hc-art{position:relative;display:block;height:150px;margin-top:16px;background:#0F1013;color:#F3F2EF;overflow:hidden}
+.hc-art b{position:absolute;left:18px;bottom:-.14em;font:600 128px/1 "Noto Serif JP","Hiragino Mincho ProN","Yu Mincho",serif}
+.hc-mark{position:absolute;right:18px;top:18px;width:40px;height:40px;overflow:visible}
+.hc-mark rect,.hc-mark circle{fill:transparent;stroke:rgba(243,242,239,.28);stroke-width:26}
+.hc-art[data-on] rect:nth-of-type(1),.hc-art[data-on="2"] rect:nth-of-type(2),.hc-art[data-on="4"] rect{fill:#2F5BFF;stroke:#2F5BFF}
+.hc-art[data-on="4"] circle{fill:#E8392F;stroke:#E8392F}
+.hc-cap{position:absolute;right:18px;bottom:16px;font-size:.6875rem;font-weight:600;font-stretch:115%;letter-spacing:.16em;text-transform:uppercase;color:rgba(243,242,239,.72)}
 .how-card h3{margin-top:22px;font-stretch:125%;font-weight:800;font-size:clamp(1.55rem,1.9vw,2rem);line-height:1;letter-spacing:-.03em;text-wrap:balance}
 .how-d{margin-top:12px;font-size:1rem;line-height:1.5;color:#2A2C31;text-wrap:pretty}
 .how-ip{margin-top:20px;font-size:.6875rem;font-weight:600;font-stretch:115%;letter-spacing:.16em;text-transform:uppercase;color:#5C5F66}
@@ -371,7 +376,10 @@ h1,h2,h3,p{margin:0}
 @media (max-width:899px){
   .how-cards{grid-template-columns:minmax(0,1fr);gap:20px;max-width:520px}
   .hc-in{padding:18px 20px 22px}
-  .hc-art{height:96px;margin-top:14px}
+  .hc-art{height:76px;margin-top:12px}
+  .hc-art b{left:14px;font-size:70px}
+  .hc-mark{right:14px;top:14px;width:28px;height:28px}
+  .hc-cap{right:14px;bottom:12px;font-size:.625rem}
   .how-card h3{margin-top:16px;font-size:clamp(1.45rem,6.4vw,1.85rem)}
   .how-d{margin-top:10px;font-size:.9375rem;line-height:1.46}
   .how-ip{margin-top:14px}
@@ -381,15 +389,13 @@ h1,h2,h3,p{margin:0}
 
 /* the deck: pinned stage, cards placed by script */
 .how.deck{padding-bottom:0}
-.how.deck .how-track{height:380svh;margin-top:clamp(24px,5vh,64px);margin-bottom:0}
-.how.deck .how-stage{position:sticky;top:0;height:100svh;overflow:hidden;padding:0;perspective:1600px;perspective-origin:50% 55%}
-.how.deck .how-kanji{display:block;position:absolute;left:50%;top:calc(50% + var(--nav-h) / 2);width:min(92vw,86svh);aspect-ratio:1;transform:translate(-50%,-50%);pointer-events:none}
-.how.deck .how-kanji span{position:absolute;inset:0;display:grid;place-items:center;font:600 min(78vw,74svh)/1 "Noto Serif JP","Hiragino Mincho ProN","Yu Mincho",serif;color:rgba(243,242,239,.06);opacity:0;filter:blur(14px);transform:scale(1.05);transition:opacity .9s var(--ease-out),filter .9s var(--ease-out),transform 1.2s var(--ease-out)}
-.how.deck .how-kanji span.on{opacity:1;filter:blur(0);transform:none}
+.how.deck .how-track{height:455svh;margin-top:clamp(24px,5vh,64px);margin-bottom:0}
+.how.deck .how-stage{position:sticky;top:0;height:100svh;overflow:hidden;padding:0;perspective:400px;perspective-origin:50% 50%}
 .how.deck .how-cards{display:block;position:absolute;left:50%;top:50%;width:0;height:0;max-width:none;transform-style:preserve-3d}
-.how.deck .how-card{position:absolute;left:0;top:0;width:var(--cw,400px);transform-origin:50% 50%;will-change:transform;backface-visibility:hidden;transform:translate(-50%,-50%) translate3d(0,120vh,0)}
+.how.deck .how-card{box-shadow:0 -6px 24px -10px rgba(0,0,0,.45),0 40px 80px -36px rgba(0,0,0,.7)}
+.how.deck .how-card{position:absolute;left:0;top:0;width:var(--cw,400px);transform-origin:50% 50%;will-change:transform;visibility:hidden;transform:translate(-50%,-50%) translate3d(0,120vh,0)}
 .how.deck .how-card.tab{cursor:pointer}
-@media (max-width:899px){.how.deck .how-track{height:340svh}}
+@media (max-width:899px){.how.deck .how-track{height:400svh}}
 /* What we work on: an index that rearranges the mark */
 .areas{padding-block:clamp(110px,18vh,220px)}
 .areas-grid{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:0 24px;align-items:start}
@@ -710,12 +716,11 @@ textarea.book-in{min-height:150px;resize:vertical}
     </div>
     <div class="how-track">
       <div class="how-stage">
-        <div class="how-kanji" aria-hidden="true"><span>守</span><span>破</span><span>離</span></div>
         <ol class="how-cards">
           <li class="how-card">
             <div class="hc-in">
-              <p class="how-k"><span>01</span><b lang="ja">守</b> Shu</p>
-              <canvas class="hc-art" data-art="shu" aria-hidden="true"></canvas>
+              <p class="how-k"><span>01</span> Shu</p>
+              <div class="hc-art" data-on="1" aria-hidden="true"><b lang="ja">守</b><svg class="hc-mark" viewBox="-8 -8 702 702"><rect x="0" y="0" width="315.6" height="315.6"/><rect x="370.4" y="0" width="315.6" height="315.6"/><rect x="0" y="370.4" width="315.6" height="315.6"/><circle cx="528.2" cy="528.2" r="157.8"/></svg><span class="hc-cap">Follow the form</span></div>
               <h3>Learn it as it is</h3>
               <p class="how-d">We run your process the way it runs today, until we know why each step exists and who relies on it. Nothing changes until we understand it.</p>
               <p class="how-ip">In practice</p>
@@ -728,8 +733,8 @@ textarea.book-in{min-height:150px;resize:vertical}
           </li>
           <li class="how-card">
             <div class="hc-in">
-              <p class="how-k"><span>02</span><b lang="ja">破</b> Ha</p>
-              <canvas class="hc-art" data-art="ha" aria-hidden="true"></canvas>
+              <p class="how-k"><span>02</span> Ha</p>
+              <div class="hc-art" data-on="2" aria-hidden="true"><b lang="ja">破</b><svg class="hc-mark" viewBox="-8 -8 702 702"><rect x="0" y="0" width="315.6" height="315.6"/><rect x="370.4" y="0" width="315.6" height="315.6"/><rect x="0" y="370.4" width="315.6" height="315.6"/><circle cx="528.2" cy="528.2" r="157.8"/></svg><span class="hc-cap">Break from it</span></div>
               <h3>Change what holds it back</h3>
               <p class="how-d">Then we test every part: keep it, automate it, simplify it or stop it. Each change is checked against what the customer on the other end needs.</p>
               <p class="how-ip">In practice</p>
@@ -742,8 +747,8 @@ textarea.book-in{min-height:150px;resize:vertical}
           </li>
           <li class="how-card">
             <div class="hc-in">
-              <p class="how-k"><span>03</span><b lang="ja">離</b> Ri</p>
-              <canvas class="hc-art" data-art="ri" aria-hidden="true"></canvas>
+              <p class="how-k"><span>03</span> Ri</p>
+              <div class="hc-art" data-on="4" aria-hidden="true"><b lang="ja">離</b><svg class="hc-mark" viewBox="-8 -8 702 702"><rect x="0" y="0" width="315.6" height="315.6"/><rect x="370.4" y="0" width="315.6" height="315.6"/><rect x="0" y="370.4" width="315.6" height="315.6"/><circle cx="528.2" cy="528.2" r="157.8"/></svg><span class="hc-cap">Move beyond it</span></div>
               <h3>Rethink it entirely</h3>
               <p class="how-d">Once the work is understood, we redesign it around where you’re going, and coach your team on the why as well as the how, until they can run it without us.</p>
               <p class="how-ip">In practice</p>
@@ -1291,249 +1296,90 @@ textarea.book-in{min-height:150px;resize:vertical}
   })();
 
   /* ---------- How we work: shu, ha, ri as three cards ----------
-     The stage pins; each card flies up from below, tilted back, and lands on the deck. The cards
-     underneath shrink, lift and dim so their headers peek over the top. On wide screens the deck
-     then deals out and the three settle side by side, and that row scrolls away with the page.
-     Position follows scroll, smoothed, so it is never cut: a card at rest is always readable. */
+     The stage pins. Each card starts lying flat below the screen, between you and the deck, and swings
+     up onto the top of it, in front of the cards already there. Those shrink back towards the top of
+     the screen, so their headers stay in view, and dim a little. On wide screens the deck then deals
+     out and the three settle side by side. Everything is in screen heights of scroll, smoothed. */
   (function(){
     var sec = $("#work"); if (!sec) return;
     var track = $(".how-track", sec), stage = $(".how-stage", sec), deckEl = $(".how-cards", sec);
-    var cards = $$(".how-card", sec), shades = $$(".hc-shade", sec), kanji = $$(".how-kanji span", sec);
+    var cards = $$(".how-card", sec), shades = $$(".hc-shade", sec);
+    if (RM) return;
+    sec.classList.add("deck");
     function cl(v){ return v < 0 ? 0 : v > 1 ? 1 : v; }
-    function sp(p, a, b){ return cl((p - a) / (b - a)); }
-    function eo(t){ return 1 - Math.pow(1 - t, 3); }
-    function eo4(t){ return 1 - Math.pow(1 - t, 4); }
-    function eio(t){ return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
-    function bounce(t){ var n = 7.5625, k = 2.75; if (t < 1 / k) return n * t * t; if (t < 2 / k) return n * (t -= 1.5 / k) * t + .75; if (t < 2.5 / k) return n * (t -= 2.25 / k) * t + .9375; return n * (t -= 2.625 / k) * t + .984375; }
+    function eio(t){ t = cl(t); return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
     function mix(a, b, t){ return a + (b - a) * t; }
 
-    /* ---- the vignettes: the column field, drawn flat-isometric on the ink panel ---- */
-    var COLS = 8, ROWS = 4, N = COLS * ROWS;
-    var seed = 7; function rnd(){ seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
-    var fate = [], rank = [], ord = []; for (var i = 0; i < N; i++) ord.push(i);
-    for (var i = N - 1; i > 0; i--) { var j = Math.floor(rnd() * (i + 1)), t0 = ord[i]; ord[i] = ord[j]; ord[j] = t0; }
-    ord.forEach(function(q, k){ fate[q] = k < 6 ? "x" : k < 12 ? "s" : k < 19 ? "a" : "k"; });
-    /* the order each kind of change happens in: left to right across the field */
-    ["x", "s", "a"].forEach(function(f){ var list = []; for (var i = 0; i < N; i++) if (fate[i] === f) list.push(i); list.sort(function(m, n){ return (m % COLS) - (n % COLS) || m - n; }); list.forEach(function(q, k){ rank[q] = k; }); });
-    /* ri: every block that survives is rebuilt into one stepped tower, the automated ones on top */
-    var HGT = [[4, 4, 3], [4, 3, 2], [3, 2, 1]], CUBE = .5, dest = [];
-    (function(){
-      var slots = []; HGT.forEach(function(row, a){ row.forEach(function(h, b){ for (var r = 0; r < h; r++) slots.push([b, a, r]); }); });
-      slots.sort(function(m, n){ return (n[2] - m[2]) || ((m[0] + m[1]) - (n[0] + n[1])); });   /* highest first */
-      var surv = [], blue = []; for (var i = 0; i < N; i++) { if (fate[i] === "a") blue.push(i); else if (fate[i] !== "x") surv.push(i); }
-      blue.concat(surv).forEach(function(q, k){ dest[q] = slots[k]; });
-    })();
-    var PAL = {
-      dark: [[42, 44, 51], [30, 31, 37], [22, 23, 27]],
-      lit: [[243, 242, 239], [207, 204, 197], [176, 173, 166]],
-      blue: [[47, 91, 255], [35, 73, 219], [26, 54, 168]],
-      red: [[232, 57, 47], [180, 39, 31], [142, 29, 23]]
-    };
-    function blend(a, b, t){ return [0, 1, 2].map(function(f){ return [0, 1, 2].map(function(c){ return a[f][c] + (b[f][c] - a[f][c]) * t; }); }); }
-    function rgb(c, a){ return "rgba(" + (c[0] | 0) + "," + (c[1] | 0) + "," + (c[2] | 0) + "," + a.toFixed(3) + ")"; }
-
-    function makeArt(cv){
-      var kind = cv.getAttribute("data-art"), cx = cv.getContext("2d"), w = 0, h = 0, dpr = 1, A = 10, OX = 0, OY = 0, ZK = .9, YK = .4;
-      var P = kind === "shu" ? 7.4 : kind === "ha" ? 7.6 : 8.2;
-      function pr(x, y, z){ return [OX + (x - y) * A, OY + (x + y) * A * YK - z * A * ZK]; }
-      function resize(){
-        dpr = Math.min(2, window.devicePixelRatio || 1);
-        w = cv.clientWidth; h = cv.clientHeight; if (!w || !h) return;
-        cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
-        var span = COLS + ROWS, zmax = kind === "ri" ? 1.7 : 1.05;
-        A = Math.min(w * .86 / span, h * .8 / (span * YK + zmax * ZK));
-        OX = w / 2; OY = h / 2 + zmax * A * ZK / 2 + (kind === "ri" ? A * .1 : 0);
-      }
-      function box(x, y, s, z0, z1, col, a){
-        if (a <= .004 || s <= .01) return;
-        var q = s / 2, L0 = pr(x - q, y + q, z0), F0 = pr(x + q, y + q, z0), R0 = pr(x + q, y - q, z0);
-        var L1 = pr(x - q, y + q, z1), F1 = pr(x + q, y + q, z1), R1 = pr(x + q, y - q, z1), B1 = pr(x - q, y - q, z1);
-        cx.fillStyle = rgb(col[1], a); cx.beginPath(); cx.moveTo(L1[0], L1[1]); cx.lineTo(F1[0], F1[1]); cx.lineTo(F0[0], F0[1]); cx.lineTo(L0[0], L0[1]); cx.closePath(); cx.fill();
-        cx.fillStyle = rgb(col[2], a); cx.beginPath(); cx.moveTo(F1[0], F1[1]); cx.lineTo(R1[0], R1[1]); cx.lineTo(R0[0], R0[1]); cx.lineTo(F0[0], F0[1]); cx.closePath(); cx.fill();
-        cx.fillStyle = rgb(col[0], a); cx.beginPath(); cx.moveTo(B1[0], B1[1]); cx.lineTo(R1[0], R1[1]); cx.lineTo(F1[0], F1[1]); cx.lineTo(L1[0], L1[1]); cx.closePath(); cx.fill();
-      }
-      function ball(x, y, z, a){
-        var r = .26, c = pr(x, y, z + r), sh = pr(x, y, z), R = r * A * 1.02;
-        cx.fillStyle = "rgba(15,16,19," + (.35 * a).toFixed(3) + ")"; cx.beginPath(); cx.ellipse(sh[0], sh[1], R * 1.05, R * .42, 0, 0, 6.2832); cx.fill();
-        var g = cx.createRadialGradient(c[0] - R * .35, c[1] - R * .4, R * .1, c[0], c[1], R);
-        g.addColorStop(0, "rgba(255,138,120," + a + ")"); g.addColorStop(.45, "rgba(232,57,47," + a + ")"); g.addColorStop(1, "rgba(150,26,20," + a + ")");
-        cx.fillStyle = g; cx.beginPath(); cx.arc(c[0], c[1], R, 0, 6.2832); cx.fill();
-      }
-      function draw(t){
-        if (!w) return;
-        t = ((t % P) + P) % P;
-        cx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        var bg = cx.createRadialGradient(w / 2, h * .55, 0, w / 2, h * .55, w * .62);
-        bg.addColorStop(0, "#1A1B20"); bg.addColorStop(1, "#0F1013");
-        cx.fillStyle = bg; cx.fillRect(0, 0, w, h);
-        var ga = 1, wash = eio(sp(t, P - .7, P - .05)), items = [], S = .84, Z = .32;
-        if (kind === "shu") {
-          /* the ball runs every square in turn, and each one it has read stays lit */
-          var T0 = 1.05, T1 = 5.5, path = [];
-          for (var r = 0; r < ROWS; r++) for (var k = 0; k < COLS; k++) path.push(r * COLS + (r % 2 ? COLS - 1 - k : k));
-          var pos = (N - 1) * sp(t, T0, T1), bi = Math.min(N - 2, Math.floor(pos)), bf = pos - bi;
-          var at = {}; path.forEach(function(q, k){ at[q] = k; });
-          for (var i = 0; i < N; i++) {
-            var x = i % COLS - (COLS - 1) / 2, y = Math.floor(i / COLS) - (ROWS - 1) / 2;
-            var up = eo(sp(t, .05 + (x + y + 6) * .035, .45 + (x + y + 6) * .035));
-            var lit = eo(sp(pos, at[i] - .05, at[i] + .6)), dip = Math.max(0, 1 - Math.abs(pos - at[i]) * 1.6) * (t > T0 && t < T1 + .2 ? 1 : 0);
-            items.push({ k: x + y, z: 0, f: (function(x, y, up, lit, dip){ return function(){ box(x, y, S, -.4, Z * up - .07 * dip, blend(PAL.dark, PAL.lit, lit), ga * up); }; })(x, y, up, lit, dip) });
-          }
-          var A0 = path[bi], B0 = path[bi + 1], ax = A0 % COLS - (COLS - 1) / 2, ay = Math.floor(A0 / COLS) - (ROWS - 1) / 2, bx = B0 % COLS - (COLS - 1) / 2, by = Math.floor(B0 / COLS) - (ROWS - 1) / 2;
-          var px = mix(ax, bx, bf), py = mix(ay, by, bf), drop = sp(t, .6, 1.05), pz = Z + (1 - bounce(drop)) * 2.6;
-          if (t >= .6) items.push({ k: px + py + .3, z: 1, f: function(){ ball(px, py, pz, ga * cl(drop * 4)); } });
-        } else if (kind === "ha") {
-          /* keep it, simplify it, automate it or stop it */
-          for (var i = 0; i < N; i++) {
-            var x = i % COLS - (COLS - 1) / 2, y = Math.floor(i / COLS) - (ROWS - 1) / 2, f = fate[i], rk = rank[i] || 0;
-            var a = ga * eo(sp(t, .05 + (x + y + 6) * .02, .35 + (x + y + 6) * .02)), col = PAL.lit, s = S, z0 = -.4, z1 = Z;
-            if (f === "x") {
-              var fl = sp(t, .75 + rk * .14, .95 + rk * .14), sink = eio(sp(t, 1.05 + rk * .14, 1.75 + rk * .14));
-              col = blend(PAL.lit, PAL.red, fl); z1 -= sink * 1.6; z0 -= sink * 1.6; a *= 1 - sink;
-            } else if (f === "s") {
-              s = mix(S, .44, eio(sp(t, 2.3 + rk * .12, 2.9 + rk * .12)));
-            } else if (f === "a") {
-              var ab = eio(sp(t, 3.4 + rk * .12, 4.1 + rk * .12));
-              col = blend(PAL.lit, PAL.blue, cl(ab * 1.6)); z1 = Z + ab * .72;
-            }
-            items.push({ k: x + y, z: 0, f: (function(x, y, s, z0, z1, col, a){ return function(){ box(x, y, s, z0, z1, col, a); }; })(x, y, s, z0, z1, col, a) });
-          }
-        } else {
-          /* the view closes in on the new form as it is built */
-          var A0 = A, OY0 = OY, zm = eio(sp(t, 1.4, 3.6)); A = A0 * mix(1, 1.75, zm); OY = mix(OY0, h * .5 + 1.15 * A * ZK, zm);
-          /* everything that is left is rebuilt into something new, and the ball lands on top */
-          var tw = [];
-          for (var i = 0; i < N; i++) {
-            var f = fate[i]; if (f === "x") continue;
-            var x0 = i % COLS - (COLS - 1) / 2, y0 = Math.floor(i / COLS) - (ROWS - 1) / 2, D = dest[i];
-            var dx = (D[0] - 1) * .95, dy = (D[1] - 1) * .95, lag = D[2] * .3 + (4 - D[0] - D[1]) * .06 + (x0 + 3.5) * .03, u = eio(sp(t, .75 + lag, 1.75 + lag));
-            var s0 = f === "s" ? .44 : S, z10 = f === "a" ? Z + .72 : Z;
-            var x = mix(x0, dx, u), y = mix(y0, dy, u), arc = Math.sin(u * Math.PI) * 1.1;
-            var zb = mix(-.4, D[2] * CUBE, u) + arc, zt = mix(z10, (D[2] + 1) * CUBE - .02, u) + arc;
-            var s = mix(s0, .9, u), a = eo(sp(t, 0, .4));
-            var col = f === "a" ? PAL.blue : PAL.lit;
-            items.push({ k: x + y, z: zb, f: (function(x, y, s, zb, zt, col, a){ return function(){ box(x, y, s, zb, zt, col, a); }; })(x, y, s, zb, zt, col, a) });
-          }
-          var top = 4 * CUBE, bx2 = -.95, drop2 = sp(t, 3.7, 4.4);
-          if (t >= 3.7) items.push({ k: bx2 * 2 + .3, z: 9, f: function(){ ball(bx2, bx2, top + (1 - bounce(drop2)) * 2.2, cl(drop2 * 4)); } });
-        }
-        items.sort(function(m, n){ return (m.k - n.k) || (m.z - n.z); });
-        for (var i = 0; i < items.length; i++) items[i].f();
-        if (kind === "ri") { A = A0; OY = OY0; }
-        if (wash > 0) { cx.globalAlpha = wash; cx.fillStyle = bg; cx.fillRect(0, 0, w, h); cx.globalAlpha = 1; }
-      }
-      return { resize: resize, draw: draw, P: P, t0: 0, live: false };
-    }
-    var arts = cards.map(function(c){ return makeArt($(".hc-art", c)); });
-    window.__howArts = arts;   /* for tests */
-
-    if (RM) {   /* still frames: each vignette at its resolved moment */
-      var still = function(){ arts.forEach(function(a){ a.resize(); a.draw(a.P - 1); }); };
-      addEventListener("resize", function(){ clearTimeout(still.t); still.t = setTimeout(still, 120); });
-      if (document.fonts && document.fonts.ready) document.fonts.ready.then(still);
-      still(); return;
-    }
-    sec.classList.add("deck");
-
-    /* ---- the choreography, in units of the pinned scroll (negative: the stage is still rising into view) ---- */
-    var FLY_W = [[-.16, .08], [.25, .45], [.56, .76]], DEAL = [.82, .95];
-    var FLY_N = [[-.16, .1], [.3, .52], [.62, .84]];
-    var TILT = [-7, 6, -5];
-    var W = 0, H = 0, wide = true, cw = 400, ch = 600, fit = 1, fitRow = 1, peek = 18, cyDeck = 0, cyRow = 0, gap = 24, slot = 0;
-    var cur = -.4, target = -.4, vis = false, raf = 0, lastNow = 0, kOn = -2, ready = false, rowT0 = -1;
+    /* in screen heights of scroll from the moment the stage pins (negative: still rising into view) */
+    var S0 = -.62, SEG = 1, ROT = 1.07, RISE = 1.33;   /* a card swings up over ROT, settles over RISE */
+    var DEAL0 = 2.78, DEAL1 = 3.3;
+    var W = 0, H = 0, wide = true, cw = 400, ch = 600, fit = 1, fitRow = 1, cyDeck = 0, cyRow = 0, gap = 24, slot = 0, Z0 = 750, P = 400, ORG = .2;
+    var cur = -9, target = -9, vis = false, raf = 0, lastNow = 0, ready = false;
     function layout(){
       W = stage.clientWidth; H = stage.clientHeight; wide = W >= 900;
-      var NAV = parseFloat(getComputedStyle(d).getPropertyValue("--nav-h")) || 72, G = Math.max(16, Math.min(64, W * .04));
+      var NAV = parseFloat(getComputedStyle(d).getPropertyValue("--nav-h")) || 72, G = Math.max(16, Math.min(64, W * .04)), BOT = wide ? 88 : 76;
       gap = wide ? Math.round(Math.max(16, Math.min(28, W * .018))) : 0;
       cw = wide ? Math.min(420, (W - 2 * G - 2 * gap) / 3) : Math.min(460, W - 2 * G);
       deckEl.style.setProperty("--cw", cw.toFixed(1) + "px");
       cards.forEach(function(c){ c.style.height = ""; });
       ch = 0; cards.forEach(function(c){ ch = Math.max(ch, c.offsetHeight); });
       cards.forEach(function(c){ c.style.height = ch + "px"; });
-      var BOT = W >= 900 ? 88 : 76;   /* the chapter bar along the bottom of the screen */
-      if (wide) {
-        peek = 18;
-        fit = Math.min(1, (H - NAV - BOT - 20 - 2 * peek) / ch);
-        fitRow = Math.min(1, (H - NAV - BOT - 20) / ch);
-        cyDeck = (NAV - BOT) / 2 + peek; cyRow = (NAV - BOT) / 2; slot = cw * fitRow + gap;
-      } else {
-        peek = Math.round(ch * 0 + 46);
-        fit = Math.min(1, (H - NAV - 14 - 2 * peek - BOT) / ch);
-        cyDeck = NAV + 14 + 2 * peek + ch * fit / 2 - H / 2;
-      }
-      arts.forEach(function(a){ a.resize(); a.draw(a.t || a.P - 1); });
-      ready = true; place(cur, performance.now() / 1000);
+      /* the deck shrinks towards a point above the cards: on phones further up, so each header shows as a tab */
+      ORG = wide ? .2 : .45;
+      var room = ch * ORG * .141 * 2.6;   /* how far the furthest card's top rises */
+      fit = Math.min(1, (H - NAV - BOT - 24 - room) / ch);
+      cyDeck = (NAV - BOT) / 2 + room / 2;
+      if (wide) { fitRow = Math.min(1, (H - NAV - BOT - 24) / ch); cyRow = (NAV - BOT) / 2; slot = cw * fitRow + gap; }
+      P = Math.round(400 * cw / 438); Z0 = 750 * cw / 438;
+      stage.style.perspective = P + "px";
+      cards.forEach(function(c){ c.style.transformOrigin = "50% " + (-ORG * 100).toFixed(1) + "%"; });
+      ready = true; place(cur);
     }
-    function place(c, now){
-      var F = wide ? FLY_W : FLY_N, u = [], dl = wide ? eio(sp(c, DEAL[0], DEAL[1])) : 0, top = -1;
-      for (var i = 0; i < 3; i++) { u[i] = sp(c, F[i][0], F[i][1]); if (u[i] > .55) top = i; }
+    function place(x){
+      var dl = wide ? eio((x - DEAL0) / (DEAL1 - DEAL0)) : 0;
       for (var i = 0; i < 3; i++) {
-        var ui = u[i], e = eo4(ui), L = 0;
-        for (var j = i + 1; j < 3; j++) L += eio(u[j]);
-        var el = cards[i];
-        if (ui <= 0) { if (el.style.visibility !== "hidden") el.style.visibility = "hidden"; continue; }
-        if (el.style.visibility) el.style.visibility = "";
-        var chf = ch * fit, s = 1 - (wide ? .05 : .045) * L;
-        var y = cyDeck - L * peek - chf * (1 - s) / 2 + (1 - e) * (H * .5 + chf * .75 + 60);
-        var rx = Math.pow(1 - eo(ui), 1.6) * 38, rz = (1 - eo(ui)) * TILT[i], sc = fit * s * (1 + (1 - e) * .1), x = 0, shade = Math.min(.42, L * .21);
+        var el = cards[i], d0 = x - (S0 + i * SEG);
+        var k = 1 - eio(d0 / ROT), r = 1 - eio(d0 / RISE);            /* 1 lying flat below the screen, 0 landed */
+        var ty = r * (H / 2 + ch * fit), tz = k * Z0, rx = k * 90;
+        var hidden = d0 <= 0 || tz > P * .9;
+        if (hidden && dl <= 0) { if (el.style.visibility !== "hidden") el.style.visibility = "hidden"; continue; }
+        if (el.style.visibility !== "visible") el.style.visibility = "visible";
+        /* pushed back by every card that arrives after it */
+        var back = 0; for (var j = i + 1; j < 3; j++) back += Math.min(1.3, Math.max(0, x - (S0 + j * SEG)));
+        var s = 1 - .141 * back, fade = 0;
+        for (var j = i + 1; j < 3; j++) fade += cl((x - (S0 + j * SEG) - .78) / .44) * .17;
+        var X = 0, Y = cyDeck + ty, sc = fit * s, Z = tz, R = rx;
         if (dl > 0) {
-          var di = eio(sp(c, DEAL[0] + i * .012, DEAL[1] - (2 - i) * .012));
-          x = mix(0, (i - 1) * slot, di); y = mix(y, cyRow, di) - Math.sin(di * Math.PI) * 26;
-          sc = mix(sc, fitRow, di); rz += Math.sin(di * Math.PI) * (i - 1) * 2.4; shade *= 1 - di;
+          var di = eio((x - DEAL0 - (2 - i) * .04) / (DEAL1 - DEAL0 - .08));
+          X = mix(0, (i - 1) * slot, di); Y = mix(Y, cyRow, di); sc = mix(sc, fitRow, di); Z = mix(Z, 0, di); R = mix(R, 0, di); fade *= 1 - di;
         }
-        el.style.transform = "translate(-50%,-50%) translate3d(" + x.toFixed(1) + "px," + y.toFixed(1) + "px,0) rotateX(" + rx.toFixed(2) + "deg) rotateZ(" + rz.toFixed(2) + "deg) scale(" + sc.toFixed(4) + ")";
-        shades[i].style.opacity = shade.toFixed(3);
-        el.classList.toggle("tab", !wide && L > .6);
-        /* the vignette starts its story when the card lands, and pauses while it is covered */
-        var a = arts[i], live = ui > .35 && L < .85 && dl <= .5;
-        if (live && !a.live) a.t0 = now - (a.t || 0);
-        if (ui < .05) { a.t = 0; a.t0 = now; }
-        if (!live && !a.t && !a.still) { a.draw(a.P - 1); a.still = true; }   /* never seen playing: show it resolved */
-        if (live) a.still = false;
-        a.live = live;
+        el.style.transform = "translate(-50%,-50%) translate3d(" + X.toFixed(1) + "px," + Y.toFixed(1) + "px," + Z.toFixed(1) + "px) rotateX(" + R.toFixed(2) + "deg) scale(" + sc.toFixed(4) + ")";
+        shades[i].style.opacity = Math.min(.34, fade).toFixed(3);
+        el.classList.toggle("tab", !wide && back > .5);
       }
-      /* in the row the three play as a relay, left to right, the others resting on their last frame */
-      var row = wide && dl > .5;
-      if (row && rowT0 < 0) { rowT0 = now; arts.forEach(function(a){ a.still = false; }); }
-      if (!row) rowT0 = -1;
-      var k = wide && dl > .35 ? -1 : top;
-      if (k !== kOn) { kOn = k; kanji.forEach(function(el, j){ el.classList.toggle("on", j === k); }); }
     }
     function measure(){
       var r = track.getBoundingClientRect();
-      target = Math.max(-.45, Math.min(1, -r.top / Math.max(1, r.height - innerHeight)));
+      target = -r.top / innerHeight;   /* screen heights since the stage pinned */
     }
     function loop(){
       measure();
       var now = performance.now() / 1000, dt = lastNow ? Math.min(.1, now - lastNow) : 0; lastNow = now;
-      var step = (target - cur) * (1 - Math.exp(-dt * 7.5)), cap = .7 * dt;
-      cur += Math.max(-cap, Math.min(cap, step)); if (Math.abs(target - cur) < 1e-4) cur = target;
-      if (ready) place(cur, now);
-      arts.forEach(function(a){ if (a.live) { a.t = now - a.t0; a.draw(a.t); } });
-      if (rowT0 >= 0) {
-        var len = arts.map(function(a){ return a.P - .8; }), tot = len[0] + len[1] + len[2] + 1.6, rt = (now - rowT0 + tot - 1.6) % tot, acc = 0;   /* a short rest, then Shu */
-        arts.forEach(function(a, i){
-          if (rt >= acc && rt < acc + len[i]) { a.draw(rt - acc); a.still = false; }
-          else if (!a.still) { a.draw(a.P - 1); a.still = true; }
-          acc += len[i];
-        });
-      }
+      cur += (target - cur) * (1 - Math.exp(-dt * 10)); if (Math.abs(target - cur) < 1e-4) cur = target;
+      if (ready) place(cur);
       raf = vis ? requestAnimationFrame(loop) : 0;
     }
     /* a peeking card on a phone brings itself back to the top */
     cards.forEach(function(el, i){
       el.addEventListener("click", function(){
         if (!el.classList.contains("tab")) return;
-        var F = wide ? FLY_W : FLY_N, p = F[i][1] + .05, r = track.getBoundingClientRect(), y = r.top + scrollY + p * (r.height - innerHeight);
+        var y = track.getBoundingClientRect().top + scrollY + (S0 + i * SEG + RISE) * innerHeight;
         if (window.__goTo) window.__goTo(y); else scrollTo({ top: y, behavior: "smooth" });
       });
     });
     new IntersectionObserver(function(ents){
       vis = ents[0].isIntersecting;
-      if (vis && !raf) {
-        measure(); if (Math.abs(target - cur) > .35) cur = target;   /* arrived by a jump: no long catch-up */
-        lastNow = 0; raf = requestAnimationFrame(loop);
-      }
+      if (vis && !raf) { measure(); if (Math.abs(target - cur) > .5) cur = target; lastNow = 0; raf = requestAnimationFrame(loop); }
     }, { rootMargin: "10% 0px" }).observe(track);
     addEventListener("resize", function(){ clearTimeout(layout.t); layout.t = setTimeout(layout, 120); });
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
