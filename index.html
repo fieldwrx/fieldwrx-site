@@ -374,6 +374,8 @@ h1,h2,h3,p{margin:0}
 .how-prog{position:absolute;right:var(--g);top:50%;display:grid;gap:8px;transform:translateY(-50%)}
 .how-prog i{display:block;width:3px;height:44px;border-radius:3px;background:var(--rule);overflow:hidden;position:relative}
 .how-prog i::after{content:"";position:absolute;inset:0;background:var(--fg);transform:scaleY(var(--f,0));transform-origin:50% 0}
+.how-prog{z-index:3}.how-prog i{cursor:pointer;overflow:visible}.how-prog i::before{content:"";position:absolute;inset:-6px -14px}
+.how-prog i::after{border-radius:3px}
 .how-titles{position:absolute;inset:0;z-index:2;pointer-events:none}
 .how-t{position:absolute;left:50%;top:50%;margin:0;text-align:center;text-transform:uppercase;font-stretch:125%;font-size:clamp(44px,13vw,280px);line-height:.86;letter-spacing:-.035em;color:#F3F2EF;white-space:nowrap;opacity:0;transform:translate(-50%,-50%);will-change:transform,filter,opacity}
 .how-t span{display:block}.how-t .t1{font-weight:900}.how-t .t2{font-weight:300}
@@ -869,6 +871,7 @@ textarea.book-in{min-height:150px;resize:vertical}
       requestAnimationFrame(raf);
     } catch (e) { lenis = null; }
   }
+  window.__goTo = function(y){ goTo(y); };
   function goTo(target){
     if (lenis) { lenis.scrollTo(target, { duration: 1.5, easing: function(t){ return t === 1 ? 1 : 1 - Math.pow(2, -10 * t); } }); return; }
     var y = typeof target === "number" ? target : target.getBoundingClientRect().top + scrollY;
@@ -1361,7 +1364,62 @@ textarea.book-in{min-height:150px;resize:vertical}
       return { yaw: (A[1] + (B[1] - A[1]) * u) * Math.PI / 180, pitch: (A[2] + (B[2] - A[2]) * u) * Math.PI / 180, dist: A[3] + (B[3] - A[3]) * u, tz: A[4] + (B[4] - A[4]) * u };
     }
     var W = 0, H = 0, dpr = 1, F = 1, CX = 0, CY = 0, CLIP = 0, BG = "#0F1013", cur = 0, target = 0, raf = 0, vis = false, stageIdx = -1, lastCam = null;
-    var TT = { k: -1, t0: 0 }, TDUR = 3, played = [false, false, false], dir = 1, lastTarget = -1;
+    /* chapters: scroll picks the chapter, time plays it. Nothing here is scrubbed by scroll.
+       Two clocks: the scene, which catches up when you scroll ahead (a montage, never a cut),
+       and the full-screen titles, which never run faster than 1.4x so they can always be read.
+       Tuned from real scroll logs: a straight-through pass of about 8 seconds sees every beat. */
+    var TDUR = 2.2, dir = 1, lastTarget = -1, entered = false, lastNow = 0;
+    var DUR = [4.6, 5, 5.4], GAIN = 2, CAP = 4.5, TCAP = 1.4;
+    var ST = [0, 0, 0];                             /* per chapter: 0 not yet seen, 1 playing, 2 at its final frame */
+    var play = null, shown = 0, title = null, tq = [], fadeAt = -1, flashAt = -1, flashK = 0, replay = -1;
+    /* where the scene is, seconds into each chapter's beat: [s, scene position, easing into it] */
+    var CUE = [
+      [[0, 0], [1.85, .11, "eo"], [4.1, .32, "eio"], [4.6, .332, "eo"]],
+      [[0, .334], [1.85, .375, "eo"], [3.0, .49, "eio"], [3.5, .53, "eio"], [4.65, .64, "eio"], [5, .665, "eo"]],
+      [[0, .668], [1.8, .70, "eo"], [4.05, .875, "eio"], [5.4, 1, "lin"]]
+    ];
+    function cueP(k, t){
+      var c = CUE[k];
+      if (t <= 0) return c[0][1];
+      for (var i = 1; i < c.length; i++) if (t <= c[i][0]) {
+        var A = c[i - 1], B = c[i], u = (t - A[0]) / (B[0] - A[0]);
+        return A[1] + (B[1] - A[1]) * (B[2] === "eio" ? eio(u) : B[2] === "eo" ? eo(u) : u);
+      }
+      return c[c.length - 1][1];
+    }
+    function endP(k){ return CUE[k][CUE[k].length - 1][1]; }
+    function show(k){ if (k !== shown) { shown = k; kanji.forEach(function(el, j){ el.classList.toggle("on", j === k); }); } }
+    function start(k){ ST[k] = 1; play = { k: k, bt: 0 }; show(k); tq.push(k); }
+    function clearTitles(){ title = null; tq = []; }
+    function chapterAt(t){ return t < 1 / 3 ? 0 : t < 2 / 3 ? 1 : 2; }
+    /* one step: k is the chapter the scroll is in, pos how many chapters of scroll you have travelled */
+    function step(k, pos, now, dt){
+      if (k < shown) {                               /* back: final frames only, never in reverse, no titles */
+        if (play) { ST[play.k] = 2; play = null; }
+        for (var j = k; j < 3; j++) if (ST[j] === 1) ST[j] = 2;
+        clearTitles();
+        if (k === replay) { replay = -1; start(k); fadeAt = now; return; }
+        ST[k] = 2; show(k); fadeAt = now; return;
+      }
+      if (play) {
+        var ahead = Math.max(0, pos - (play.k + play.bt / DUR[play.k]));
+        play.bt += dt * (pos >= 2.985 && dir > 0 ? CAP : Math.min(CAP, 1 + GAIN * ahead));   /* past the end of the section: finish before the stage leaves */
+        if (play.bt < DUR[play.k]) return;
+        ST[play.k] = 2; play = null;
+      }
+      if (k === replay) { replay = -1; start(k); fadeAt = now; return; }
+      for (var j = shown; j <= k; j++) if (ST[j] === 0) {   /* the next chapter not yet seen, up to where you are */
+        if (j === 0 && !entered) return;             /* the first beat waits until the stage owns the screen */
+        start(j); return;
+      }
+      if (k !== shown) { show(k); fadeAt = now; clearTitles(); }   /* already seen: its final frame */
+    }
+    function stepTitle(pos, now, dt){
+      if (!title && tq.length) { title = { k: tq.shift(), tt: 0 }; if (title.k > 0) { flashAt = now; flashK = title.k; } }
+      if (!title) return;
+      title.tt += dt * (pos > title.k + .9 ? TCAP : 1);
+      if (title.tt >= TDUR) title = null;
+    }
     function layout(){
       dpr = Math.min(2, window.devicePixelRatio || 1);
       W = stage.clientWidth; H = stage.clientHeight;
@@ -1448,62 +1506,71 @@ textarea.book-in{min-height:150px;resize:vertical}
       }
       cx.restore();
     }
-    function drawUI(p){
-      /* stage, titles, flashes */
-      var si = p < 1 / 3 ? 0 : p < 2 / 3 ? 1 : 2, lt = (p - si / 3) * 3, now = performance.now();
-      if (si !== stageIdx) {
-        stageIdx = si; kanji.forEach(function(el, k){ el.classList.toggle("on", k === si); });
-      }
-      for (var k = si + 1; k < 3; k++) played[k] = false;            /* going back above a stage lets its title play again next time */
-      /* titles play forward only, on their own clock; scrolling back skips them */
-      if (TT.k >= 0 && (dir < 0 || TT.k !== si)) TT.k = -1;
-      if (TT.k < 0 && dir > 0 && !played[si] && lt < .1) { TT = { k: si, t0: now }; played[si] = true; }
-      var e = TT.k >= 0 ? (now - TT.t0) / 1000 : -1;
-      if (e > TDUR) { TT.k = -1; e = -1; }
-      steps.forEach(function(el, k){ el.classList.toggle("on", k === si && TT.k !== si); });
+    function drawUI(){
+      var now = performance.now();
+      var e = title ? title.tt : -1, tk = title ? title.k : -1;
+      steps.forEach(function(el, k){ el.classList.toggle("on", k === shown && ST[shown] !== 0 && tk !== shown && tq.indexOf(shown) < 0); });   /* the copy follows its title */
       titles.forEach(function(t, k){
-        if (TT.k !== k || e < 0) { if (t.style.opacity !== "0") t.style.opacity = 0; return; }
-        var fit = +t.dataset.fit || 1, hold = clamp((e - 1.1) / 1.1), out = clamp((e - 2.15) / .85);
+        if (tk !== k) { if (t.style.opacity !== "0") t.style.opacity = 0; return; }
+        var fit = +t.dataset.fit || 1, hold = clamp((e - .8) / .7), out = clamp((e - 1.45) / .75);
         var sc = fit * (1 + .05 * hold + 1.7 * out * out), bl = 26 * out;
         t.style.opacity = (1 - out).toFixed(3);
         t.style.transform = "translate(-50%,-50%) scale(" + sc.toFixed(4) + ")";
         t.style.filter = bl > .2 ? "blur(" + bl.toFixed(1) + "px)" : "none";
         var ls = letters[k], n = ls.length;
         for (var m = 0; m < n; m++) {
-          var le = eo(clamp((e - m * .04) / .7));
+          var le = eo(clamp((e - m * .035) / .6));
           ls[m].style.opacity = le.toFixed(3);
           ls[m].style.transform = le < 1 ? "translate3d(0," + ((1 - le) * 40).toFixed(1) + "px,0) scale(" + (1 + (1 - le) * 1.4).toFixed(3) + ")" : "none";
           ls[m].style.filter = le < 1 ? "blur(" + ((1 - le) * 22).toFixed(1) + "px)" : "none";
         }
       });
-      /* the scene steps back while a title owns the frame */
-      var dim = e < 0 ? 0 : 1 - clamp((e - 2.15) / .85);
-      cv.style.opacity = (1 - .62 * dim).toFixed(3);
-      if (window.HOW3D) window.HOW3D.canvas.style.opacity = (1 - .55 * dim).toFixed(3);
-      var f1 = bump(p, 1 / 3, .022), f2 = bump(p, 2 / 3, .022), fw = dir > 0 ? 1 : 0;
-      flash.style.opacity = (Math.max(f1 * .9, f2 * .85) * fw).toFixed(3);
-      flash.style.background = f2 > f1 ? "#F3F2EF" : "#2F5BFF";
-      ticks.forEach(function(tk, k){ tk.style.setProperty("--f", clamp((p - k / 3) * 3).toFixed(3)); });
+      /* the scene steps back while a title owns the frame, and dips briefly when it jumps to a final frame */
+      var dim = e < 0 ? 0 : 1 - clamp((e - 1.45) / .75);
+      var dip = fadeAt < 0 ? 1 : .3 + .7 * eo(clamp((now - fadeAt) / 420));
+      cv.style.opacity = ((1 - .62 * dim) * dip).toFixed(3);
+      if (window.HOW3D) window.HOW3D.canvas.style.opacity = ((1 - .55 * dim) * dip).toFixed(3);
+      var fl = flashAt < 0 ? 1 : clamp((now - flashAt) / 520);
+      flash.style.opacity = ((1 - fl) * (1 - fl) * .85).toFixed(3);
+      flash.style.background = flashK === 2 ? "#F3F2EF" : "#2F5BFF";
+      ticks.forEach(function(el, k){ el.style.setProperty("--f", (ST[k] === 2 ? 1 : play && play.k === k ? clamp(play.bt / DUR[k]) : 0).toFixed(3)); });
     }
     function measure(){
       var r = track.getBoundingClientRect(); target = clamp(-r.top / Math.max(1, r.height - innerHeight));
+      entered = r.top < innerHeight * .55;
       if (lastTarget >= 0) { if (target > lastTarget + .0002) dir = 1; else if (target < lastTarget - .0002) dir = -1; }
       lastTarget = target;
     }
     function loop(){
       measure();
-      cur += (target - cur) * .14;
-      if (Math.abs(target - cur) < .0003) cur = target;
+      var now = performance.now(), dt = lastNow ? Math.min(.1, (now - lastNow) / 1000) : 0; lastNow = now;
+      var pos = target * 3;
+      step(chapterAt(target), pos, now, dt); stepTitle(pos, now, dt);
+      cur = play ? cueP(play.k, play.bt) : ST[shown] === 2 ? endP(shown) : CUE[shown][0][1];
       draw(cur);
-      if (window.__howdbg) window.__howdbg({ tg: target, c: cur, k: TT.k, e: TT.k >= 0 ? (performance.now() - TT.t0) / 1000 : -1, si: stageIdx });   /* ?debug=1 only */
+      if (window.__howdbg) window.__howdbg({ tg: target, c: cur, k: title ? title.k : -1, e: title ? title.tt : -1, si: shown, st: ST.join("") });   /* ?debug=1 only */
       raf = vis ? requestAnimationFrame(loop) : 0;
     }
+    /* the progress ticks replay a chapter: this one at once, another when you arrive at it */
+    ticks.forEach(function(el, j){
+      el.addEventListener("click", function(){
+        var now = performance.now();
+        if (j === shown) { if (play) ST[play.k] = 2; clearTitles(); start(j); fadeAt = now; return; }
+        replay = j;
+        var r = track.getBoundingClientRect(), y = r.top + scrollY + (j / 3 + .02) * (r.height - innerHeight);
+        if (window.__goTo) window.__goTo(y); else scrollTo({ top: y, behavior: "smooth" });
+      });
+    });
     new IntersectionObserver(function(ents){
       vis = ents[0].isIntersecting;
-      if (vis && !raf) {
-        lastTarget = -1; measure(); cur = target; lastCam = null;
-        dir = target > .02 ? -1 : 1;                  /* came in from below: no titles until you move forward from a stage's start */
-        for (var k = 0; k < 3; k++) played[k] = target > k / 3 + .02;
+      if (!vis) {                                    /* left the section: whatever was playing settles on its final frame */
+        if (play) { ST[play.k] = 2; play = null; }
+        clearTitles(); lastNow = 0; return;
+      }
+      if (!raf) {
+        lastTarget = -1; measure(); lastCam = null; lastNow = 0;
+        var k = chapterAt(target);
+        if (target > .02) { for (var j = 0; j <= k; j++) if (ST[j] !== 1) ST[j] = 2; shown = -1; show(k); }   /* came in mid-way or from below: final frames */
         raf = requestAnimationFrame(loop);
       }
     }).observe(track);

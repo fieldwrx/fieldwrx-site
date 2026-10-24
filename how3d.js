@@ -136,7 +136,7 @@ function boot() {
   const tgt = new THREE.Vector3();
   const S = (az, el, d, tx, ty, tz, ap, f = 0) => ({ az, el, d, tx, ty, tz, ap, f });
   const lerpS = (A, B, u) => S(mix(A.az, B.az, u), mix(A.el, B.el, u), mix(A.d, B.d, u), mix(A.tx, B.tx, u), mix(A.ty, B.ty, u), mix(A.tz, B.tz, u), mix(A.ap, B.ap, u), mix(A.f, B.f, u));
-  const SPAN0 = (COLS - 1) * GAP / 2 + 2.4, scanXAt = (p) => mix(-SPAN0, SPAN0, span(p, .12, .31));
+  const SPAN0 = (COLS - 1) * GAP / 2 + 2.4, EDGE = (COLS - 1) * GAP / 2, scanXAt = (p) => mix(-SPAN0, EDGE, span(p, .12, .31));
   const TOP = home[N - 1];
   const A0 = S(-40, 62, 40, 0, .3, 0, .00004), A1 = S(-30, 42, 30, 0, .3, 0, .00004);
   const B = (p, u) => S(mix(-12, -24, u), 12, mix(10.5, 9.4, u), Math.max(-9.6, Math.min(9.6, scanXAt(p) + .9)), .38, 0, .0011, 1);   /* low, at column height, tracking the sphere */
@@ -196,8 +196,8 @@ function boot() {
   let ballX = 0, ballZ = 0, mode = "off";
 
   function targets(p) {
-    const scan = span(p, .12, .31), span0 = (COLS - 1) * GAP / 2 + 2.4, scanX = mix(-span0, span0, scan);
-    const rolling = scan > 0 && scan < 1;
+    const scan = span(p, .12, .31), scanX = scanXAt(p);
+    const rolling = scan > 0 && p < 1 / 3;   /* rolls across, then rests on the far column until Ha */
     for (let i = 0; i < N; i++) {
       const h0 = home[i], f = fate[i], n = noise[i], d = h0.c + (ROWS - 1 - h0.r);
       /* shu: rise in a wave from the front corner; the sphere presses each column it passes, and read columns stand a little taller */

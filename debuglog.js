@@ -22,7 +22,7 @@
   var last = -99;
   (function tick() { var n = t(); if (n - last >= 33) { last = n; push(L.page, [n, Math.round(scrollY)]); } requestAnimationFrame(tick); })();
   /* called by the How we work loop every frame it runs: [ms, target, eased, title playing (-1 none), title seconds, stage] */
-  window.__howdbg = function (s) { push(L.how, [t(), +s.tg.toFixed(4), +s.c.toFixed(4), s.k, s.e < 0 ? -1 : +s.e.toFixed(2), s.si]); };
+  window.__howdbg = function (s) { push(L.how, [t(), +s.tg.toFixed(4), +s.c.toFixed(4), s.k, s.e < 0 ? -1 : +s.e.toFixed(2), s.si, s.st || ""]); };
   function geo() {
     var tr = document.querySelector(".how-track"), w = document.getElementById("work");
     if (!tr) return null;
