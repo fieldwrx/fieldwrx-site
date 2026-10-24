@@ -23,6 +23,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<script>if (/[?&]debug=1/.test(location.search)) { var dbg = document.createElement("script"); dbg.src = "/debuglog.js"; document.head.appendChild(dbg); }</script>
 <link rel="preload" href="/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
 <style>@font-face{font-family:"Archivo";src:url("/fonts/archivo.woff2") format("woff2");font-weight:100 900;font-stretch:62% 125%;font-display:swap}</style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@600&text=%E5%AE%88%E7%A0%B4%E9%9B%A2&display=swap">
@@ -1480,6 +1481,7 @@ textarea.book-in{min-height:150px;resize:vertical}
       cur += (target - cur) * .14;
       if (Math.abs(target - cur) < .0003) cur = target;
       draw(cur);
+      if (window.__howdbg) window.__howdbg({ tg: target, c: cur, k: TT.k, e: TT.k >= 0 ? (performance.now() - TT.t0) / 1000 : -1, si: stageIdx });   /* ?debug=1 only */
       raf = vis ? requestAnimationFrame(loop) : 0;
     }
     new IntersectionObserver(function(ents){
