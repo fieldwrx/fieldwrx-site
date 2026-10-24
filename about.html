@@ -5,7 +5,22 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <title>About · FIELDWRX</title>
-<meta name="description" content="FIELDWRX helps people and small teams reshape the way they work around what they want to achieve next.">
+<meta name="description" content="Every process has a customer. That’s where we start. FIELDWRX helps people and small teams reshape the way they work, from Cape Town.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#0F1013">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="FIELDWRX">
+<meta property="og:locale" content="en_ZA">
+<meta property="og:url" content="https://fieldwrx-site.vercel.app/about">
+<meta property="og:title" content="About · FIELDWRX">
+<meta property="og:description" content="Every process has a customer. That’s where we start. FIELDWRX helps people and small teams reshape the way they work, from Cape Town.">
+<meta property="og:image" content="https://fieldwrx-site.vercel.app/media/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Table Mountain behind the V&amp;A Waterfront, with FIELD cut out of the sky and the line Work, redesigned. Where it happens.">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap">
@@ -505,6 +520,37 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
   .js .rv .ln>span,.js .fu,.js .bigmark svg,.js .bw .w{transform:none;opacity:1;filter:none}
   mark{background-size:100% 2px}
 }
+
+/* Phone menu: the same four links, opened from the nav */
+.nav .cta-s{display:none}
+@media (max-width:899px){.nav .cta-l{display:none}.nav .cta-s{display:inline}}
+.nav-menu{display:none}
+.nav-sheet{position:absolute;left:0;right:0;top:100%;padding:4px var(--g) 28px;background:var(--bg);color:var(--fg);box-shadow:0 1px 0 var(--rule),0 28px 40px -28px rgba(15,16,19,.45)}
+.nav-sheet[hidden]{display:none}
+.nav-sheet ul{list-style:none;margin:0;padding:0}
+.nav-sheet a{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:62px;border-bottom:1px solid var(--rule);text-decoration:none;font-stretch:125%;font-weight:700;font-size:1.5rem;line-height:1.1;letter-spacing:-.01em}
+.nav-sheet a::after{content:"";flex:0 0 9px;height:9px;background:var(--blue);transition:transform .4s var(--ease-out)}
+.nav-sheet a:hover::after,.nav-sheet a:focus-visible::after{transform:translateX(-4px)}
+.nav-sheet a[aria-current="page"]{color:var(--fg2)}
+.nav-sheet a[aria-current="page"]::after{background:var(--fg2)}
+.nav-sheet:not([hidden]){animation:sheetIn .55s var(--ease-out) both}
+.nav-sheet:not([hidden]) li{animation:sheetLi .6s var(--ease-out) both;animation-delay:calc(var(--i) * 45ms + 70ms)}
+@keyframes sheetIn{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes sheetLi{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
+.nav.open{transform:none;background:var(--bg);box-shadow:0 1px 0 var(--rule)}
+.nav:focus-within{transform:none}
+@media (max-width:899px){
+  .nav-in{gap:8px}
+  .nav-in>.btn-sm{padding:0 14px;font-size:.85rem}
+  .nav-menu{appearance:none;display:grid;place-items:center;flex:0 0 44px;width:44px;height:44px;padding:0;border:0;border-radius:50%;background:none;color:var(--fg);box-shadow:inset 0 0 0 1.5px var(--rule);cursor:pointer;transition:box-shadow .3s}
+  .nav-menu:hover,.nav-menu[aria-expanded="true"]{box-shadow:inset 0 0 0 1.5px var(--fg)}
+  .nav-menu svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+  .nav-menu path{transition:transform .45s var(--ease-out);transform-origin:12px 12px}
+  .nav-menu[aria-expanded="true"] .l1{transform:translateY(3px) rotate(45deg)}
+  .nav-menu[aria-expanded="true"] .l2{transform:translateY(-3px) rotate(-45deg)}
+}
+@media (min-width:900px){.nav-sheet{display:none!important}}
+@media (prefers-reduced-motion:reduce){.nav-sheet:not([hidden]),.nav-sheet:not([hidden]) li{animation:none}.nav-menu path{transition:none}}
 </style>
 
 </head>
@@ -521,7 +567,9 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
       <a href="/#start">How it starts</a>
       <a href="/about" aria-current="page">About</a>
     </nav>
-    <a class="btn btn-sm" href="mailto:hello@fieldwrx.co.za?subject=Free%2030-minute%20call"><span class="roll"><span>Free 30-minute call</span><span aria-hidden="true">Free 30-minute call</span></span></a>
+    <a class="btn btn-sm" href="/#book"><span class="roll"><span><span class="cta-l">Free 30-minute call</span><span class="cta-s">Book a call</span></span><span aria-hidden="true"><span class="cta-l">Free 30-minute call</span><span class="cta-s">Book a call</span></span></span></a>
+    <button class="nav-menu" type="button" aria-expanded="false" aria-controls="nav-sheet"><span class="sr-only">Menu</span><svg viewBox="0 0 24 24" aria-hidden="true"><path class="l1" d="M4 9h16"/><path class="l2" d="M4 15h16"/></svg></button>
+    <div class="nav-sheet" id="nav-sheet" hidden><ul><li style="--i:0"><a href="/#scan">Scan your week</a></li><li style="--i:1"><a href="/#work">How we work</a></li><li style="--i:2"><a href="/#start">How it starts</a></li><li style="--i:3"><a href="/about" aria-current="page">About</a></li></ul></div>
   </div>
 </header>
 
@@ -569,8 +617,27 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
   if (!RM && window.Lenis) { try { var lenis = new window.Lenis({ lerp: .095 }); (function raf(t){ lenis.raf(t); requestAnimationFrame(raf); })(0); } catch (e) {} }
   /* nav */
   var nav = $("#nav"), lastY = 0;
-  function navScroll(){ var y = scrollY; nav.classList.toggle("solid", y > 8); if (y > lastY + 4 && y > 160) nav.classList.add("hide"); else if (y < lastY - 4) nav.classList.remove("hide"); lastY = y; }
+  function navScroll(){ var y = scrollY; nav.classList.toggle("solid", y > 8); if (y > lastY + 4 && y > 160 && !nav.classList.contains("open")) nav.classList.add("hide"); else if (y < lastY - 4) nav.classList.remove("hide"); lastY = y; }
   addEventListener("scroll", navScroll, { passive: true }); navScroll();
+
+  /* Phone menu */
+  (function(){
+    var nb = $(".nav-menu"), sh = $("#nav-sheet"), navEl = $("#nav"); if (!nb || !sh) return;
+    function isOpen(){ return nb.getAttribute("aria-expanded") === "true"; }
+    function set(open, focusBack){
+      nb.setAttribute("aria-expanded", String(open));
+      navEl.classList.toggle("open", open); sh.hidden = !open;
+      if (open) navEl.classList.remove("hide");
+      else if (focusBack) nb.focus();
+    }
+    nb.addEventListener("click", function(){ set(!isOpen()); });
+    sh.addEventListener("click", function(e){ if (e.target.closest("a")) set(false); });
+    document.addEventListener("keydown", function(e){ if (e.key === "Escape" && isOpen()) set(false, true); });
+    document.addEventListener("click", function(e){ if (isOpen() && !e.target.closest("#nav")) set(false); });
+    var wide = matchMedia("(min-width:900px)");
+    (wide.addEventListener ? wide.addEventListener.bind(wide, "change") : wide.addListener.bind(wide))(function(m){ if (m.matches && isOpen()) set(false); });
+  })();
+
   /* tone follows the section in view */
   var toneIO = new IntersectionObserver(function(ents){ ents.forEach(function(en){ if (en.isIntersecting) d.setAttribute("data-tone", en.target.getAttribute("data-tone")); }); }, { rootMargin: "-50% 0px -50% 0px" });
   $$("section[data-tone]").forEach(function(s){ toneIO.observe(s); });

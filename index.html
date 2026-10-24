@@ -4,8 +4,23 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>FIELDWRX</title>
+<title>FIELDWRX · Work, redesigned. Where it happens.</title>
 <meta name="description" content="FIELDWRX helps people and small teams reshape the way they work around what they want to achieve next.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#0F1013">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="FIELDWRX">
+<meta property="og:locale" content="en_ZA">
+<meta property="og:url" content="https://fieldwrx-site.vercel.app/">
+<meta property="og:title" content="FIELDWRX · Work, redesigned. Where it happens.">
+<meta property="og:description" content="FIELDWRX helps people and small teams reshape the way they work around what they want to achieve next.">
+<meta property="og:image" content="https://fieldwrx-site.vercel.app/media/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Table Mountain behind the V&amp;A Waterfront, with FIELD cut out of the sky and the line Work, redesigned. Where it happens.">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap">
@@ -531,6 +546,81 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
   .js .rv .ln>span,.js .fu,.js .bigmark svg,.js .bw .w{transform:none;opacity:1;filter:none}
   mark{background-size:100% 2px}
 }
+
+/* Phone menu: the same four links, opened from the nav */
+.nav .cta-s{display:none}
+@media (max-width:899px){.nav .cta-l{display:none}.nav .cta-s{display:inline}}
+.nav-menu{display:none}
+.nav-sheet{position:absolute;left:0;right:0;top:100%;padding:4px var(--g) 28px;background:var(--bg);color:var(--fg);box-shadow:0 1px 0 var(--rule),0 28px 40px -28px rgba(15,16,19,.45)}
+.nav-sheet[hidden]{display:none}
+.nav-sheet ul{list-style:none;margin:0;padding:0}
+.nav-sheet a{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:62px;border-bottom:1px solid var(--rule);text-decoration:none;font-stretch:125%;font-weight:700;font-size:1.5rem;line-height:1.1;letter-spacing:-.01em}
+.nav-sheet a::after{content:"";flex:0 0 9px;height:9px;background:var(--blue);transition:transform .4s var(--ease-out)}
+.nav-sheet a:hover::after,.nav-sheet a:focus-visible::after{transform:translateX(-4px)}
+.nav-sheet a[aria-current="page"]{color:var(--fg2)}
+.nav-sheet a[aria-current="page"]::after{background:var(--fg2)}
+.nav-sheet:not([hidden]){animation:sheetIn .55s var(--ease-out) both}
+.nav-sheet:not([hidden]) li{animation:sheetLi .6s var(--ease-out) both;animation-delay:calc(var(--i) * 45ms + 70ms)}
+@keyframes sheetIn{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes sheetLi{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
+.nav.open{transform:none;background:var(--bg);box-shadow:0 1px 0 var(--rule)}
+.nav:focus-within{transform:none}
+@media (max-width:899px){
+  .nav-in{gap:8px}
+  .nav-in>.btn-sm{padding:0 14px;font-size:.85rem}
+  .nav-menu{appearance:none;display:grid;place-items:center;flex:0 0 44px;width:44px;height:44px;padding:0;border:0;border-radius:50%;background:none;color:var(--fg);box-shadow:inset 0 0 0 1.5px var(--rule);cursor:pointer;transition:box-shadow .3s}
+  .nav-menu:hover,.nav-menu[aria-expanded="true"]{box-shadow:inset 0 0 0 1.5px var(--fg)}
+  .nav-menu svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+  .nav-menu path{transition:transform .45s var(--ease-out);transform-origin:12px 12px}
+  .nav-menu[aria-expanded="true"] .l1{transform:translateY(3px) rotate(45deg)}
+  .nav-menu[aria-expanded="true"] .l2{transform:translateY(-3px) rotate(-45deg)}
+}
+@media (min-width:900px){.nav-sheet{display:none!important}}
+@media (prefers-reduced-motion:reduce){.nav-sheet:not([hidden]),.nav-sheet:not([hidden]) li{animation:none}.nav-menu path{transition:none}}
+
+/* Booking form: the free call, asked for where How it starts promises it */
+.book{display:grid;gap:clamp(28px,4vw,64px);padding-top:clamp(56px,9vh,104px);border-top:1px solid var(--rule)}
+@media (min-width:900px){.book{grid-template-columns:minmax(0,5fr) minmax(0,7fr);align-items:start}.book-intro{position:sticky;top:calc(var(--nav-h) + 6vh)}}
+.book-h{font-stretch:125%;font-weight:800;font-size:clamp(2rem,3.6vw,3.4rem);line-height:.98;letter-spacing:-.03em;text-wrap:balance}
+.book-intro p{margin-top:18px;max-width:30em;font-size:clamp(1.0625rem,1.3vw,1.25rem);color:var(--fg2);text-wrap:pretty}
+.book-form{display:grid;gap:20px}
+.book-row{display:grid;gap:20px}
+@media (min-width:640px){.book-row{grid-template-columns:1fr 1fr}}
+.book-f{display:grid;gap:8px;align-content:start;min-width:0}
+.book-f label{font-size:.9375rem;font-weight:600;font-stretch:108%}
+.book-f .opt{font-weight:400}
+.book-in{width:100%;border:0;border-radius:14px;background:#fff;color:var(--ink);font:400 1.0625rem/1.5 "Archivo",system-ui,sans-serif;padding:13px 16px;min-height:54px;box-shadow:inset 0 0 0 1px rgba(15,16,19,.1);caret-color:var(--blue);transition:box-shadow .3s}
+textarea.book-in{min-height:150px;resize:vertical}
+.book-in::placeholder{color:#5C5F66;opacity:1}
+.book-in:focus{outline:none;box-shadow:inset 0 0 0 2px var(--ink),0 0 0 3px rgba(255,255,255,.85)}
+.book-in[aria-invalid="true"]{box-shadow:inset 0 0 0 2px var(--red)}
+.book-in::selection{background:var(--blue);color:#fff}
+.book-err{display:flex;align-items:baseline;gap:9px;font-size:.9375rem;font-weight:600;line-height:1.4}
+.book-err::before{content:"";flex:0 0 8px;height:8px;background:var(--red);transform:translateY(-1px)}
+.book-err[hidden]{display:none}
+.book-actions{display:flex;flex-wrap:wrap;align-items:center;gap:14px 24px;margin-top:4px}
+.book-note{font-size:.9375rem;color:var(--fg2);max-width:30em}
+.book-note a{color:inherit;text-underline-offset:3px;text-decoration-thickness:1px}
+.book-msg{font-size:1rem;font-weight:600;line-height:1.45}
+.book-msg:empty{display:none}
+.book-msg.bad{display:flex;align-items:baseline;gap:10px}
+.book-msg.bad::before{content:"";flex:0 0 8px;height:8px;background:var(--red);transform:translateY(-1px)}
+.book-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.book-form .btn[aria-busy="true"]{pointer-events:none}
+.book-form .btn[aria-busy="true"] .arr{animation:bookWait 1s var(--ease-io) infinite}
+@keyframes bookWait{50%{transform:translateX(5px)}}
+.book-done{display:grid;gap:16px;align-content:start;padding:clamp(24px,3.2vw,40px);border-radius:24px;background:#fff;color:var(--ink);box-shadow:0 30px 60px -36px rgba(15,16,19,.45)}
+.book-done:focus{outline:none}
+.book-done .mk{display:grid;grid-template-columns:repeat(2,14px);gap:3px}
+.book-done .mk i{width:14px;height:14px;background:var(--blue)}
+.book-done .mk i:last-child{background:var(--red);border-radius:50%}
+.book-done-h{font-stretch:125%;font-weight:800;font-size:clamp(1.6rem,2.6vw,2.4rem);line-height:1.02;letter-spacing:-.02em}
+.book-done p+p{color:var(--muted);font-size:1.0625rem}
+@media (prefers-reduced-motion:reduce){.book-form .btn[aria-busy="true"] .arr{animation:none}}
+
+/* Reduced motion: the static How we work sits above the shading meant for the animated scene */
+.how.static .how-stage::after{display:none}
+.how.static .how-steps{position:relative}
 </style>
 
 </head>
@@ -552,7 +642,9 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
       <a href="#start">How it starts</a>
       <a href="/about">About</a>
     </nav>
-    <a class="btn btn-sm" href="mailto:hello@fieldwrx.co.za?subject=Free%2030-minute%20call"><span class="roll"><span>Free 30-minute call</span><span aria-hidden="true">Free 30-minute call</span></span></a>
+    <a class="btn btn-sm" href="#book"><span class="roll"><span><span class="cta-l">Free 30-minute call</span><span class="cta-s">Book a call</span></span><span aria-hidden="true"><span class="cta-l">Free 30-minute call</span><span class="cta-s">Book a call</span></span></span></a>
+    <button class="nav-menu" type="button" aria-expanded="false" aria-controls="nav-sheet"><span class="sr-only">Menu</span><svg viewBox="0 0 24 24" aria-hidden="true"><path class="l1" d="M4 9h16"/><path class="l2" d="M4 15h16"/></svg></button>
+    <div class="nav-sheet" id="nav-sheet" hidden><ul><li style="--i:0"><a href="#scan">Scan your week</a></li><li style="--i:1"><a href="#work">How we work</a></li><li style="--i:2"><a href="#start">How it starts</a></li><li style="--i:3"><a href="/about">About</a></li></ul></div>
   </div>
 </header>
 
@@ -571,7 +663,7 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
       <h1 class="display hero-h"><span class="ln"><span>Work, redesigned.</span></span><span class="ln lt"><span>Where it happens.</span></span></h1>
       <p class="lead">Every way of working made sense when it started. FIELDWRX helps people and small teams reshape theirs around what they want to achieve next.</p>
       <div class="cta-row">
-        <a class="btn magnet" href="mailto:hello@fieldwrx.co.za?subject=Free%2030-minute%20call"><span class="roll"><span>Book a free 30-minute call</span><span aria-hidden="true">Book a free 30-minute call</span></span><svg class="arr" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13M11 5l5 5-5 5"/></svg></a>
+        <a class="btn magnet" href="#book"><span class="roll"><span>Book a free 30-minute call</span><span aria-hidden="true">Book a free 30-minute call</span></span><svg class="arr" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13M11 5l5 5-5 5"/></svg></a>
         <a class="btn ghost ghost-btn" href="#film"><span class="roll"><span>See how it works</span><span aria-hidden="true">See how it works</span></span></a>
       </div>
     </div>
@@ -677,6 +769,27 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
         <li class="step alt fu"><span class="node" aria-hidden="true"></span><h3>Often, that’s enough</h3><p>Sometimes a free tool or a piece of advice solves it, and that’s where it ends.</p></li>
         <li class="step fu"><span class="node" aria-hidden="true"></span><h3>Real work, a fixed price</h3><p>If there’s more to do, you get a defined piece of work with a clear end, and a price agreed before anything starts.</p></li>
       </ol>
+      <div class="book fu" id="book">
+        <div class="book-intro">
+          <h3 class="book-h" id="book-h">Book your free 30 minutes.</h3>
+          <p>Tell us a little about what you’re working towards. We’ll reply by email to find a time that suits you.</p>
+        </div>
+        <form class="book-form" id="book-form" action="/api/contact" method="post" aria-labelledby="book-h" novalidate>
+          <div class="book-row">
+            <div class="book-f"><label for="bk-name">Your name</label><input class="book-in" id="bk-name" name="name" autocomplete="name" maxlength="80" required><p class="book-err" id="bk-name-e" hidden></p></div>
+            <div class="book-f"><label for="bk-email">Email</label><input class="book-in" id="bk-email" name="email" type="email" inputmode="email" autocomplete="email" maxlength="120" required><p class="book-err" id="bk-email-e" hidden></p></div>
+          </div>
+          <div class="book-f"><label for="bk-org">Team or business <span class="opt">(optional)</span></label><input class="book-in" id="bk-org" name="org" autocomplete="organization" maxlength="80"></div>
+          <div class="book-f"><label for="bk-msg">What are you working towards?</label><textarea class="book-in" id="bk-msg" name="message" rows="5" maxlength="2000" required placeholder="A few lines is plenty: what fills your week, and what you’d rather spend it on."></textarea><p class="book-err" id="bk-msg-e" hidden></p></div>
+          <div class="book-hp" aria-hidden="true"><label for="bk-web">Leave this empty</label><input id="bk-web" name="website" tabindex="-1" autocomplete="off"></div>
+          <input type="hidden" name="t" id="bk-t">
+          <div class="book-actions">
+            <button class="btn" type="submit"><span class="roll"><span class="bk-l">Send request</span><span aria-hidden="true" class="bk-l">Send request</span></span><svg class="arr" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13M11 5l5 5-5 5"/></svg></button>
+            <p class="book-note">We only use this to reply to you. Prefer email? <a href="mailto:hello@fieldwrx.co.za">hello@fieldwrx.co.za</a></p>
+          </div>
+          <p class="book-msg" id="book-msg" role="status" aria-live="polite"></p>
+        </form>
+      </div>
     </div>
   </section>
 
@@ -693,6 +806,7 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
     <footer class="wrap foot">
       <span class="foot-l">© 2026 FIELDWRX (Pty) Ltd · Reg. no. 2026/791939/07</span>
       <a href="mailto:hello@fieldwrx.co.za">hello@fieldwrx.co.za</a>
+      <a href="/about">About</a>
       <a href="#top">Back to top</a>
     </footer>
   </section>
@@ -764,7 +878,7 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
   function navScroll(){
     var y = scrollY;
     nav.classList.toggle("solid", y > 8);
-    if (y > lastY + 4 && y > 160) nav.classList.add("hide");
+    if (y > lastY + 4 && y > 160 && !nav.classList.contains("open")) nav.classList.add("hide");
     else if (y < lastY - 4) nav.classList.remove("hide");
     lastY = y;
   }
@@ -1082,7 +1196,7 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
       var lo = 0, hi = 0, max = 0;
       res.tasks.forEach(function(r){ lo += r.hours[0]; hi += r.hours[1]; max = Math.max(max, r.hours[1]); });
       var body = "Hi FIELDWRX,\n\nHere's my week from the scanner on your site:\n" + res.tasks.map(function(r){ return "- " + r.task + ": " + LABEL[r.verdict].toLowerCase() + (r.hours[1] ? " (" + fmt(r.hours[0]) + "–" + fmt(r.hours[1]) + " h a week)" : ""); }).join("\n") + "\n\nI'd like to book the free 30-minute call.\n";
-      var mail = "mailto:hello@fieldwrx.co.za?subject=" + encodeURIComponent("Free 30-minute call: my week") + "&body=" + encodeURIComponent(body);
+      var week = "Here’s my week from the scanner:\n" + res.tasks.map(function(r){ return "- " + r.task + ": " + LABEL[r.verdict].toLowerCase() + (r.hours[1] ? " (" + fmt(r.hours[0]) + "–" + fmt(r.hours[1]) + " h a week)" : ""); }).join("\n") + "\n\n";
       out.innerHTML =
         '<div class="scan-sum"><p class="scan-big">' + (hi ? fmt(lo) + "–" + fmt(hi) + "<small>hours a week</small>" : "A closer look<small></small>") + "</p>" +
         '<p class="scan-sumtext">' + (hi ? "Could come back to you, as a rough first read. " : "") + esc(res.summary) + "</p></div>" +
@@ -1090,9 +1204,10 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
           var w = max ? Math.round(r.hours[1] / max * 100) : 0;
           return '<li class="scan-row"><span class="vd ' + r.verdict + '">' + LABEL[r.verdict] + '</span><span class="t">' + esc(r.task) + '</span><span class="hrs' + (r.hours[1] ? "" : " zero") + '">' + (r.hours[1] ? (r.hours[0] === r.hours[1] ? fmt(r.hours[1]) : fmt(r.hours[0]) + "–" + fmt(r.hours[1])) + " h" : "—") + '</span><span class="h">' + esc(r.how) + '</span><span class="scan-bar"><span style="--w:' + w + '%"></span></span></li>';
         }).join("") + "</ul>" +
-        '<div class="scan-cta"><a class="btn" href="' + mail + '"><span class="roll"><span>Book a free 30-minute call</span><span aria-hidden="true">Book a free 30-minute call</span></span><svg class="arr" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13M11 5l5 5-5 5"/></svg></a>' +
+        '<div class="scan-cta"><a class="btn scan-book" href="#book"><span class="roll"><span>Book a free 30-minute call</span><span aria-hidden="true">Book a free 30-minute call</span></span><svg class="arr" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13M11 5l5 5-5 5"/></svg></a>' +
         '<p class="scan-src">' + (source === "claude" ? "A first read by AI. We’ll check it properly on the call." : "A quick read from common patterns. We’ll check it properly on the call.") + "</p></div>";
       out.hidden = false;
+      var sb = $(".scan-book", out); if (sb) sb.addEventListener("click", function(){ if (window.FWXBOOK) window.FWXBOOK.prefill(week); });
       $$(".scan-row", out).forEach(function(li, i){ setTimeout(function(){ li.classList.add("in"); }, RM ? 0 : 90 * i + 60); });
     }
     function wait(){
@@ -1397,6 +1512,91 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
   addEventListener("scroll", onScroll, { passive: true });
   addEventListener("resize", onScroll);
   onScroll();
+
+
+  /* Booking form: sends to /api/contact; without JS the same form posts and returns to #book */
+  (function(){
+    var f = $("#book-form"); if (!f) return;
+    var msg = $("#book-msg"), btn = $('button[type="submit"]', f), labels = $$(".bk-l", f);
+    var F = { name: $("#bk-name"), email: $("#bk-email"), message: $("#bk-msg") };
+    $("#bk-t").value = String(Date.now());
+    var MAIL = '<a href="mailto:hello@fieldwrx.co.za">hello@fieldwrx.co.za</a>';
+    var SAY = {
+      rate: "You’ve sent a few already. Try again in an hour, or email " + MAIL + ".",
+      config: "The form isn’t switched on yet. Email " + MAIL + " and we’ll reply from there.",
+      invalid: "Something above needs another look.",
+      network: "Couldn’t reach us just now. Check your connection and try again, or email " + MAIL + ".",
+      upstream: "That didn’t go through on our side. Try again in a minute, or email " + MAIL + "."
+    };
+    function esc(s){ var e = document.createElement("div"); e.textContent = s; return e.innerHTML; }
+    function setErr(k, text){
+      var el = F[k], e = $("#" + el.id + "-e");
+      el.setAttribute("aria-invalid", text ? "true" : "false");
+      if (text) { e.textContent = text; e.hidden = false; el.setAttribute("aria-describedby", e.id); }
+      else { e.hidden = true; el.removeAttribute("aria-describedby"); }
+    }
+    function check(){
+      setErr("name", F.name.value.trim() ? "" : "Add your name so we know who we’re replying to.");
+      setErr("email", /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(F.email.value.trim()) ? "" : "That email looks incomplete. Check it has an @ and a domain, like name@company.co.za.");
+      setErr("message", F.message.value.trim().length >= 10 ? "" : "Add a line or two about what you’re working towards.");
+      return ["name", "email", "message"].map(function(k){ return F[k]; }).filter(function(el){ return el.getAttribute("aria-invalid") === "true"; })[0];
+    }
+    Object.keys(F).forEach(function(k){ F[k].addEventListener("input", function(){ if (F[k].getAttribute("aria-invalid") === "true") check(); }); });
+    function busy(on){
+      btn.disabled = on; if (on) btn.setAttribute("aria-busy", "true"); else btn.removeAttribute("aria-busy");
+      labels.forEach(function(l){ l.textContent = on ? "Sending…" : "Send request"; });
+    }
+    function say(code){ msg.classList.add("bad"); msg.innerHTML = SAY[code] || SAY.upstream; }
+    function done(name, email){
+      var box = document.createElement("div");
+      box.className = "book-done"; box.setAttribute("tabindex", "-1"); box.setAttribute("role", "status");
+      var first = String(name || "").trim().split(/\s+/)[0];
+      box.innerHTML = '<span class="mk" aria-hidden="true"><i></i><i></i><i></i><i></i></span>' +
+        '<p class="book-done-h">Thanks' + (first ? ", " + esc(first) : "") + '. It’s with us.</p>' +
+        '<p>We’ll reply' + (email ? " to <b>" + esc(email) + "</b>" : " by email") + ' to find a time for your free 30 minutes.</p>';
+      f.replaceWith(box);
+      box.focus({ preventScroll: true });
+    }
+    f.addEventListener("submit", function(e){
+      e.preventDefault();
+      msg.textContent = ""; msg.classList.remove("bad");
+      var bad = check(); if (bad) { bad.focus(); return; }
+      var data = {}; new FormData(f).forEach(function(v, k){ data[k] = String(v); });
+      busy(true);
+      fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) })
+        .then(function(r){ return r.json().catch(function(){ return {}; }).then(function(j){ return { ok: r.ok, j: j }; }); })
+        .then(function(res){
+          busy(false);
+          if (res.ok) return done(data.name, data.email);
+          if (res.j && res.j.fields) Object.keys(res.j.fields).forEach(function(k){ if (F[k]) setErr(k, res.j.fields[k]); });
+          say(res.j && res.j.error);
+        })
+        .catch(function(){ busy(false); say("network"); });
+    });
+    /* returning from a no-JS post */
+    var q = new URLSearchParams(location.search);
+    if (q.get("sent") === "1") done("", "");
+    else if (q.get("err")) say(q.get("err"));
+    window.FWXBOOK = { prefill: function(text){ if (!F.message.value.trim()) F.message.value = text; } };
+  })();
+
+  /* Phone menu */
+  (function(){
+    var nb = $(".nav-menu"), sh = $("#nav-sheet"), navEl = $("#nav"); if (!nb || !sh) return;
+    function isOpen(){ return nb.getAttribute("aria-expanded") === "true"; }
+    function set(open, focusBack){
+      nb.setAttribute("aria-expanded", String(open));
+      navEl.classList.toggle("open", open); sh.hidden = !open;
+      if (open) navEl.classList.remove("hide");
+      else if (focusBack) nb.focus();
+    }
+    nb.addEventListener("click", function(){ set(!isOpen()); });
+    sh.addEventListener("click", function(e){ if (e.target.closest("a")) set(false); });
+    document.addEventListener("keydown", function(e){ if (e.key === "Escape" && isOpen()) set(false, true); });
+    document.addEventListener("click", function(e){ if (isOpen() && !e.target.closest("#nav")) set(false); });
+    var wide = matchMedia("(min-width:900px)");
+    (wide.addEventListener ? wide.addEventListener.bind(wide, "change") : wide.addListener.bind(wide))(function(m){ if (m.matches && isOpen()) set(false); });
+  })();
 
   /* Magnetic buttons */
   if (FINE && !RM) {
