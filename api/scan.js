@@ -1,4 +1,4 @@
-/* FIELDWRX scanner: forwards a visitor's task list to Claude and returns the JSON read.
+/* FIELDWRX "What's in your way": forwards a visitor's lines (humps, slow work, things they want time for) to Claude and returns the JSON read.
    Environment variables (set in Vercel → Project → Settings → Environment Variables):
      ANTHROPIC_API_KEY   required
      KV_REST_API_URL / KV_REST_API_TOKEN   added automatically by the Upstash for Redis integration;
@@ -51,7 +51,7 @@ async function allow(visitor) {
 
 function buildPrompt(tasks) {
   const list = tasks.map((t, i) => i + 1 + ". " + t).join("\n");
-  return "You help small South African businesses and teams find time in their week. For each task below, give a first read: keep (it earns its effort), automate (software can do it), simplify (fewer steps or people), or stop (it no longer needs doing). Be practical and kind. Never judge the person. Use plain South African English, no jargon, no product names unless very common (Excel, WhatsApp, Google Forms). Estimate hours a week each change could give back for one person, as a cautious range of whole or half hours; keep is 0. If a line isn't a work task, treat it as keep with hours [0,0] and how \"Not a task we can read\".\n\nReply with only JSON in this shape:\n{\"tasks\":[{\"task\":\"short name, max 6 words\",\"verdict\":\"automate\",\"how\":\"one sentence, max 18 words, on what would change\",\"hours\":[1,2]}],\"summary\":\"one sentence, max 22 words, on what that time could go to\"}\n\nTasks:\n" + list;
+  return "You help small South African businesses and teams with what gets in the way of their work. Each line below is one of three things: a hump they want to get over or around, something slow they want to speed up, or something they can't find time for. For each line give a first read with one verdict: keep (worth its effort as it is), automate (software can take the repetitive part), simplify (fewer steps, people or waiting), or stop (it no longer needs doing). When a line is something they want time for, choose the verdict for what to clear or change to make that time, and say what in the how. Be practical and kind. Never judge the person. Use plain South African English, no jargon, no product names unless very common (Excel, WhatsApp, Google Forms). Estimate hours a week each change could give back for one person, as a cautious range of whole or half hours; keep is 0. If a line isn't about work, treat it as keep with hours [0,0] and how \"Not something we can read\".\n\nReply with only JSON in this shape:\n{\"tasks\":[{\"task\":\"short name, max 6 words\",\"verdict\":\"automate\",\"how\":\"one sentence, max 18 words, on what would change\",\"hours\":[1,2]}],\"summary\":\"one sentence, max 22 words, on what that time could go to\"}\n\nLines:\n" + list;
 }
 
 module.exports = async (req, res) => {
