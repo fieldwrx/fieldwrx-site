@@ -627,6 +627,20 @@ textarea.book-in{min-height:150px;resize:vertical}
 /* Tap targets: at least 44px on phones */
 .foot a{display:inline-flex;align-items:center;min-height:44px}
 @media (max-width:899px){.nav-logo{padding:15px 0}.nav-in>.btn-sm{--h:44px}}
+
+/* What's in your way, redrawn in the page's own system: a ruled list sheet under a strong rule, not a floating app card */
+.scan{padding-bottom:clamp(56px,9vh,110px)}
+.scan-box{background:none;border-radius:0;padding:0;box-shadow:none;border-top:2px solid var(--fg);gap:0;transition:border-color .3s}
+.scan-box:focus-within{border-top-color:var(--blue)}
+.scan-label{display:flex;align-items:center;gap:10px;padding:14px 0;border-bottom:1px solid var(--rule);font-size:.75rem;font-weight:700;font-stretch:118%;letter-spacing:.12em;text-transform:uppercase;color:var(--fg)}
+.scan-label::before{content:"";flex:0 0 10px;height:10px;background:var(--blue);transition:transform .4s var(--ease-out)}
+.scan-box:focus-within .scan-label::before{transform:scale(1.3)}
+.scan-hint{margin-left:auto;font-weight:500;letter-spacing:.08em;color:var(--fg2)}
+.scan-in{--ln:31px;border-radius:0;background-color:transparent;background-image:linear-gradient(var(--rule) 7px,transparent 7px),linear-gradient(transparent calc(var(--ln) - 1px),var(--rule) calc(var(--ln) - 1px));background-size:7px var(--ln),100% var(--ln);background-position:2px 12px,0 0;background-repeat:repeat-y,repeat;background-attachment:local;font:400 1.125rem/var(--ln) "Archivo",system-ui,sans-serif;padding:0 0 0 26px;min-height:calc(var(--ln) * 6);box-shadow:none;caret-color:var(--blue)}
+.scan-in:focus{box-shadow:none}
+.scan-in::placeholder{color:var(--fg2);opacity:1}
+.scan-actions{padding-top:20px}
+.scan-out{margin-top:30px}
 </style>
 
 </head>
@@ -702,7 +716,7 @@ textarea.book-in{min-height:150px;resize:vertical}
       </div>
       <div class="scan-panel fu">
         <form class="scan-box" id="scan-form" novalidate>
-          <label class="scan-label" for="scan-in">In your way <span class="scan-hint">· one thing per line</span></label>
+          <label class="scan-label" for="scan-in">In your way <span class="scan-hint">One thing per line</span></label>
           <textarea class="scan-in" id="scan-in" rows="6" maxlength="1500" placeholder="Month-end takes the whole week&#10;Approvals wait days for a signature&#10;Quotes get rebuilt from scratch every time&#10;No time to plan next season"></textarea>
           <div class="scan-actions">
             <button class="btn scan-btn" type="submit"><span class="roll"><span>Get a first read</span><span aria-hidden="true">Get a first read</span></span><svg class="arr" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13M11 5l5 5-5 5"/></svg></button>

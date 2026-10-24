@@ -556,6 +556,26 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
 /* Tap targets: at least 44px on phones */
 .foot a{display:inline-flex;align-items:center;min-height:44px}
 @media (max-width:899px){.nav-logo{padding:15px 0}.nav-in>.btn-sm{--h:44px}}
+
+/* About: the mark builds as you read. One square per paragraph; the circle arrives with the question */
+.about-grid{display:grid;gap:0}
+.about-mark{display:none}
+@media (min-width:900px){
+  .about-grid{grid-template-columns:minmax(0,5fr) minmax(0,7fr);align-items:start}
+  .about-grid .about-body{margin-left:0}
+  .about-mark{display:block;position:sticky;top:calc(var(--nav-h) + 14vh);margin-top:clamp(40px,7vh,80px);width:min(240px,62%)}
+  .about-mark svg{display:block;width:100%;height:auto;overflow:visible}
+  .about-mark rect,.about-mark circle{fill:transparent;stroke:var(--rule);stroke-width:10;transition:fill .7s var(--ease-out),stroke .7s var(--ease-out),transform .9s var(--ease-back);transform-box:fill-box;transform-origin:50% 50%}
+  .about-mark rect.on{fill:var(--blue);stroke:var(--blue)}
+  .about-mark circle{transform:translateY(-40%) scale(.6);opacity:0;transition:fill .7s var(--ease-out),stroke .7s,transform .9s var(--ease-back),opacity .5s}
+  .about-mark circle.on{fill:var(--red);stroke:var(--red);transform:none;opacity:1}
+}
+.about-body p{transition:color .6s var(--ease-out)}
+/* the question as a pull-quote with a highlighter band, not an underline that reads as a link */
+.about-body .q{font-stretch:115%;font-weight:700;font-size:clamp(1.5rem,2.3vw,2.15rem);line-height:1.22;letter-spacing:-.01em;color:var(--fg);margin-block:12px}
+.about-body .q mark{font-weight:inherit;padding:0 .08em;background:linear-gradient(transparent 58%,color-mix(in srgb,var(--blue) 26%,transparent) 58%) 0 0/0 100% no-repeat;-webkit-box-decoration-break:clone;box-decoration-break:clone;transition:background-size 1.4s var(--ease-out) .2s}
+.about-body.in .q mark,.no-anim .q mark{background-size:100% 100%}
+@media (prefers-reduced-motion:reduce){.about-mark rect,.about-mark circle{transition:none}.about-body .q mark{background-size:100% 100%}}
 </style>
 
 </head>
@@ -582,12 +602,15 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
   <section class="about about-page" id="about" data-tone="paper" aria-labelledby="about-h">
     <div class="wrap">
       <h1 class="h2 rv" id="about-h"><span class="ln"><span>Every process has a customer.</span></span><span class="ln lt"><span>That’s where we start.</span></span></h1>
+      <div class="about-grid">
+      <div class="about-mark" aria-hidden="true"><svg viewBox="-8 -8 702 702"><rect x="0" y="0" width="315.6" height="315.6"/><rect x="370.4" y="0" width="315.6" height="315.6"/><rect x="0" y="370.4" width="315.6" height="315.6"/><circle cx="528.2" cy="528.2" r="157.8"/></svg></div>
       <div class="about-body fu">
         <p>Our experience runs across apparel and footwear, at one of South Africa’s biggest retailers and at a global fashion brand. It continues through homeware and textiles, and into consumer electronics across private label and global brands.</p>
         <p>Much of it has been spent between head office and the shop floor: designing systems and processes that move the business forward without taking time from the people who serve customers.</p>
         <p>We’re wary of either/or thinking. The cheaper option often does a job for the better one: it keeps a range within reach, or it shows the customer what the better option is worth. Sometimes the right call is to give up margin to grow volume and profit, and part of the work is making that case with the evidence.</p>
-        <p><mark>Who receives this, and how does the change make their day better?</mark></p>
+        <p class="q"><mark>Who receives this, and how does the change make their day better?</mark></p>
         <p>Our aim is to pay it forward: to create value for our clients, for the people they serve, and for the society we share.</p>
+      </div>
       </div>
     </div>
   </section>
@@ -624,6 +647,16 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
   var nav = $("#nav"), lastY = 0;
   function navScroll(){ var y = scrollY; nav.classList.toggle("solid", y > 8); if (y > lastY + 4 && y > 160 && !nav.classList.contains("open")) nav.classList.add("hide"); else if (y < lastY - 4) nav.classList.remove("hide"); lastY = y; }
   addEventListener("scroll", navScroll, { passive: true }); navScroll();
+  /* the mark beside the About copy: a square per paragraph as it reaches the middle of the screen, the circle with the question */
+  (function(){
+    var mk = document.querySelector(".about-mark"); if (!mk) return;
+    var parts = [].slice.call(mk.querySelectorAll("rect,circle")), ps = [].slice.call(document.querySelectorAll(".about-body p"));
+    var map = [0, 1, 2, 3, 3];
+    if (RM || !("IntersectionObserver" in window)) { parts.forEach(function(e){ e.classList.add("on"); }); return; }
+    var io = new IntersectionObserver(function(es){ es.forEach(function(en){ if (en.isIntersecting) { var i = ps.indexOf(en.target); for (var k = 0; k <= map[i]; k++) parts[k].classList.add("on"); } }); }, { rootMargin: "0px 0px -45% 0px" });
+    ps.forEach(function(p){ io.observe(p); });
+  })();
+
 
   /* Phone menu */
   (function(){
