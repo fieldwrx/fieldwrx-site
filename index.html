@@ -347,74 +347,48 @@ h1,h2,h3,p{margin:0}
   .scan-note{margin:0}
 }
 
-/* How we work: shu, ha, ri, scrubbed by scroll */
-.how{padding-top:clamp(110px,18vh,220px)}
+/* How we work: shu, ha, ri as three cards. They fly in and deck up one by one, then deal out side by side.
+   Without .deck (no JS, reduced motion) they are a plain row on wide screens and a stack on phones. */
+.how{padding-top:clamp(110px,18vh,220px);padding-bottom:clamp(90px,14vh,170px)}
 .how-intro .body{margin-top:28px}
-.how-track{position:relative;height:620svh;margin-bottom:clamp(40px,8vh,96px);margin-top:clamp(24px,6vh,72px)}
-.how-stage{position:sticky;top:0;height:100svh;overflow:hidden}
-.how-cv{position:absolute;inset:0;width:100%;height:100%;display:block}
-.how-kanji{position:absolute;right:2vw;top:50%;width:min(52vw,92svh);aspect-ratio:1;transform:translateY(-50%);pointer-events:none}
-.how-kanji span{position:absolute;inset:0;display:grid;place-items:center;font:600 min(44vw,78svh)/1 "Noto Serif JP","Hiragino Mincho ProN","Yu Mincho",serif;color:rgba(243,242,239,.045);opacity:0;filter:blur(18px);transform:scale(1.04);transition:opacity 1.1s var(--ease-out),filter 1.1s var(--ease-out),transform 1.4s var(--ease-out)}
-.how-kanji span.on{opacity:1;filter:blur(0);transform:none}
-.how-steps{list-style:none;margin:0;padding:0;position:absolute;left:var(--g);top:calc(50% + var(--nav-h) / 2);width:min(520px,40vw);transform:translateY(-50%)}
-.how-step{position:absolute;left:0;top:0;width:100%;transform:translateY(-50%);visibility:hidden;transition:visibility 0s .7s}
-.how-step.on{visibility:visible;transition:none}
-.how-step>*{opacity:0;filter:blur(10px);transform:translateY(16px);transition:opacity .5s var(--ease-out),filter .5s var(--ease-out),transform .6s var(--ease-out)}
-.how-step.on>*{opacity:1;filter:blur(0);transform:none;transition:opacity .9s var(--ease-out),filter 1s var(--ease-out),transform 1.1s var(--ease-out)}
-.how-step.on>:nth-child(2){transition-delay:.08s}.how-step.on>:nth-child(3){transition-delay:.16s}.how-step.on>:nth-child(4){transition-delay:.26s}.how-step.on>:nth-child(5){transition-delay:.32s}
-.how-k{display:flex;align-items:baseline;gap:12px;font-size:.875rem;font-weight:600;font-stretch:115%;letter-spacing:.14em;text-transform:uppercase;color:var(--fg2)}
-.how-k span{font-variant-numeric:tabular-nums;color:#8EA2FF}   /* How we work is always on the dark ground */
-.how-k b{font:600 1.35rem/1 "Noto Serif JP","Hiragino Mincho ProN","Yu Mincho",serif;letter-spacing:0;color:var(--fg)}
-.how-step h3{margin:18px 0 0;font-stretch:125%;font-weight:800;font-size:clamp(2rem,3.7vw,3.6rem);line-height:.98;letter-spacing:-.03em;text-wrap:balance}
-.how-d{margin-top:20px;font-size:clamp(1.0625rem,1.25vw,1.25rem);line-height:1.5;text-wrap:pretty}
-.how-ip{margin-top:30px;font-size:.75rem;font-weight:600;font-stretch:115%;letter-spacing:.16em;text-transform:uppercase;color:var(--fg2)}
-.how-step ul{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:12px}
-.how-step li{position:relative;padding-left:22px;font-size:clamp(.9375rem,1.02vw,1.0625rem);line-height:1.5;color:var(--fg2);text-wrap:pretty}
-.how-step li::before{content:"";position:absolute;left:0;top:.62em;width:8px;height:8px;background:var(--blue)}
-.how-prog{position:absolute;right:var(--g);top:50%;display:grid;gap:8px;transform:translateY(-50%)}
-.how-prog i{display:block;width:3px;height:44px;border-radius:3px;background:var(--rule);overflow:hidden;position:relative}
-.how-prog i::after{content:"";position:absolute;inset:0;background:var(--fg);transform:scaleY(var(--f,0));transform-origin:50% 0}
-.how-prog{z-index:3}.how-prog i{cursor:pointer;overflow:visible}.how-prog i::before{content:"";position:absolute;inset:-6px -14px}
-.how-prog i::after{border-radius:3px}
-.how-titles{position:absolute;inset:0;z-index:2;pointer-events:none}
-.how-t{position:absolute;left:50%;top:50%;margin:0;text-align:center;text-transform:uppercase;font-stretch:125%;font-size:clamp(44px,13vw,280px);line-height:.86;letter-spacing:-.035em;color:#F3F2EF;white-space:nowrap;opacity:0;transform:translate(-50%,-50%);will-change:transform,filter,opacity}
-.how-t span{display:block}.how-t .t1{font-weight:900}.how-t .t2{font-weight:300}
-.how-t i{display:inline-block;font-style:normal;will-change:transform,filter,opacity}
-.how-flash{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:0;background:var(--blue)}
-.how-cv{will-change:opacity}
-.how-gl{position:absolute;inset:0;width:100%;height:100%;display:block;will-change:opacity}
-html.how-3d .how-cv{display:none}
-.how.static .how-gl{display:none}
-.how-stage::after{content:"";position:absolute;inset:0 auto 0 0;width:min(780px,58vw);z-index:1;pointer-events:none;background:linear-gradient(90deg,var(--bg) 0%,color-mix(in srgb,var(--bg) 88%,transparent) 55%,transparent 100%)}
-.how-steps{z-index:2}
-@media (max-width:899px){.how-stage::after{inset:auto 0 0 0;width:auto;height:62%;background:linear-gradient(0deg,var(--bg) 0%,color-mix(in srgb,var(--bg) 90%,transparent) 62%,transparent 100%)}
-  html.how-3d .how-stage::after{display:none}
-  html.how-3d .how-gl{bottom:auto;-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 9%,#000 80%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0,#000 9%,#000 80%,transparent 100%)}}
-.how.static .how-titles,.how.static .how-flash{display:none}
-.how-where{padding-block:clamp(56px,11vh,130px) clamp(110px,18vh,220px)}
-.how-where .how-ip{margin:0}
-.how-list{margin-top:18px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 18px;font-stretch:118%;font-weight:700;font-size:clamp(1.35rem,2.6vw,2.5rem);line-height:1.15;letter-spacing:-.015em}
-.how-list i{display:inline-block;width:.32em;height:.32em;background:var(--blue)}
+.how-track{position:relative;margin-top:clamp(40px,8vh,96px)}
+.how-stage{position:relative;padding-inline:var(--g)}
+.how-kanji{display:none}
+.how-cards{list-style:none;margin:0 auto;padding:0;max-width:1340px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.how-card{position:relative;background:#F3F2EF;color:#0F1013;box-shadow:0 40px 80px -36px rgba(0,0,0,.7),0 2px 0 rgba(255,255,255,.04) inset}
+.hc-in{padding:22px 24px 28px}
+.how-k{display:flex;align-items:baseline;gap:10px;font-size:.8125rem;font-weight:600;font-stretch:115%;letter-spacing:.14em;text-transform:uppercase;color:#5C5F66}
+.how-k span{font-variant-numeric:tabular-nums;color:#2F5BFF}
+.how-k b{font:600 1.25rem/1 "Noto Serif JP","Hiragino Mincho ProN","Yu Mincho",serif;letter-spacing:0;color:#0F1013}
+.hc-art{display:block;width:100%;height:148px;margin-top:16px;background:#0F1013}
+.how-card h3{margin-top:22px;font-stretch:125%;font-weight:800;font-size:clamp(1.55rem,1.9vw,2rem);line-height:1;letter-spacing:-.03em;text-wrap:balance}
+.how-d{margin-top:12px;font-size:1rem;line-height:1.5;color:#2A2C31;text-wrap:pretty}
+.how-ip{margin-top:20px;font-size:.6875rem;font-weight:600;font-stretch:115%;letter-spacing:.16em;text-transform:uppercase;color:#5C5F66}
+.how-card ul{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:10px}
+.how-card ul li{position:relative;padding-left:18px;font-size:.875rem;line-height:1.5;color:#4A4D54;text-wrap:pretty}
+.how-card ul li::before{content:"";position:absolute;left:0;top:.6em;width:7px;height:7px;background:#2F5BFF}
+.hc-shade{position:absolute;inset:0;background:#0F1013;opacity:0;pointer-events:none}
 @media (max-width:899px){
-  .how-track{height:560svh}
-  .how-kanji{right:auto;left:50%;top:calc(var(--nav-h) + 4svh);width:min(80vw,40svh);transform:translateX(-50%)}
-  .how-kanji span{font-size:min(70vw,36svh)}
-  .how-steps{left:var(--g);right:var(--g);top:auto;bottom:max(84px,9svh);width:auto;transform:none}
-  .how-step{top:auto;bottom:0;transform:none}
-  .how-step h3{font-size:clamp(1.7rem,7.4vw,2.3rem);margin-top:12px}
-  .how-d{margin-top:12px;font-size:1rem}
-  .how-ip{margin-top:16px}
-  .how-step ul{gap:8px;margin-top:8px}
-  .how-step li{font-size:.875rem;line-height:1.42}
-  .how-prog{top:auto;bottom:max(84px,9svh);right:8px}
-  .how-prog i{height:28px}
+  .how-cards{grid-template-columns:minmax(0,1fr);gap:20px;max-width:520px}
+  .hc-in{padding:18px 20px 22px}
+  .hc-art{height:96px;margin-top:14px}
+  .how-card h3{margin-top:16px;font-size:clamp(1.45rem,6.4vw,1.85rem)}
+  .how-d{margin-top:10px;font-size:.9375rem;line-height:1.46}
+  .how-ip{margin-top:14px}
+  .how-card ul{gap:7px;margin-top:8px}
+  .how-card ul li{font-size:.8125rem;line-height:1.44}
 }
-.how.static .how-track{height:auto;margin-top:clamp(40px,8vh,96px)}
-.how.static .how-stage{position:relative;height:auto;overflow:visible;padding-inline:var(--g)}
-.how.static .how-cv,.how.static .how-kanji,.how.static .how-prog{display:none}
-.how.static .how-steps{position:static;width:auto;max-width:640px;transform:none;display:grid;gap:56px}
-.how.static .how-step{position:static;transform:none;visibility:visible}
-.how.static .how-step>*{opacity:1;filter:none;transform:none}
+
+/* the deck: pinned stage, cards placed by script */
+.how.deck .how-track{height:380svh;margin-top:clamp(24px,5vh,64px);margin-bottom:0}
+.how.deck .how-stage{position:sticky;top:0;height:100svh;overflow:hidden;padding:0;perspective:1600px;perspective-origin:50% 55%}
+.how.deck .how-kanji{display:block;position:absolute;left:50%;top:calc(50% + var(--nav-h) / 2);width:min(92vw,86svh);aspect-ratio:1;transform:translate(-50%,-50%);pointer-events:none}
+.how.deck .how-kanji span{position:absolute;inset:0;display:grid;place-items:center;font:600 min(78vw,74svh)/1 "Noto Serif JP","Hiragino Mincho ProN","Yu Mincho",serif;color:rgba(243,242,239,.06);opacity:0;filter:blur(14px);transform:scale(1.05);transition:opacity .9s var(--ease-out),filter .9s var(--ease-out),transform 1.2s var(--ease-out)}
+.how.deck .how-kanji span.on{opacity:1;filter:blur(0);transform:none}
+.how.deck .how-cards{display:block;position:absolute;left:50%;top:50%;width:0;height:0;max-width:none;transform-style:preserve-3d}
+.how.deck .how-card{position:absolute;left:0;top:0;width:var(--cw,400px);transform-origin:50% 50%;will-change:transform;backface-visibility:hidden;transform:translate(-50%,-50%) translate3d(0,120vh,0)}
+.how.deck .how-card.tab{cursor:pointer}
+@media (max-width:899px){.how.deck .how-track{height:340svh}}
 /* What we work on: an index that rearranges the mark */
 .areas{padding-block:clamp(110px,18vh,220px)}
 .areas-grid{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:0 24px;align-items:start}
@@ -622,9 +596,6 @@ textarea.book-in{min-height:150px;resize:vertical}
 .book-done p+p{color:var(--muted);font-size:1.0625rem}
 @media (prefers-reduced-motion:reduce){.book-form .btn[aria-busy="true"] .arr{animation:none}}
 
-/* Reduced motion: the static How we work sits above the shading meant for the animated scene */
-.how.static .how-stage::after{display:none}
-.how.static .how-steps{position:relative}
 
 /* Tap targets: at least 44px on phones */
 .foot a{display:inline-flex;align-items:center;min-height:44px}
@@ -738,47 +709,51 @@ textarea.book-in{min-height:150px;resize:vertical}
     </div>
     <div class="how-track">
       <div class="how-stage">
-        <canvas class="how-cv" aria-hidden="true"></canvas>
-        <div class="how-kanji" aria-hidden="true"><span class="on">守</span><span>破</span><span>離</span></div>
-        <div class="how-titles" aria-hidden="true">
-          <p class="how-t"><span class="t1">Learn it</span><span class="t2">as it is.</span></p>
-          <p class="how-t"><span class="t1">Change what</span><span class="t2">holds it back.</span></p>
-          <p class="how-t"><span class="t1">Rethink it</span><span class="t2">entirely.</span></p>
-        </div>
-        <div class="how-flash" aria-hidden="true"></div>
-        <ol class="how-steps">
-          <li class="how-step on">
-            <p class="how-k"><span>01</span><b lang="ja">守</b> Shu</p>
-            <h3>Learn it as it is</h3>
-            <p class="how-d">We run your process the way it runs today, until we know why each step exists and who relies on it. Nothing changes until we understand it.</p>
-            <p class="how-ip">In practice</p>
-            <ul>
-              <li>A plan that set next year’s targets from this year’s mix. Running it as it stood showed the flaw: whatever slipped was never planned back up, and whatever did well was asked for more than it could give.</li>
-              <li>Time with front-line teams surfaced small rules that cost more goodwill than they saved. Leadership agreed to change them.</li>
-            </ul>
+        <div class="how-kanji" aria-hidden="true"><span>守</span><span>破</span><span>離</span></div>
+        <ol class="how-cards">
+          <li class="how-card">
+            <div class="hc-in">
+              <p class="how-k"><span>01</span><b lang="ja">守</b> Shu</p>
+              <canvas class="hc-art" data-art="shu" aria-hidden="true"></canvas>
+              <h3>Learn it as it is</h3>
+              <p class="how-d">We run your process the way it runs today, until we know why each step exists and who relies on it. Nothing changes until we understand it.</p>
+              <p class="how-ip">In practice</p>
+              <ul>
+                <li>A plan that set next year’s targets from this year’s mix. Running it as it stood showed the flaw: whatever slipped was never planned back up, and whatever did well was asked for more than it could give.</li>
+                <li>Time with front-line teams surfaced small rules that cost more goodwill than they saved. Leadership agreed to change them.</li>
+              </ul>
+            </div>
+            <i class="hc-shade" aria-hidden="true"></i>
           </li>
-          <li class="how-step">
-            <p class="how-k"><span>02</span><b lang="ja">破</b> Ha</p>
-            <h3>Change what holds it back</h3>
-            <p class="how-d">Then we test every part: keep it, automate it, simplify it or stop it. Each change is checked against what the customer on the other end needs.</p>
-            <p class="how-ip">In practice</p>
-            <ul>
-              <li>A weekly task cut from 30 minutes to 3. Monday reporting that took two to three hours to work through became a five-minute read.</li>
-              <li>Analysis that was rebuilt by hand every time now comes from source data structured once and queried again and again: hours back each day, and fewer late nights.</li>
-            </ul>
+          <li class="how-card">
+            <div class="hc-in">
+              <p class="how-k"><span>02</span><b lang="ja">破</b> Ha</p>
+              <canvas class="hc-art" data-art="ha" aria-hidden="true"></canvas>
+              <h3>Change what holds it back</h3>
+              <p class="how-d">Then we test every part: keep it, automate it, simplify it or stop it. Each change is checked against what the customer on the other end needs.</p>
+              <p class="how-ip">In practice</p>
+              <ul>
+                <li>A weekly task cut from 30 minutes to 3. Monday reporting that took two to three hours to work through became a five-minute read.</li>
+                <li>Analysis that was rebuilt by hand every time now comes from source data structured once and queried again and again: hours back each day, and fewer late nights.</li>
+              </ul>
+            </div>
+            <i class="hc-shade" aria-hidden="true"></i>
           </li>
-          <li class="how-step">
-            <p class="how-k"><span>03</span><b lang="ja">離</b> Ri</p>
-            <h3>Rethink it entirely</h3>
-            <p class="how-d">Once the work is understood, we redesign it around where you’re going, and coach your team on the why as well as the how, until they can run it without us.</p>
-            <p class="how-ip">In practice</p>
-            <ul>
-              <li>A report that used to describe the week now says what to act on: which orders to speed up and which to cancel.</li>
-              <li>A team member who once needed help whenever a spreadsheet broke now uses AI to find and fix the fault herself, without having to know how every formula works.</li>
-            </ul>
+          <li class="how-card">
+            <div class="hc-in">
+              <p class="how-k"><span>03</span><b lang="ja">離</b> Ri</p>
+              <canvas class="hc-art" data-art="ri" aria-hidden="true"></canvas>
+              <h3>Rethink it entirely</h3>
+              <p class="how-d">Once the work is understood, we redesign it around where you’re going, and coach your team on the why as well as the how, until they can run it without us.</p>
+              <p class="how-ip">In practice</p>
+              <ul>
+                <li>A report that used to describe the week now says what to act on: which orders to speed up and which to cancel.</li>
+                <li>A team member who once needed help whenever a spreadsheet broke now uses AI to find and fix the fault herself, without having to know how every formula works.</li>
+              </ul>
+            </div>
+            <i class="hc-shade" aria-hidden="true"></i>
           </li>
         </ol>
-        <div class="how-prog" aria-hidden="true"><i></i><i></i><i></i></div>
       </div>
     </div>
   </section>
@@ -1314,266 +1289,239 @@ textarea.book-in{min-height:150px;resize:vertical}
     });
   })();
 
-  /* ---------- How we work: shu, ha, ri, flown through in 3D as you scroll ---------- */
+  /* ---------- How we work: shu, ha, ri as three cards ----------
+     The stage pins; each card flies up from below, tilted back, and lands on the deck. The cards
+     underneath shrink, lift and dim so their headers peek over the top. On wide screens the deck
+     then deals out and the three settle side by side, and that row scrolls away with the page.
+     Position follows scroll, smoothed, so it is never cut: a card at rest is always readable. */
   (function(){
     var sec = $("#work"); if (!sec) return;
-    var track = $(".how-track", sec), stage = $(".how-stage", sec), cv = $(".how-cv", sec), cx = cv.getContext("2d");
-    var steps = $$(".how-step", sec), kanji = $$(".how-kanji span", sec), ticks = $$(".how-prog i", sec);
-    var titles = $$(".how-t", sec), flash = $(".how-flash", sec);
-    if (RM) { sec.classList.add("static"); return; }
-
-    /* titles: split into letters so each can fly in on its own */
-    var letters = titles.map(function(t){
-      var out = [];
-      $$("span", t).forEach(function(line){
-        var txt = line.textContent; line.textContent = "";
-        for (var k = 0; k < txt.length; k++) { var e = document.createElement("i"); e.textContent = txt[k] === " " ? " " : txt[k]; line.appendChild(e); out.push(e); }
-      });
-      return out;
-    });
-
-    /* the scene: 48 squares, each with a fixed fate */
-    var COLS = 8, ROWS = 6, N = COLS * ROWS, COLH = [2, 3, 3, 4, 5, 6, 8, 9];
-    var seed = 11; function rnd(){ seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
-    var order = []; for (var i = 0; i < N; i++) order.push(i);
-    for (var i = N - 1; i > 0; i--) { var j = Math.floor(rnd() * (i + 1)), t = order[i]; order[i] = order[j]; order[j] = t; }
-    var fate = new Array(N); order.forEach(function(q, k){ fate[q] = k < 10 ? "a" : k < 17 ? "s" : k < 25 ? "x" : "k"; });
-    var spin = []; for (var i = 0; i < N; i++) spin.push((rnd() - .5) * 2);
-    /* ri: the squares that remain climb into towers, automated work riding on top */
-    var dest = new Array(N), keep = [], blue = [];
-    for (var i = 0; i < N; i++) { if (fate[i] === "a") blue.push(i); else if (fate[i] !== "x") keep.push(i); }
-    (function(){
-      var ki = 0, bi = 0;
-      COLH.forEach(function(h, c){
-        var nb = c >= 6 ? 2 : 1;
-        for (var r = 0; r < h; r++) { var q = r >= h - nb ? blue[bi++] : keep[ki++]; dest[q] = [-3.5 + c, 1.6 - c * .5, .12 + r * .46, c]; }
-      });
-    })();
-    var TOP = [-3.5 + 7 + .05, 1.6 - 7 * .5, .12 + 9 * .46 + .55];
-
-    /* camera path over the whole section: [p, yaw°, pitch°, distance, target z] */
-    var KEYS = [[0, -8, 0, 16, 0], [.07, -14, 18, 13, 0], [.15, -26, 54, 9.6, 0], [.3, 16, 57, 8.6, 0], [.365, 128, 42, 9.6, 0], [.62, 168, 50, 8.2, 0], [.69, 300, 64, 10.6, .4], [.86, 328, 52, 10.8, 1.9], [1, 340, 46, 10.6, 2.2]];
-    function eio(t){ return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+    var track = $(".how-track", sec), stage = $(".how-stage", sec), deckEl = $(".how-cards", sec);
+    var cards = $$(".how-card", sec), shades = $$(".hc-shade", sec), kanji = $$(".how-kanji span", sec);
+    function cl(v){ return v < 0 ? 0 : v > 1 ? 1 : v; }
+    function sp(p, a, b){ return cl((p - a) / (b - a)); }
     function eo(t){ return 1 - Math.pow(1 - t, 3); }
-    function clamp(v){ return v < 0 ? 0 : v > 1 ? 1 : v; }
-    function span(p, a, b){ return clamp((p - a) / (b - a)); }
-    function bump(p, c, w){ var x = (p - c) / w; return Math.max(0, 1 - x * x); }
-    function cam(p){
-      for (var k = 0; k < KEYS.length - 1; k++) if (p <= KEYS[k + 1][0]) break;
-      var A = KEYS[k], B = KEYS[Math.min(k + 1, KEYS.length - 1)], u = B[0] > A[0] ? eio(clamp((p - A[0]) / (B[0] - A[0]))) : 1;
-      return { yaw: (A[1] + (B[1] - A[1]) * u) * Math.PI / 180, pitch: (A[2] + (B[2] - A[2]) * u) * Math.PI / 180, dist: A[3] + (B[3] - A[3]) * u, tz: A[4] + (B[4] - A[4]) * u };
-    }
-    var W = 0, H = 0, dpr = 1, F = 1, CX = 0, CY = 0, CLIP = 0, BG = "#0F1013", cur = 0, target = 0, raf = 0, vis = false, stageIdx = -1, lastCam = null;
-    /* chapters: scroll picks the chapter, time plays it. Nothing here is scrubbed by scroll.
-       Two clocks: the scene, which catches up when you scroll ahead (a montage, never a cut),
-       and the full-screen titles, which never run faster than 1.4x so they can always be read.
-       Tuned from real scroll logs: a straight-through pass of about 8 seconds sees every beat. */
-    var TDUR = 2.2, dir = 1, lastTarget = -1, entered = false, lastNow = 0;
-    var DUR = [4.6, 5, 5.4], GAIN = 2, CAP = 4.5, TCAP = 1.4;
-    var ST = [0, 0, 0];                             /* per chapter: 0 not yet seen, 1 playing, 2 at its final frame */
-    var play = null, shown = 0, title = null, tq = [], fadeAt = -1, flashAt = -1, flashK = 0, replay = -1;
-    /* where the scene is, seconds into each chapter's beat: [s, scene position, easing into it] */
-    var CUE = [
-      [[0, 0], [1.85, .11, "eo"], [4.1, .32, "eio"], [4.6, .332, "eo"]],
-      [[0, .334], [1.85, .375, "eo"], [3.0, .49, "eio"], [3.5, .53, "eio"], [4.65, .64, "eio"], [5, .665, "eo"]],
-      [[0, .668], [1.8, .70, "eo"], [4.05, .875, "eio"], [5.4, 1, "lin"]]
-    ];
-    function cueP(k, t){
-      var c = CUE[k];
-      if (t <= 0) return c[0][1];
-      for (var i = 1; i < c.length; i++) if (t <= c[i][0]) {
-        var A = c[i - 1], B = c[i], u = (t - A[0]) / (B[0] - A[0]);
-        return A[1] + (B[1] - A[1]) * (B[2] === "eio" ? eio(u) : B[2] === "eo" ? eo(u) : u);
-      }
-      return c[c.length - 1][1];
-    }
-    function endP(k){ return CUE[k][CUE[k].length - 1][1]; }
-    function show(k){ if (k !== shown) { shown = k; kanji.forEach(function(el, j){ el.classList.toggle("on", j === k); }); } }
-    function start(k){ ST[k] = 1; play = { k: k, bt: 0 }; show(k); tq.push(k); }
-    function clearTitles(){ title = null; tq = []; }
-    function chapterAt(t){ return t < 1 / 3 ? 0 : t < 2 / 3 ? 1 : 2; }
-    /* one step: k is the chapter the scroll is in, pos how many chapters of scroll you have travelled */
-    function step(k, pos, now, dt){
-      if (k < shown) {                               /* back: final frames only, never in reverse, no titles */
-        if (play) { ST[play.k] = 2; play = null; }
-        for (var j = k; j < 3; j++) if (ST[j] === 1) ST[j] = 2;
-        clearTitles();
-        if (k === replay) { replay = -1; start(k); fadeAt = now; return; }
-        ST[k] = 2; show(k); fadeAt = now; return;
-      }
-      if (play) {
-        var ahead = Math.max(0, pos - (play.k + play.bt / DUR[play.k]));
-        play.bt += dt * (pos >= 2.985 && dir > 0 ? CAP : Math.min(CAP, 1 + GAIN * ahead));   /* past the end of the section: finish before the stage leaves */
-        if (play.bt < DUR[play.k]) return;
-        ST[play.k] = 2; play = null;
-      }
-      if (k === replay) { replay = -1; start(k); fadeAt = now; return; }
-      for (var j = shown; j <= k; j++) if (ST[j] === 0) {   /* the next chapter not yet seen, up to where you are */
-        if (j === 0 && !entered) return;             /* the first beat waits until the stage owns the screen */
-        start(j); return;
-      }
-      if (k !== shown) { show(k); fadeAt = now; clearTitles(); }   /* already seen: its final frame */
-    }
-    function stepTitle(pos, now, dt){
-      if (!title && tq.length) { title = { k: tq.shift(), tt: 0 }; if (title.k > 0) { flashAt = now; flashK = title.k; } }
-      if (!title) return;
-      title.tt += dt * (pos > title.k + .9 ? TCAP : 1);
-      if (title.tt >= TDUR) title = null;
-    }
-    function layout(){
-      dpr = Math.min(2, window.devicePixelRatio || 1);
-      W = stage.clientWidth; H = stage.clientHeight;
-      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
-      var wide = W >= 900;
-      CX = wide ? W * .7 : W * .47; CY = wide ? H * .54 : H * .25;
-      F = (wide ? Math.min(W * .5, H) : Math.min(W * .78, H * .34)) * 1.02;
-      CLIP = wide ? 0 : Math.max(H * .4, Math.min(H * .5, H - 470));
-      BG = getComputedStyle(sec).backgroundColor; if (!BG || BG === "rgba(0, 0, 0, 0)") BG = getComputedStyle(d).getPropertyValue("--bg").trim() || "#0F1013";
-      /* fit each title to the stage */
-      titles.forEach(function(t){ t.style.setProperty("--fit", 1); t.dataset.fit = Math.min(1, W * .92 / Math.max(1, t.scrollWidth)); });
-      lastCam = null; draw(cur, true);
-    }
-    function project(x, y, z, C){
-      var cy = Math.cos(C.yaw), sy = Math.sin(C.yaw), cp = Math.cos(C.pitch), sp = Math.sin(C.pitch);
-      var x1 = x * cy + y * sy, y1 = -x * sy + y * cy, z1 = z - C.tz;
-      var yr = y1 * cp - z1 * sp, zr = y1 * sp + z1 * cp, depth = C.dist - zr;
-      if (depth < .4) depth = .4;
-      var k = F / depth;
-      return [CX + x1 * k, CY + yr * k, depth];
-    }
-    function draw(p, hard){
-      if (window.HOW3D) window.HOW3D.frame(p); else draw2D(p, hard);
-      drawUI(p);
-    }
-    function draw2D(p, hard){
-      var C = cam(p);
-      /* motion trails when the camera moves fast: the whip pans smear */
-      var speed = lastCam ? Math.abs(C.yaw - lastCam.yaw) * 3 + Math.abs(C.pitch - lastCam.pitch) * 3 + Math.abs(C.dist - lastCam.dist) * .4 : 0;
-      lastCam = C;
-      var keepTrail = hard ? 0 : Math.min(.72, speed * 6);
-      cx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      cx.globalAlpha = 1 - keepTrail; cx.fillStyle = BG; cx.fillRect(0, 0, W, H); cx.globalAlpha = 1;
-      cx.save();
-      if (CLIP) { cx.beginPath(); cx.rect(0, 0, W, CLIP); cx.clip(); }
-      var scan = span(p, .15, .3), scanX = -5 + scan * 10;
-      var ri = span(p, .7, .87), quads = [];
-      for (var i = 0; i < N; i++) {
-        var col = i % COLS, row = Math.floor(i / COLS), f = fate[i];
-        var x = col - 3.5, y = row - 2.5, z = 0, s = .74, rot = 0, a = .22, blueT = 0, red = 0;
-        /* rise into formation */
-        var ap = eo(span(p, .004 * (Math.abs(col - 3.5) + Math.abs(row - 2.5)), .06 + .004 * (Math.abs(col - 3.5) + Math.abs(row - 2.5))));
-        z = -5 * (1 - ap); a *= ap; rot = (1 - ap) * spin[i] * 1.6;
-        /* shu: a wave of light reads every square */
-        if (scan > 0) { var dx = scanX - x; if (dx > 0) a = .22 + .73 * clamp(dx / 1.4); z += .65 * Math.exp(-dx * dx * 2.2); }
-        /* ha */
-        if (f === "a") { var ta = eio(span(p, .38 + col * .005, .47 + col * .005)); blueT = ta; z += 1.3 * ta; rot += ta * Math.PI / 2 * (spin[i] > 0 ? 1 : -1); }
-        if (f === "s") s *= 1 - .48 * eio(span(p, .45 + col * .004, .53 + col * .004));
-        if (f === "x") {
-          red = span(p, .5 + col * .004, .535 + col * .004) * (1 - span(p, .565, .6));
-          var dr = eio(span(p, .55 + col * .004, .63 + col * .004));
-          z -= dr * 4.5; a *= 1 - dr; rot += dr * spin[i] * 2.4;
-          if (dr >= 1) continue;
-        }
-        /* ri: lift off, spin, and land in the towers */
-        if (f !== "x" && ri > 0) {
-          var dd = dest[i], tr = eio(span(p, .7 + dd[3] * .014, .83 + dd[3] * .014));
-          x += (dd[0] - x) * tr; y += (dd[1] - y) * tr;
-          z += (dd[2] - z) * tr + Math.sin(tr * Math.PI) * 1.8;
-          s += (.62 - s) * tr; rot = rot * (1 - tr) + Math.sin(tr * Math.PI) * spin[i] * 1.8;
-          a += (.95 - a) * tr;
-        }
-        var h = s / 2, cr = Math.cos(rot), sr = Math.sin(rot), pts = [], dsum = 0;
-        var cs = [[-h, -h], [h, -h], [h, h], [-h, h]];
-        for (var k = 0; k < 4; k++) { var qx = x + cs[k][0] * cr - cs[k][1] * sr, qy = y + cs[k][0] * sr + cs[k][1] * cr; var pp = project(qx, qy, z, C); pts.push(pp); dsum += pp[2]; }
-        var fog = clamp(1.25 - (dsum / 4 - C.dist) * .06);
-        quads.push({ d: dsum / 4, pts: pts, a: Math.max(a, blueT) * fog, b: blueT, red: red, c: project(x, y, z + .01, C), s: s });
-      }
-      quads.sort(function(m, n){ return n.d - m.d; });
-      for (var q = 0; q < quads.length; q++) {
-        var Q = quads[q], R = Math.round(243 + (47 - 243) * Q.b), G = Math.round(242 + (91 - 242) * Q.b), B = Math.round(239 + (255 - 239) * Q.b);
-        cx.fillStyle = "rgba(" + R + "," + G + "," + B + "," + Q.a.toFixed(3) + ")";
-        cx.beginPath(); cx.moveTo(Q.pts[0][0], Q.pts[0][1]); for (var k = 1; k < 4; k++) cx.lineTo(Q.pts[k][0], Q.pts[k][1]); cx.closePath(); cx.fill();
-        if (Q.red > 0) { var rr = F / Q.c[2] * Q.s * .24 * Q.red; cx.fillStyle = "rgba(232,57,47," + Q.red.toFixed(3) + ")"; cx.beginPath(); cx.arc(Q.c[0], Q.c[1], rr, 0, 6.2832); cx.fill(); }
-      }
-      /* where you're going: the circle drops onto the tallest tower */
-      var ci = eo(span(p, .86, .94));
-      if (ci > 0) { var tp = project(TOP[0], TOP[1], TOP[2] + (1 - ci) * 2.5, C), rad = F / tp[2] * .34 * ci; cx.fillStyle = "#E8392F"; cx.beginPath(); cx.arc(tp[0], tp[1], rad, 0, 6.2832); cx.fill(); }
+    function eo4(t){ return 1 - Math.pow(1 - t, 4); }
+    function eio(t){ return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+    function bounce(t){ var n = 7.5625, k = 2.75; if (t < 1 / k) return n * t * t; if (t < 2 / k) return n * (t -= 1.5 / k) * t + .75; if (t < 2.5 / k) return n * (t -= 2.25 / k) * t + .9375; return n * (t -= 2.625 / k) * t + .984375; }
+    function mix(a, b, t){ return a + (b - a) * t; }
 
-      if (CLIP) {   /* soften the edge of the scene band on phones */
-        var fg = cx.createLinearGradient(0, CLIP - 70, 0, CLIP);
-        fg.addColorStop(0, "rgba(0,0,0,0)"); fg.addColorStop(1, BG);
-        cx.fillStyle = fg; cx.fillRect(0, CLIP - 70, W, 70);
+    /* ---- the vignettes: the column field, drawn flat-isometric on the ink panel ---- */
+    var COLS = 8, ROWS = 4, N = COLS * ROWS;
+    var seed = 7; function rnd(){ seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
+    var fate = [], rank = [], ord = []; for (var i = 0; i < N; i++) ord.push(i);
+    for (var i = N - 1; i > 0; i--) { var j = Math.floor(rnd() * (i + 1)), t0 = ord[i]; ord[i] = ord[j]; ord[j] = t0; }
+    ord.forEach(function(q, k){ fate[q] = k < 6 ? "x" : k < 12 ? "s" : k < 19 ? "a" : "k"; });
+    /* the order each kind of change happens in: left to right across the field */
+    ["x", "s", "a"].forEach(function(f){ var list = []; for (var i = 0; i < N; i++) if (fate[i] === f) list.push(i); list.sort(function(m, n){ return (m % COLS) - (n % COLS) || m - n; }); list.forEach(function(q, k){ rank[q] = k; }); });
+    /* ri: every block that survives is rebuilt into one stepped tower, the automated ones on top */
+    var HGT = [[4, 4, 3], [4, 3, 2], [3, 2, 1]], CUBE = .5, dest = [];
+    (function(){
+      var slots = []; HGT.forEach(function(row, a){ row.forEach(function(h, b){ for (var r = 0; r < h; r++) slots.push([b, a, r]); }); });
+      slots.sort(function(m, n){ return (n[2] - m[2]) || ((m[0] + m[1]) - (n[0] + n[1])); });   /* highest first */
+      var surv = [], blue = []; for (var i = 0; i < N; i++) { if (fate[i] === "a") blue.push(i); else if (fate[i] !== "x") surv.push(i); }
+      blue.concat(surv).forEach(function(q, k){ dest[q] = slots[k]; });
+    })();
+    var PAL = {
+      dark: [[42, 44, 51], [30, 31, 37], [22, 23, 27]],
+      lit: [[243, 242, 239], [207, 204, 197], [176, 173, 166]],
+      blue: [[47, 91, 255], [35, 73, 219], [26, 54, 168]],
+      red: [[232, 57, 47], [180, 39, 31], [142, 29, 23]]
+    };
+    function blend(a, b, t){ return [0, 1, 2].map(function(f){ return [0, 1, 2].map(function(c){ return a[f][c] + (b[f][c] - a[f][c]) * t; }); }); }
+    function rgb(c, a){ return "rgba(" + (c[0] | 0) + "," + (c[1] | 0) + "," + (c[2] | 0) + "," + a.toFixed(3) + ")"; }
+
+    function makeArt(cv){
+      var kind = cv.getAttribute("data-art"), cx = cv.getContext("2d"), w = 0, h = 0, dpr = 1, A = 10, OX = 0, OY = 0, ZK = .9, YK = .4;
+      var P = kind === "shu" ? 7.4 : kind === "ha" ? 7.6 : 8.2;
+      function pr(x, y, z){ return [OX + (x - y) * A, OY + (x + y) * A * YK - z * A * ZK]; }
+      function resize(){
+        dpr = Math.min(2, window.devicePixelRatio || 1);
+        w = cv.clientWidth; h = cv.clientHeight; if (!w || !h) return;
+        cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+        var span = COLS + ROWS, zmax = kind === "ri" ? 1.7 : 1.05;
+        A = Math.min(w * .86 / span, h * .8 / (span * YK + zmax * ZK));
+        OX = w / 2; OY = h / 2 + zmax * A * ZK / 2 + (kind === "ri" ? A * .1 : 0);
       }
-      cx.restore();
-    }
-    function drawUI(){
-      var now = performance.now();
-      var e = title ? title.tt : -1, tk = title ? title.k : -1;
-      steps.forEach(function(el, k){ el.classList.toggle("on", k === shown && ST[shown] !== 0 && tk !== shown && tq.indexOf(shown) < 0); });   /* the copy follows its title */
-      titles.forEach(function(t, k){
-        if (tk !== k) { if (t.style.opacity !== "0") t.style.opacity = 0; return; }
-        var fit = +t.dataset.fit || 1, hold = clamp((e - .8) / .7), out = clamp((e - 1.45) / .75);
-        var sc = fit * (1 + .05 * hold + 1.7 * out * out), bl = 26 * out;
-        t.style.opacity = (1 - out).toFixed(3);
-        t.style.transform = "translate(-50%,-50%) scale(" + sc.toFixed(4) + ")";
-        t.style.filter = bl > .2 ? "blur(" + bl.toFixed(1) + "px)" : "none";
-        var ls = letters[k], n = ls.length;
-        for (var m = 0; m < n; m++) {
-          var le = eo(clamp((e - m * .035) / .6));
-          ls[m].style.opacity = le.toFixed(3);
-          ls[m].style.transform = le < 1 ? "translate3d(0," + ((1 - le) * 40).toFixed(1) + "px,0) scale(" + (1 + (1 - le) * 1.4).toFixed(3) + ")" : "none";
-          ls[m].style.filter = le < 1 ? "blur(" + ((1 - le) * 22).toFixed(1) + "px)" : "none";
+      function box(x, y, s, z0, z1, col, a){
+        if (a <= .004 || s <= .01) return;
+        var q = s / 2, L0 = pr(x - q, y + q, z0), F0 = pr(x + q, y + q, z0), R0 = pr(x + q, y - q, z0);
+        var L1 = pr(x - q, y + q, z1), F1 = pr(x + q, y + q, z1), R1 = pr(x + q, y - q, z1), B1 = pr(x - q, y - q, z1);
+        cx.fillStyle = rgb(col[1], a); cx.beginPath(); cx.moveTo(L1[0], L1[1]); cx.lineTo(F1[0], F1[1]); cx.lineTo(F0[0], F0[1]); cx.lineTo(L0[0], L0[1]); cx.closePath(); cx.fill();
+        cx.fillStyle = rgb(col[2], a); cx.beginPath(); cx.moveTo(F1[0], F1[1]); cx.lineTo(R1[0], R1[1]); cx.lineTo(R0[0], R0[1]); cx.lineTo(F0[0], F0[1]); cx.closePath(); cx.fill();
+        cx.fillStyle = rgb(col[0], a); cx.beginPath(); cx.moveTo(B1[0], B1[1]); cx.lineTo(R1[0], R1[1]); cx.lineTo(F1[0], F1[1]); cx.lineTo(L1[0], L1[1]); cx.closePath(); cx.fill();
+      }
+      function ball(x, y, z, a){
+        var r = .26, c = pr(x, y, z + r), sh = pr(x, y, z), R = r * A * 1.02;
+        cx.fillStyle = "rgba(15,16,19," + (.35 * a).toFixed(3) + ")"; cx.beginPath(); cx.ellipse(sh[0], sh[1], R * 1.05, R * .42, 0, 0, 6.2832); cx.fill();
+        var g = cx.createRadialGradient(c[0] - R * .35, c[1] - R * .4, R * .1, c[0], c[1], R);
+        g.addColorStop(0, "rgba(255,138,120," + a + ")"); g.addColorStop(.45, "rgba(232,57,47," + a + ")"); g.addColorStop(1, "rgba(150,26,20," + a + ")");
+        cx.fillStyle = g; cx.beginPath(); cx.arc(c[0], c[1], R, 0, 6.2832); cx.fill();
+      }
+      function draw(t){
+        if (!w) return;
+        t = ((t % P) + P) % P;
+        cx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        var bg = cx.createRadialGradient(w / 2, h * .55, 0, w / 2, h * .55, w * .62);
+        bg.addColorStop(0, "#1A1B20"); bg.addColorStop(1, "#0F1013");
+        cx.fillStyle = bg; cx.fillRect(0, 0, w, h);
+        var ga = 1, wash = eio(sp(t, P - .7, P - .05)), items = [], S = .84, Z = .32;
+        if (kind === "shu") {
+          /* the ball runs every square in turn, and each one it has read stays lit */
+          var T0 = 1.05, T1 = 5.5, path = [];
+          for (var r = 0; r < ROWS; r++) for (var k = 0; k < COLS; k++) path.push(r * COLS + (r % 2 ? COLS - 1 - k : k));
+          var pos = (N - 1) * sp(t, T0, T1), bi = Math.min(N - 2, Math.floor(pos)), bf = pos - bi;
+          var at = {}; path.forEach(function(q, k){ at[q] = k; });
+          for (var i = 0; i < N; i++) {
+            var x = i % COLS - (COLS - 1) / 2, y = Math.floor(i / COLS) - (ROWS - 1) / 2;
+            var up = eo(sp(t, .05 + (x + y + 6) * .035, .45 + (x + y + 6) * .035));
+            var lit = eo(sp(pos, at[i] - .05, at[i] + .6)), dip = Math.max(0, 1 - Math.abs(pos - at[i]) * 1.6) * (t > T0 && t < T1 + .2 ? 1 : 0);
+            items.push({ k: x + y, z: 0, f: (function(x, y, up, lit, dip){ return function(){ box(x, y, S, -.4, Z * up - .07 * dip, blend(PAL.dark, PAL.lit, lit), ga * up); }; })(x, y, up, lit, dip) });
+          }
+          var A0 = path[bi], B0 = path[bi + 1], ax = A0 % COLS - (COLS - 1) / 2, ay = Math.floor(A0 / COLS) - (ROWS - 1) / 2, bx = B0 % COLS - (COLS - 1) / 2, by = Math.floor(B0 / COLS) - (ROWS - 1) / 2;
+          var px = mix(ax, bx, bf), py = mix(ay, by, bf), drop = sp(t, .6, 1.05), pz = Z + (1 - bounce(drop)) * 2.6;
+          if (t >= .6) items.push({ k: px + py + .3, z: 1, f: function(){ ball(px, py, pz, ga * cl(drop * 4)); } });
+        } else if (kind === "ha") {
+          /* keep it, simplify it, automate it or stop it */
+          for (var i = 0; i < N; i++) {
+            var x = i % COLS - (COLS - 1) / 2, y = Math.floor(i / COLS) - (ROWS - 1) / 2, f = fate[i], rk = rank[i] || 0;
+            var a = ga * eo(sp(t, .05 + (x + y + 6) * .02, .35 + (x + y + 6) * .02)), col = PAL.lit, s = S, z0 = -.4, z1 = Z;
+            if (f === "x") {
+              var fl = sp(t, .75 + rk * .14, .95 + rk * .14), sink = eio(sp(t, 1.05 + rk * .14, 1.75 + rk * .14));
+              col = blend(PAL.lit, PAL.red, fl); z1 -= sink * 1.6; z0 -= sink * 1.6; a *= 1 - sink;
+            } else if (f === "s") {
+              s = mix(S, .44, eio(sp(t, 2.3 + rk * .12, 2.9 + rk * .12)));
+            } else if (f === "a") {
+              var ab = eio(sp(t, 3.4 + rk * .12, 4.1 + rk * .12));
+              col = blend(PAL.lit, PAL.blue, cl(ab * 1.6)); z1 = Z + ab * .72;
+            }
+            items.push({ k: x + y, z: 0, f: (function(x, y, s, z0, z1, col, a){ return function(){ box(x, y, s, z0, z1, col, a); }; })(x, y, s, z0, z1, col, a) });
+          }
+        } else {
+          /* the view closes in on the new form as it is built */
+          var A0 = A, OY0 = OY, zm = eio(sp(t, 1.4, 3.6)); A = A0 * mix(1, 1.75, zm); OY = mix(OY0, h * .5 + 1.15 * A * ZK, zm);
+          /* everything that is left is rebuilt into something new, and the ball lands on top */
+          var tw = [];
+          for (var i = 0; i < N; i++) {
+            var f = fate[i]; if (f === "x") continue;
+            var x0 = i % COLS - (COLS - 1) / 2, y0 = Math.floor(i / COLS) - (ROWS - 1) / 2, D = dest[i];
+            var dx = (D[0] - 1) * .95, dy = (D[1] - 1) * .95, lag = D[2] * .3 + (4 - D[0] - D[1]) * .06 + (x0 + 3.5) * .03, u = eio(sp(t, .75 + lag, 1.75 + lag));
+            var s0 = f === "s" ? .44 : S, z10 = f === "a" ? Z + .72 : Z;
+            var x = mix(x0, dx, u), y = mix(y0, dy, u), arc = Math.sin(u * Math.PI) * 1.1;
+            var zb = mix(-.4, D[2] * CUBE, u) + arc, zt = mix(z10, (D[2] + 1) * CUBE - .02, u) + arc;
+            var s = mix(s0, .9, u), a = eo(sp(t, 0, .4));
+            var col = f === "a" ? PAL.blue : PAL.lit;
+            items.push({ k: x + y, z: zb, f: (function(x, y, s, zb, zt, col, a){ return function(){ box(x, y, s, zb, zt, col, a); }; })(x, y, s, zb, zt, col, a) });
+          }
+          var top = 4 * CUBE, bx2 = -.95, drop2 = sp(t, 3.7, 4.4);
+          if (t >= 3.7) items.push({ k: bx2 * 2 + .3, z: 9, f: function(){ ball(bx2, bx2, top + (1 - bounce(drop2)) * 2.2, cl(drop2 * 4)); } });
         }
-      });
-      /* the scene steps back while a title owns the frame, and dips briefly when it jumps to a final frame */
-      var dim = e < 0 ? 0 : 1 - clamp((e - 1.45) / .75);
-      var dip = fadeAt < 0 ? 1 : .3 + .7 * eo(clamp((now - fadeAt) / 420));
-      cv.style.opacity = ((1 - .62 * dim) * dip).toFixed(3);
-      if (window.HOW3D) window.HOW3D.canvas.style.opacity = ((1 - .55 * dim) * dip).toFixed(3);
-      var fl = flashAt < 0 ? 1 : clamp((now - flashAt) / 520);
-      flash.style.opacity = ((1 - fl) * (1 - fl) * .85).toFixed(3);
-      flash.style.background = flashK === 2 ? "#F3F2EF" : "#2F5BFF";
-      ticks.forEach(function(el, k){ el.style.setProperty("--f", (ST[k] === 2 ? 1 : play && play.k === k ? clamp(play.bt / DUR[k]) : 0).toFixed(3)); });
+        items.sort(function(m, n){ return (m.k - n.k) || (m.z - n.z); });
+        for (var i = 0; i < items.length; i++) items[i].f();
+        if (kind === "ri") { A = A0; OY = OY0; }
+        if (wash > 0) { cx.globalAlpha = wash; cx.fillStyle = bg; cx.fillRect(0, 0, w, h); cx.globalAlpha = 1; }
+      }
+      return { resize: resize, draw: draw, P: P, t0: 0, live: false };
+    }
+    var arts = cards.map(function(c){ return makeArt($(".hc-art", c)); });
+    window.__howArts = arts;   /* for tests */
+
+    if (RM) {   /* still frames: each vignette at its resolved moment */
+      var still = function(){ arts.forEach(function(a){ a.resize(); a.draw(a.P - 1); }); };
+      addEventListener("resize", function(){ clearTimeout(still.t); still.t = setTimeout(still, 120); });
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(still);
+      still(); return;
+    }
+    sec.classList.add("deck");
+
+    /* ---- the choreography, in units of the pinned scroll (negative: the stage is still rising into view) ---- */
+    var FLY_W = [[-.16, .08], [.25, .45], [.56, .76]], DEAL = [.82, .95];
+    var FLY_N = [[-.16, .1], [.3, .52], [.62, .84]];
+    var TILT = [-7, 6, -5];
+    var W = 0, H = 0, wide = true, cw = 400, ch = 600, fit = 1, fitRow = 1, peek = 18, cyDeck = 0, cyRow = 0, gap = 24, slot = 0;
+    var cur = -.4, target = -.4, vis = false, raf = 0, lastNow = 0, kOn = -2, ready = false;
+    function layout(){
+      W = stage.clientWidth; H = stage.clientHeight; wide = W >= 900;
+      var NAV = parseFloat(getComputedStyle(d).getPropertyValue("--nav-h")) || 72, G = Math.max(16, Math.min(64, W * .04));
+      gap = wide ? Math.round(Math.max(16, Math.min(28, W * .018))) : 0;
+      cw = wide ? Math.min(420, (W - 2 * G - 2 * gap) / 3) : Math.min(460, W - 2 * G);
+      deckEl.style.setProperty("--cw", cw.toFixed(1) + "px");
+      cards.forEach(function(c){ c.style.height = ""; });
+      ch = 0; cards.forEach(function(c){ ch = Math.max(ch, c.offsetHeight); });
+      cards.forEach(function(c){ c.style.height = ch + "px"; });
+      var BOT = W >= 900 ? 88 : 76;   /* the chapter bar along the bottom of the screen */
+      if (wide) {
+        peek = 18;
+        fit = Math.min(1, (H - NAV - BOT - 20 - 2 * peek) / ch);
+        fitRow = Math.min(1, (H - NAV - BOT - 20) / ch);
+        cyDeck = (NAV - BOT) / 2 + peek; cyRow = (NAV - BOT) / 2; slot = cw * fitRow + gap;
+      } else {
+        peek = Math.round(ch * 0 + 46);
+        fit = Math.min(1, (H - NAV - 14 - 2 * peek - BOT) / ch);
+        cyDeck = NAV + 14 + 2 * peek + ch * fit / 2 - H / 2;
+      }
+      arts.forEach(function(a){ a.resize(); a.draw(a.t || a.P - 1); });
+      ready = true; place(cur, performance.now() / 1000);
+    }
+    function place(c, now){
+      var F = wide ? FLY_W : FLY_N, u = [], dl = wide ? eio(sp(c, DEAL[0], DEAL[1])) : 0, top = -1;
+      for (var i = 0; i < 3; i++) { u[i] = sp(c, F[i][0], F[i][1]); if (u[i] > .55) top = i; }
+      for (var i = 0; i < 3; i++) {
+        var ui = u[i], e = eo4(ui), L = 0;
+        for (var j = i + 1; j < 3; j++) L += eio(u[j]);
+        var el = cards[i];
+        if (ui <= 0) { if (el.style.visibility !== "hidden") el.style.visibility = "hidden"; continue; }
+        if (el.style.visibility) el.style.visibility = "";
+        var chf = ch * fit, s = 1 - (wide ? .05 : .045) * L;
+        var y = cyDeck - L * peek - chf * (1 - s) / 2 + (1 - e) * (H * .5 + chf * .75 + 60);
+        var rx = Math.pow(1 - eo(ui), 1.6) * 38, rz = (1 - eo(ui)) * TILT[i], sc = fit * s * (1 + (1 - e) * .1), x = 0, shade = Math.min(.42, L * .21);
+        if (dl > 0) {
+          var di = eio(sp(c, DEAL[0] + i * .012, DEAL[1] - (2 - i) * .012));
+          x = mix(0, (i - 1) * slot, di); y = mix(y, cyRow, di) - Math.sin(di * Math.PI) * 26;
+          sc = mix(sc, fitRow, di); rz += Math.sin(di * Math.PI) * (i - 1) * 2.4; shade *= 1 - di;
+        }
+        el.style.transform = "translate(-50%,-50%) translate3d(" + x.toFixed(1) + "px," + y.toFixed(1) + "px,0) rotateX(" + rx.toFixed(2) + "deg) rotateZ(" + rz.toFixed(2) + "deg) scale(" + sc.toFixed(4) + ")";
+        shades[i].style.opacity = shade.toFixed(3);
+        el.classList.toggle("tab", !wide && L > .6);
+        /* the vignette starts its story when the card lands, and pauses while it is covered */
+        var a = arts[i], live = ui > .35 && (L < .85 || dl > .5);
+        if (live && !a.live) a.t0 = now - (a.t || 0);
+        if (ui < .05) { a.t = 0; a.t0 = now; }
+        if (!live && !a.t && !a.still) { a.draw(a.P - 1); a.still = true; }   /* never seen playing: show it resolved */
+        if (live) a.still = false;
+        a.live = live;
+      }
+      var k = wide && dl > .35 ? -1 : top;
+      if (k !== kOn) { kOn = k; kanji.forEach(function(el, j){ el.classList.toggle("on", j === k); }); }
     }
     function measure(){
-      var r = track.getBoundingClientRect(); target = clamp(-r.top / Math.max(1, r.height - innerHeight));
-      entered = r.top < innerHeight * .55;
-      if (lastTarget >= 0) { if (target > lastTarget + .0002) dir = 1; else if (target < lastTarget - .0002) dir = -1; }
-      lastTarget = target;
+      var r = track.getBoundingClientRect();
+      target = Math.max(-.45, Math.min(1, -r.top / Math.max(1, r.height - innerHeight)));
     }
     function loop(){
       measure();
-      var now = performance.now(), dt = lastNow ? Math.min(.1, (now - lastNow) / 1000) : 0; lastNow = now;
-      var pos = target * 3;
-      step(chapterAt(target), pos, now, dt); stepTitle(pos, now, dt);
-      cur = play ? cueP(play.k, play.bt) : ST[shown] === 2 ? endP(shown) : CUE[shown][0][1];
-      draw(cur);
-      if (window.__howdbg) window.__howdbg({ tg: target, c: cur, k: title ? title.k : -1, e: title ? title.tt : -1, si: shown, st: ST.join("") });   /* ?debug=1 only */
+      var now = performance.now() / 1000, dt = lastNow ? Math.min(.1, now - lastNow) : 0; lastNow = now;
+      var step = (target - cur) * (1 - Math.exp(-dt * 7.5)), cap = .7 * dt;
+      cur += Math.max(-cap, Math.min(cap, step)); if (Math.abs(target - cur) < 1e-4) cur = target;
+      if (ready) place(cur, now);
+      arts.forEach(function(a){ if (a.live) { a.t = now - a.t0; a.draw(a.t); } });
       raf = vis ? requestAnimationFrame(loop) : 0;
     }
-    /* the progress ticks replay a chapter: this one at once, another when you arrive at it */
-    ticks.forEach(function(el, j){
+    /* a peeking card on a phone brings itself back to the top */
+    cards.forEach(function(el, i){
       el.addEventListener("click", function(){
-        var now = performance.now();
-        if (j === shown) { if (play) ST[play.k] = 2; clearTitles(); start(j); fadeAt = now; return; }
-        replay = j;
-        var r = track.getBoundingClientRect(), y = r.top + scrollY + (j / 3 + .02) * (r.height - innerHeight);
+        if (!el.classList.contains("tab")) return;
+        var F = wide ? FLY_W : FLY_N, p = F[i][1] + .05, r = track.getBoundingClientRect(), y = r.top + scrollY + p * (r.height - innerHeight);
         if (window.__goTo) window.__goTo(y); else scrollTo({ top: y, behavior: "smooth" });
       });
     });
     new IntersectionObserver(function(ents){
       vis = ents[0].isIntersecting;
-      if (!vis) {                                    /* left the section: whatever was playing settles on its final frame */
-        if (play) { ST[play.k] = 2; play = null; }
-        clearTitles(); lastNow = 0; return;
+      if (vis && !raf) {
+        measure(); if (Math.abs(target - cur) > .35) cur = target;   /* arrived by a jump: no long catch-up */
+        lastNow = 0; raf = requestAnimationFrame(loop);
       }
-      if (!raf) {
-        lastTarget = -1; measure(); lastCam = null; lastNow = 0;
-        var k = chapterAt(target);
-        if (target > .02) { for (var j = 0; j <= k; j++) if (ST[j] !== 1) ST[j] = 2; shown = -1; show(k); }   /* came in mid-way or from below: final frames */
-        raf = requestAnimationFrame(loop);
-      }
-    }).observe(track);
+    }, { rootMargin: "10% 0px" }).observe(track);
     addEventListener("resize", function(){ clearTimeout(layout.t); layout.t = setTimeout(layout, 120); });
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
     layout();
@@ -1727,12 +1675,5 @@ textarea.book-in{min-height:150px;resize:vertical}
 })();
 </script>
 
-<script type="importmap">{"imports":{"three":"/vendor/three/three.module.min.js","three/addons/":"/vendor/three/addons/"}}</script>
-<script type="module">
-/* the 3D scene and its library load only when How we work is within about a screen and a half */
-const work = document.getElementById("work"), go = () => import("/how3d.js");
-if (!work || !("IntersectionObserver" in window)) go();
-else { const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { io.disconnect(); go(); } }, { rootMargin: "150% 0px" }); io.observe(work); }
-</script>
 </body>
 </html>
