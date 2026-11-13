@@ -593,6 +593,22 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
   .pr-item p{padding-left:0}
   .pr-end{margin-left:calc(100% * 5 / 12);max-width:22em}
 }
+
+/* Navigation logo: the full logo, mark in its true colours, wordmark in the section's text colour.
+   On the blue section the squares turn white so they stay visible (the reversed logo). */
+.nav-logo .nl-s{fill:var(--blue);transition:fill .9s var(--ease-out)}
+.nav-logo .nl-c{fill:var(--red)}
+.nav-logo use{fill:currentColor}
+:root[data-tone="blue"] .nav-logo .nl-s{fill:#FFFFFF}
+
+
+/* The mark in type: the stressed last word takes the squares' colour for this section's tone (--hl),
+   the full stop the circle's red, landing last with a small pop. Used on "Every process has a customer." */
+.mk-w{color:var(--hl)}
+.lt .mk-w{font-weight:800;letter-spacing:-.03em}
+.mk-dot{color:var(--red)}
+.js .bw .mk-dot{transform-origin:50% 85%;opacity:0;filter:none;transform:translateY(-.5em) scale(.2);transition:opacity .2s linear,transform .7s cubic-bezier(.34,1.56,.64,1);transition-delay:calc(var(--i) * 65ms + var(--l) * 140ms + .75s)}
+.js .rv.bw.in .mk-dot{opacity:1;transform:none;filter:none}
 </style>
 
 </head>
@@ -601,7 +617,7 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
 <header class="nav" id="nav">
   <div class="wrap nav-in">
     <a class="nav-logo" href="/" aria-label="FIELDWRX, back to top">
-      <svg viewBox="0 0 6663 686" aria-hidden="true"><path fill="currentColor" d="M74 686V-2H770V169H321V285H714V456H321V686Z M876 686V-2H1123V686Z M1266 686V-2H2001V169H1514V258H1934V420H1514V515H2009V686Z M2121 686V-2H2368V497H2814V686Z M2902 686V-2H3302Q3430 -2 3523.0 38.0Q3616 78 3666.0 155.0Q3716 232 3716 342Q3716 452 3666.0 529.0Q3616 606 3523.0 646.0Q3430 686 3302 686ZM3149 515H3287Q3328 515 3360.0 503.0Q3392 491 3415.0 469.5Q3438 448 3450.0 418.5Q3462 389 3462 353V329Q3462 293 3450.0 264.0Q3438 235 3415.0 213.5Q3392 192 3360.0 180.5Q3328 169 3287 169H3149Z"/><path fill="currentColor" d="M4016.54 686 3773.41 -0.32H3868.81L4036.54 483.57Q4041.22 496.27 4047.74 517.15Q4054.27 538.03 4061.63 559.39Q4069 580.76 4074.03 597.78H4082.73Q4085.41 585.78 4089.92 571.11Q4094.43 556.43 4099.12 540.74Q4103.81 525.05 4108.5 510.18Q4113.19 495.3 4116.54 483.57L4267.51 -0.32H4391.38L4542 483.57Q4546.35 496.27 4552.2 516.81Q4558.05 537.35 4564.58 559.05Q4571.11 580.76 4575.13 597.78H4583.84Q4588.19 585.43 4593.04 569.91Q4597.89 554.38 4603.58 538.51Q4609.27 522.65 4613.96 508.28Q4618.65 493.92 4622.32 483.57L4790.38 -0.32H4876.54L4633.08 686H4515.32L4362.11 199.51Q4358.78 188.22 4352.77 169.04Q4346.76 149.86 4340.89 128.32Q4335.03 106.78 4329.65 89.4H4321.27Q4317.24 105.76 4310.89 126.95Q4304.54 148.13 4298.69 167.49Q4292.84 186.84 4288.84 199.51L4136.57 686Z M5001.54 686V-0.32H5504.32Q5570.57 -0.32 5616.05 26.14Q5661.54 52.59 5685.22 98.39Q5708.89 144.19 5708.89 201.84Q5708.89 267.57 5675.03 319.04Q5641.16 370.51 5576.51 392.41L5726.57 686H5627.19L5486.32 407.22H5090.03V686ZM5090.03 331.89H5486.65Q5549.19 331.89 5584.15 295.61Q5619.11 259.32 5619.11 202.81Q5619.11 164.35 5603.38 135.74Q5587.65 107.13 5558.22 91.23Q5528.78 75.32 5486.65 75.32H5090.03Z M5804.03 686 6154.41 328.65 5835.05 -0.32H5955.03L6210.89 264.51H6219.51L6476.32 -0.32H6589.38L6271.7 323.68L6623.76 686H6503.78L6215.57 388.16H6205.59L5917.08 686Z"/></svg>
+      <svg class="nl" viewBox="0 0 7692 686" aria-hidden="true"><rect class="nl-s" x="0" y="0" width="315.6" height="315.6"/><rect class="nl-s" x="370.4" y="0" width="315.6" height="315.6"/><rect class="nl-s" x="0" y="370.4" width="315.6" height="315.6"/><circle class="nl-c" cx="528.2" cy="528.2" r="157.8"/><use href="#wm-a" transform="translate(1029 0)"/><use href="#wm-b" transform="translate(1029 0)"/></svg>
     </a>
     <nav class="nav-links" aria-label="Sections">
       <a href="/#scan">What’s in your way</a>
@@ -618,7 +634,7 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
 <main>
   <section class="about about-page" id="about" data-tone="paper" aria-labelledby="about-h">
     <div class="wrap">
-      <h1 class="h2 rv" id="about-h"><span class="ln"><span>Every process has a customer.</span></span><span class="ln lt"><span>That’s where we start.</span></span></h1>
+      <h1 class="h2 rv" id="about-h"><span class="ln"><span>Every process has a <span class="mk-w">customer</span><span class="mk-dot">.</span></span></span><span class="ln lt"><span>That’s where we start.</span></span></h1>
       <div class="about-grid">
       <div class="about-mark" aria-hidden="true"><svg viewBox="-8 -8 702 702"><rect x="0" y="0" width="315.6" height="315.6"/><rect x="370.4" y="0" width="315.6" height="315.6"/><rect x="0" y="370.4" width="315.6" height="315.6"/><circle cx="528.2" cy="528.2" r="157.8"/></svg></div>
       <div class="about-body fu">
@@ -711,9 +727,17 @@ mark{background:linear-gradient(var(--hl),var(--hl)) 0 100%/0 2px no-repeat;colo
   $$("section[data-tone]").forEach(function(s){ toneIO.observe(s); });
   /* words blur into place */
   if (!RM) $$(".rv").forEach(function(h){
+    /* words become spans; a marked word or full stop (.mk-w, .mk-dot) keeps its own element */
     $$(".ln>span", h).forEach(function(sp, l){
-      var words = sp.textContent.trim().split(/\s+/); sp.textContent = "";
-      words.forEach(function(w, i){ var e = document.createElement("span"); e.className = "w"; e.textContent = w; e.style.setProperty("--i", i); e.style.setProperty("--l", l); sp.appendChild(e); if (i < words.length - 1) sp.appendChild(document.createTextNode(" ")); });
+      var nodes = Array.prototype.slice.call(sp.childNodes), i = 0; sp.textContent = "";
+      nodes.forEach(function(n){
+        if (n.nodeType !== 3) { n.classList.add("w"); n.style.setProperty("--i", i++); n.style.setProperty("--l", l); sp.appendChild(n); return; }
+        n.textContent.split(/(\s+)/).forEach(function(part){
+          if (!part) return;
+          if (/^\s+$/.test(part)) { sp.appendChild(document.createTextNode(" ")); return; }
+          var e = document.createElement("span"); e.className = "w"; e.textContent = part; e.style.setProperty("--i", i++); e.style.setProperty("--l", l); sp.appendChild(e);
+        });
+      });
     });
     h.classList.add("bw");
   });
