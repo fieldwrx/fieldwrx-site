@@ -1,0 +1,6 @@
+{
+  "name": "fieldwrx-site",
+  "private": true,
+  "description": "FIELDWRX one-page site with the Make room scanner",
+  "engines": { "node": ">=20" }
+}

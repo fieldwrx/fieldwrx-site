@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /film
+
+Sitemap: https://fieldwrx.co.za/sitemap.xml
